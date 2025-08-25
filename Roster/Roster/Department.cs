@@ -40,7 +40,7 @@ namespace Roster
             {
                 form.OnSave += (partCode, departmentName, memo) =>
                 {
-                    SqlRepository.UpsertDepartment(partCode, departmentName, memo);
+                    SqlRepository.InsertDepartment(partCode, departmentName, memo);
                     RefreshDepartmentGrid();
                 };
                 form.ShowDialog();
@@ -67,7 +67,7 @@ namespace Roster
                 form.OnSave += (updatedCode, updatedName, updatedMemo) =>
                 {
                     // DB Upsert
-                    SqlRepository.UpsertDepartment(updatedCode, updatedName, updatedMemo);
+                    SqlRepository.InsertDepartment(updatedCode, updatedName, updatedMemo);
 
                     row.Cells["PartCode"].Value       = updatedCode;
                     row.Cells["DepartmentName"].Value = updatedName;

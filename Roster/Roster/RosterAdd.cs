@@ -10,6 +10,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Roster.RosterAdd;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Roster
 {
@@ -18,14 +20,21 @@ namespace Roster
         public RosterAdd()
         {
             InitializeComponent();
-            this.AcceptButton = this.button1;
-            this.Load +=RosterAdd_Load1;
-            this.Load += comboBox1_SelectedIndexChanged;
+            this.AcceptButton = this.Save;
+            this.Load +=RosterAdd_Load;
+            this.PartCode.SelectedIndexChanged += PartCode_SelectedIndexChanged;
+            this.Save.Click += Save_Click;
+            this.Exit.Click += Exit_Click;
+            this.Pass.KeyPress += Pass_KeyPress;
+            this.PhoneNum.TextChanged += PhoneNum_TextChanged;
+            this.Male.CheckedChanged += Male_CheckedChanged;
+            this.Female.CheckedChanged += Female_CheckedChanged;
         }
 
-        private void RosterAdd_Load1(object sender, EventArgs e)
+        public enum Gender
         {
-            throw new NotImplementedException();
+            Male,
+            Female
         }
 
         private Dictionary<string, string> departmentMap = new Dictionary<string, string>();
@@ -43,7 +52,7 @@ namespace Roster
             }
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) // 부서 코드
+        private void PartCode_SelectedIndexChanged(object sender, EventArgs e) // 부서 코드
         {
             string code = PartCode.SelectedItem?.ToString();
             if (code != null && departmentMap.ContainsKey(code))
@@ -55,7 +64,7 @@ namespace Roster
                 DepartName.Text = string.Empty;
             }
         }
-        
+
         private bool IsValidPassword(string password) // 비밀번호 형식 검증
         {
             // 영문, 숫자 포함 8자리 이상
@@ -72,7 +81,7 @@ namespace Roster
             if (Female.Checked) Male.Checked = false;
         }
 
-        
+
         private void Pass_KeyPress(object sender, KeyPressEventArgs e) // 비밀번호 형식
         {
             // 영문(대소문자) 또는 숫자가 아니면 입력x
@@ -131,36 +140,35 @@ namespace Roster
             return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
         }
 
-        public event Action<string, string, string, string, string, string,
-            string, string, string, string, string, string, string> OnSave;
-        private void button1_Click(object sender, EventArgs e) // 저장 버튼
+        public event Action<RosterWorkout> OnSave;
+        private void Save_Click(object sender, EventArgs e) // 저장 버튼
         {
             if (string.IsNullOrWhiteSpace(PartCode.Text))
             {
                 MessageBox.Show("부서코드를 입력해주세요.");
-                Pass.Focus();
-                Pass.SelectAll();
+                PartCode.Focus();
+                PartCode.SelectAll();
                 return;
             }
             if (string.IsNullOrWhiteSpace(EmployeeCode.Text))
             {
                 MessageBox.Show("사원코드를 입력해주세요.");
-                Pass.Focus();
-                Pass.SelectAll();
+                EmployeeCode.Focus();
+                EmployeeCode.SelectAll();
                 return;
             }
             if (string.IsNullOrWhiteSpace(EmployeeName.Text))
             {
                 MessageBox.Show("사원명을 입력해주세요.");
-                Pass.Focus();
-                Pass.SelectAll();
+                EmployeeName.Focus();
+                EmployeeName.SelectAll();
                 return;
             }
             if (string.IsNullOrWhiteSpace(ID.Text))
             {
                 MessageBox.Show("로그인 ID를 입력해주세요.");
-                Pass.Focus();
-                Pass.SelectAll();
+                ID.Focus();
+                ID.SelectAll();
                 return;
             }
             if (string.IsNullOrWhiteSpace(Pass.Text))
@@ -175,8 +183,8 @@ namespace Roster
             if (!IsValidEmail(Email.Text))
             {
                 MessageBox.Show("올바른 이메일 형식이 아닙니다.");
-                Pass.Focus();
-                Pass.SelectAll();
+                Email.Focus();
+                Email.SelectAll();
                 return;
             }
 
@@ -189,28 +197,91 @@ namespace Roster
                 return;
             }
 
-            string gender = Male.Checked ? "남자" : (Female.Checked ? "여자" : "");
+            Gender selectedGender;
+            if (Male.Checked) selectedGender = Gender.Male;
+            else if (Female.Checked) selectedGender = Gender.Female;
+            else
+            {
+                MessageBox.Show("성별을 선택해주세요.");
+                return;
+            }
 
-            OnSave?.Invoke(
-                PartCode.Text,
-                DepartName.Text,
-                EmployeeCode.Text,
-                EmployeeName.Text,
-                ID.Text,
-                Pass.Text,
-                Position.Text,
-                Form_of_employment.Text,
-                gender,
-                PhoneNum.Text,
-                Email.Text,
-                MessengerId.Text,
-                Memo.Text
+            //Gender selectedGender = Male.Checked ? Gender.Male : Gender.Female;
+
+            //OnSave += (departmentCode, departmentName, employeeCode, employeeName, id, password,
+            //                        position, employment, gender, phoneNum, email, messengerId, memo) =>
+            //    {
+            //        // 부서 Insert 
+            //        SqlRepository.InsertDepartment(departmentCode, departmentName, null);
+
+            //        // 사원 Insert 
+            //SqlRepository.InsertEmployee(
+            //    departmentCode, departmentName,
+            //    employeeCode, employeeName,
+            //    id, password,
+            //    position, employment, gender.ToString(),
+            //    phoneNum, email, messengerId, memo
+            //);
+
+            //        // 그리드 반영 
+            //        MainRoster.EmployeeDataGrid.Rows.Add(departmentCode, departmentName, employeeCode, employeeName, id,
+            //                                password, position, employment, gender.ToString(), phoneNum, email, messengerId, memo);
+            //    };
+
+            //OnSave?.Invoke(
+            //    PartCode.Text,
+            //    DepartName.Text,
+            //    EmployeeCode.Text,
+            //    EmployeeName.Text,
+            //    ID.Text,
+            //    Pass.Text,
+            //    Position.Text,
+            //    Form_of_employment.Text,
+            //    selectedGender,
+            //    PhoneNum.Text,
+            //    Email.Text,
+            //    MessengerId.Text,
+            //    Memo.Text
+            //);
+
+            var model = new RosterWorkout
+            {
+                DepartmentCode = int.TryParse(PartCode.Text, out var deptCode) ? deptCode : 0,
+                DepartmentName = DepartName.Text,
+                EmployeeCode = int.TryParse(EmployeeCode.Text, out var empCode) ? empCode : 0,
+                EmployeeName = EmployeeName.Text,
+                ID = ID.Text,
+                Password = Pass.Text,
+                Position = Position.Text,
+                Employment = Form_of_employment.Text,
+                Gender = selectedGender,
+                PhoneNum = PhoneNum.Text,
+                Email = Email.Text,
+                MessengerID = MessengerId.Text,
+                Memo = Memo.Text,
+            };
+
+            SqlRepository.InsertEmployee(
+                model.DepartmentCode,
+                model.DepartmentName,
+                model.EmployeeCode,
+                model.EmployeeName,
+                model.ID,
+                model.Password,
+                model.Position,
+                model.Employment,
+                model.Gender.ToString(),
+                model.PhoneNum,
+                model.Email,
+                model.MessengerID,
+                model.Memo
             );
+            OnSave?.Invoke(model);
             MessageBox.Show("사원이 추가되었습니다.");
             this.Close(); // 폼 닫기
         }
 
-        private void button2_Click(object sender, EventArgs e) // 닫기
+        private void Exit_Click(object sender, EventArgs e) // 닫기
         {
             this.Close();
         }

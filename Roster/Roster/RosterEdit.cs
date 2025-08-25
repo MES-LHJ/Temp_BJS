@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -68,6 +69,14 @@ namespace Roster
             return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
         }
 
+        //PublicKey enum Direction
+        //{
+        //    Male, 
+        //    Female
+        //};
+
+
+
         public event Action<string, string, string, string, string, string,
             string, string, string, string, string> OnSave;
 
@@ -95,7 +104,7 @@ namespace Roster
                 return;
             }
 
-            string gender = Male.Checked ? "남자" : (Female.Checked ? "여자" : "");
+        string gender = Male.Checked ? "남자" : (Female.Checked ? "여자" : "");
 
             OnSave?.Invoke(
                 PartCode.Text,

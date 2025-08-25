@@ -14,8 +14,8 @@ namespace Roster
 {
     public partial class RosterDelete : MetroForm
     {
-        private Form1 _parentForm;
-        public RosterDelete(Form1 parentForm, string code, string name)
+        private MainRoster _parentForm;
+        public RosterDelete(MainRoster parentForm, string code, string name)
         {
             InitializeComponent();
             _parentForm = parentForm;

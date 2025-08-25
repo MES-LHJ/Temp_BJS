@@ -11,15 +11,20 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Roster_Login
+namespace Roster
 {
-    public partial class Roster_Login : MetroForm
+    public partial class Login : MetroForm
     {
-        public Roster_Login()
+        public Login()
         {
             InitializeComponent();
-            this.AcceptButton = this.button1;
+            this.AcceptButton = this.LoginButton;
+            this.Load += Login_Load;                   // 폼 로드 이벤트
+            this.LoginButton.Click += LoginButton_Click; // 버튼 클릭 이벤트 연결
+            this.Exit.Click += Exit_Click;
+
         }
+
         private const string CS = "Server=DESKTOP-6VSVCKC\\JSTESTSERVER;" +
             "Database=WorkTestDB;" +
             "Trusted_Connection=True;" +
@@ -28,7 +33,7 @@ namespace Roster_Login
 
 
 
-        private void Roster_Login_Load(object sender, EventArgs e)
+        private void Login_Load(object sender, EventArgs e)
         {
 
         }
@@ -51,12 +56,8 @@ namespace Roster_Login
                 return result != null; // 레코드가 있으면 로그인 성공
             }
         }
-        private bool IsValidPassword(string password)
-        {
-            // 영문, 숫자 포함 8자리 이상
-            return Regex.IsMatch(password, @"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
-        }
-        private void button1_Click(object sender, EventArgs e)
+
+        private void LoginButton_Click(object sender, EventArgs e)
         {
             var userId = Id.Text?.Trim();
             var userPw = Password.Text;
@@ -69,12 +70,7 @@ namespace Roster_Login
                 else { Password.Focus(); Password.SelectAll(); }
                 return;
             }
-            if (!IsValidPassword(userPw))
-            {
-                MessageBox.Show("비밀번호는 영문, 숫자를 포함하여 8자리 이상이어야 합니다.");
-                Password.Focus(); Password.SelectAll();
-                return;
-            }
+            
             if (!TryLogin(userId, userPw))
             {
                 MessageBox.Show("아이디 또는 비밀번호가 잘못되었습니다.");
@@ -83,9 +79,11 @@ namespace Roster_Login
             }
             var main = new Roster.MainRoster();
             // 로그인 폼 숨김, 메인 폼이 닫히면 로그인 폼도 함께 꺼짐
-            this.Hide();
-            main.FormClosed += (s, args) => this.Close();
             main.Show();
+            //this.FormClosed += (s, args) => main.Show();
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+            //main.FormClosed += (s, args) => this.Close();
         }
 
         private void Exit_Click(object sender, EventArgs e)

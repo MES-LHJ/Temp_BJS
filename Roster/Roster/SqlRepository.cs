@@ -12,8 +12,8 @@ namespace Roster
     {
         private const string CS = "Server=DESKTOP-6VSVCKC\\JSTESTSERVER;Database=WorkTestDB;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;";
 
-        // 부서 Upsert (코드 기준)
-        public static int UpsertDepartment(string partCode, string departmentName, string memo)
+        // 부서 Insert (코드 기준)
+        public static int InsertDepartment(string partCode, string departmentName, string memo)
         {
             const string sql = @"
             MERGE dbo.Department AS T
@@ -41,8 +41,8 @@ namespace Roster
 
         // 사원 Insert 
         public static int InsertEmployee(
-            string partCode, string departmentName,
-            string employeeCode, string employeeName,
+            int partCode, string departmentName,
+            int employeeCode, string employeeName,
             string id, string password,
             string position, string employment, string gender,
             string phoneNum, string email, string messengerId, string memo)
