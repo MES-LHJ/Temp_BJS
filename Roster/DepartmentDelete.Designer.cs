@@ -28,78 +28,76 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.Cancel = new System.Windows.Forms.Button();
+            this.Delete = new System.Windows.Forms.Button();
+            this.Check_label = new System.Windows.Forms.Label();
+            this.DepartmentName_label = new System.Windows.Forms.Label();
+            this.DepartmentCode_label = new System.Windows.Forms.Label();
             this.DepartmentName = new System.Windows.Forms.Label();
             this.PartCode = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // button2
+            // Cancel
             // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button2.BackColor = System.Drawing.Color.Gray;
-            this.button2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button2.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button2.Location = new System.Drawing.Point(265, 159);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 40);
-            this.button2.TabIndex = 37;
-            this.button2.Text = "취소";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.Cancel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.Cancel.BackColor = System.Drawing.Color.Gray;
+            this.Cancel.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Cancel.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.Cancel.Location = new System.Drawing.Point(265, 159);
+            this.Cancel.Name = "Cancel";
+            this.Cancel.Size = new System.Drawing.Size(112, 40);
+            this.Cancel.TabIndex = 37;
+            this.Cancel.Text = "취소";
+            this.Cancel.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // Delete
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button1.BackColor = System.Drawing.Color.Red;
-            this.button1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button1.Location = new System.Drawing.Point(137, 159);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 40);
-            this.button1.TabIndex = 36;
-            this.button1.Text = "삭제";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.Delete.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.Delete.BackColor = System.Drawing.Color.Red;
+            this.Delete.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Delete.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.Delete.Location = new System.Drawing.Point(137, 159);
+            this.Delete.Name = "Delete";
+            this.Delete.Size = new System.Drawing.Size(112, 40);
+            this.Delete.TabIndex = 36;
+            this.Delete.Text = "삭제";
+            this.Delete.UseVisualStyleBackColor = false;
             // 
-            // label3
+            // Check_label
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(9, 126);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(154, 23);
-            this.label3.TabIndex = 35;
-            this.label3.Text = "삭제하시겠습니까?";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Check_label.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.Check_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Check_label.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Check_label.Location = new System.Drawing.Point(9, 126);
+            this.Check_label.Name = "Check_label";
+            this.Check_label.Size = new System.Drawing.Size(154, 23);
+            this.Check_label.TabIndex = 35;
+            this.Check_label.Text = "삭제하시겠습니까?";
+            this.Check_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // DepartmentName_label
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(11, 95);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 23);
-            this.label2.TabIndex = 34;
-            this.label2.Text = "부서명:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.DepartmentName_label.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.DepartmentName_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.DepartmentName_label.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.DepartmentName_label.Location = new System.Drawing.Point(11, 95);
+            this.DepartmentName_label.Name = "DepartmentName_label";
+            this.DepartmentName_label.Size = new System.Drawing.Size(61, 23);
+            this.DepartmentName_label.TabIndex = 34;
+            this.DepartmentName_label.Text = "부서명:";
+            this.DepartmentName_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label1
+            // DepartmentCode_label
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(9, 69);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 26);
-            this.label1.TabIndex = 33;
-            this.label1.Text = "부서코드:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.DepartmentCode_label.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.DepartmentCode_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.DepartmentCode_label.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.DepartmentCode_label.Location = new System.Drawing.Point(9, 69);
+            this.DepartmentCode_label.Name = "DepartmentCode_label";
+            this.DepartmentCode_label.Size = new System.Drawing.Size(78, 26);
+            this.DepartmentCode_label.TabIndex = 33;
+            this.DepartmentCode_label.Text = "부서코드:";
+            this.DepartmentCode_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // DepartmentName
             // 
@@ -132,11 +130,11 @@
             this.ClientSize = new System.Drawing.Size(395, 212);
             this.Controls.Add(this.DepartmentName);
             this.Controls.Add(this.PartCode);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.Cancel);
+            this.Controls.Add(this.Delete);
+            this.Controls.Add(this.Check_label);
+            this.Controls.Add(this.DepartmentName_label);
+            this.Controls.Add(this.DepartmentCode_label);
             this.Name = "DepartmentDelete";
             this.Text = "부서삭제";
             this.ResumeLayout(false);
@@ -146,11 +144,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button Cancel;
+        private System.Windows.Forms.Button Delete;
+        private System.Windows.Forms.Label Check_label;
+        private System.Windows.Forms.Label DepartmentName_label;
+        private System.Windows.Forms.Label DepartmentCode_label;
         private System.Windows.Forms.Label DepartmentName;
         private System.Windows.Forms.Label PartCode;
     }

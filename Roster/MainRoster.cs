@@ -101,8 +101,10 @@ namespace Roster
             string code = row.Cells["EmployeeCode"].Value?.ToString() ?? "";
             string name = row.Cells["EmployeeName"].Value?.ToString() ?? "";
 
-            var deleteForm = new RosterDelete(this, code, name);
-            deleteForm.ShowDialog();
+            using (var deleteForm = new RosterDelete(this, code, name))
+            {
+                deleteForm.ShowDialog();
+            }
         }
 
         private void Department_Click(object sender, EventArgs e) // 부서

@@ -82,7 +82,6 @@ namespace Roster
             //this.FormClosed += (s, args) => main.Show();
             this.DialogResult = DialogResult.OK;
             this.Close();
-            main.Show();
             //main.FormClosed += (s, args) => this.Close();
         }
 

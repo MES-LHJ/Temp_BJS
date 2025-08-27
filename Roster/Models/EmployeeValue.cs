@@ -14,7 +14,8 @@ namespace Roster.Models
         {
             return new RosterWorkout
             {
-                DepartmentCode = int.TryParse(row["DepartmentCode"]?.ToString(), out var deptCode) ? deptCode : 0,
+                //DepartmentCode = int.TryParse(row["DepartmentCode"]?.ToString(), out var deptCode) ? deptCode : 0,
+                DepartmentCode = row["DepartmentCode"]?.ToString(),
                 DepartmentName = row["DepartmentName"]?.ToString(),
                 EmployeeCode   = row["EmployeeCode"]?.ToString(),
                 EmployeeName   = row["EmployeeName"]?.ToString(),
@@ -34,7 +35,8 @@ namespace Roster.Models
         {
             return new RosterWorkout
             {
-                DepartmentCode = Convert.ToInt32(row.Cells["DepartmentCode"].Value),
+                //DepartmentCode = Convert.ToInt32(row.Cells["DepartmentCode"].Value),
+                DepartmentCode = row.Cells["DepartmentCode"].Value?.ToString(),
                 DepartmentName = row.Cells["DepartmentName"].Value?.ToString(),
                 EmployeeCode   = row.Cells["EmployeeCode"].Value?.ToString(),
                 EmployeeName   = row.Cells["EmployeeName"].Value?.ToString(),
@@ -72,10 +74,10 @@ namespace Roster.Models
         public static void UpdateEmployee(RosterWorkout model)
         {
             SqlRepository.UpdateEmployee(
-                model.EmployeeCode,
-                model.EmployeeName,
                 model.DepartmentCode,
                 model.DepartmentName,
+                model.EmployeeCode,
+                model.EmployeeName,
                 model.Position,
                 model.Employment,
                 model.Gender.ToString(),
@@ -86,9 +88,21 @@ namespace Roster.Models
             );
         }
 
+        public static void DeleteEmployee(string employeeCode)
+        {
+            if (string.IsNullOrEmpty(employeeCode)) return;
+            SqlRepository.DeleteEmployeeByCode(employeeCode);
+        }
+
+        public static List<RosterWorkout> GetAll()
+        {
+            var dataTable = SqlRepository.GetEmployeeWithDepartment();
+            return dataTable.AsEnumerable().Select(EmployeeValue.FromDataRow).ToList();
+        }
+
         public static void ToFormControls(RosterWorkout model, RosterEdit form)
         {
-            form.PartCode.Text = model.DepartmentCode.ToString();
+            form.PartCode.Text = model.DepartmentCode;
             form.DepartName.Text = model.DepartmentName;
             form.EmployeeCo.Text   = model.EmployeeCode;
             form.EmployeeName.Text   = model.EmployeeName;
@@ -106,7 +120,8 @@ namespace Roster.Models
         {
             return new RosterWorkout
             {
-                DepartmentCode = int.TryParse(form.PartCode.Text, out var deptCode) ? deptCode : 0,
+                //DepartmentCode = int.TryParse(form.PartCode.Text, out var deptCode) ? deptCode : 0,
+                DepartmentCode = form.PartCode.Text,
                 DepartmentName = form.DepartName.Text,
                 EmployeeCode   = form.EmployeeCode.Text,
                 EmployeeName   = form.EmployeeName.Text,
@@ -126,7 +141,8 @@ namespace Roster.Models
         {
             return new RosterWorkout
             {
-                DepartmentCode = int.TryParse(form.PartCode.Text, out var deptCode) ? deptCode : 0,
+                //DepartmentCode = int.TryParse(form.PartCode.Text, out var deptCode) ? deptCode : 0,
+                DepartmentCode = form.PartCode.Text,
                 DepartmentName = form.DepartName.Text,
                 EmployeeCode   = form.EmployeeCo.Text,
                 EmployeeName   = form.EmployeeName.Text,

@@ -1,8 +1,10 @@
 ﻿using MetroFramework.Forms;
+using Roster.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
@@ -19,28 +21,29 @@ namespace Roster
         public DepartmentAddEdit()
         {
             InitializeComponent();
+            this.Save.Click += Save_Click;
+            this.Exit.Click += Exit_Click;
         }
         // 수정 모드용 생성자
-        public DepartmentAddEdit(string partCode, string departName, string memo) : this()
+        public DepartmentAddEdit(DepartmentWorkout model) : this()
         {
             isEditMode = true;
-            PartCode.Text = partCode;
-            DepartName.Text = departName;
-            Memo.Text = memo;
+            PartCode.Text = model.DepartmentCode;
+            DepartName.Text = model.DepartmentName;
+            Memo.Text = model.Memo;
             PartCode.Enabled = true;
         }
 
         private void DepartmentAddEdit_Load(object sender, EventArgs e) // 각 기능별 로드 초기화
         {
             if (isEditMode)
-                button1.Text = "수정";
+                Save.Text = "수정";
             else
-                button1.Text = "저장";
+                Save.Text = "저장";
         }
 
-        //public event Action<string, string, string> OnSave;
-
-        private void button1_Click(object sender, EventArgs e) // 저장 버튼
+        public DepartmentWorkout SavedModel { get; private set; }
+        private void Save_Click(object sender, EventArgs e) // 저장 버튼
         {
             if (string.IsNullOrWhiteSpace(PartCode.Text))
             {
@@ -52,17 +55,32 @@ namespace Roster
                 MessageBox.Show("부서명을 입력해주세요.");
                 return;
             }
-            //OnSave?.Invoke(
-            //    PartCode.Text,
-            //    DepartName.Text,
-            //    Memo.Text
-            //);
 
-            MessageBox.Show(isEditMode ? "수정되었습니다." : "부서가 추가되었습니다.");
-            this.Close(); // 폼 닫기
+            try
+            {
+                SavedModel = DepartmentValue.FromFormConstrols(this);
+
+                if (isEditMode)
+                {
+                    DepartmentValue.UpdateDepartment(SavedModel);
+                    MessageBox.Show("수정되었습니다.");
+                    this.Close();
+                }
+                else
+                {
+                    DepartmentValue.InsertDepartment(SavedModel);
+                    MessageBox.Show("부서가 추가되었습니다.");
+                    this.Close();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+                return;
+            }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Exit_Click(object sender, EventArgs e)
         {
             this.Close();
         }

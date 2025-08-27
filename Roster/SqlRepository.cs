@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Roster.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -12,21 +13,22 @@ namespace Roster
     {
         private const string CS = "Server=DESKTOP-6VSVCKC\\JSTESTSERVER;Database=WorkTestDB;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;";
 
-        // 부서 Insert (코드 기준)
-        public static int InsertDepartment(int partCode, string departmentName, string memo)
+        // 부서 Insert
+        public static int InsertDepartment(string partCode, string departmentName, string memo)
         {
             const string sql = @"
-            MERGE dbo.Department AS T
-            USING (SELECT @DepartmentCode AS DepartmentCode,
-                          @DepartmentName AS DepartmentName,
-                          @Memo AS Memo) AS S
-            ON (T.DepartmentCode = S.DepartmentCode)
-            WHEN MATCHED THEN
-              UPDATE SET T.DepartmentName = S.DepartmentName,
-                         T.Memo = S.Memo
-            WHEN NOT MATCHED THEN
-              INSERT (DepartmentCode, DepartmentName, Memo)
-              VALUES (S.DepartmentCode, S.DepartmentName, S.Memo);";
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Department 
+                    WHERE DepartmentCode = @DepartmentCode
+                        OR DepartmentName = @DepartmentName)
+                BEGIN
+                    RAISERROR('이미 존재하는 부서 코드 또는 부서명입니다.', 16, 1);
+                    RETURN;
+                END
+
+               INSERT INTO dbo.Department (DepartmentCode, DepartmentName, Memo)
+                VALUES (@DepartmentCode, @DepartmentName, @Memo);
+            ";
 
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
@@ -39,9 +41,67 @@ namespace Roster
             }
         }
 
+        // 부서 Update
+        public static int UpdateDepartment(string partCode, string departmentName, string memo)
+        {
+            const string sql = @"
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Department 
+                    WHERE DepartmentCode = @NewDepartmentCode
+                        AND DepartmentCode <> @OldDepartmentCode)
+                BEGIN
+
+                    RAISERROR('이미 존재하는 부서 코드입니다.', 16, 1);
+                    RETURN;
+                END
+
+                IF EXISTS(
+                    SELECT 1 FROM dbo.Department 
+                    WHERE DepartmentName = @NewDepartmentName
+                        AND DepartmentCode <> @OldDepartmentCode)
+                BEGIN
+                    RAISERROR('이미 존재하는 부서명입니다.', 16, 1);
+                    RETURN;
+                END
+
+                UPDATE dbo.Department
+                SET DepartmentCode = @NewDepartmentCode,
+                    DepartmentName = @NewDepartmentName,
+                    Memo = @Memo
+                WHERE DepartmentCode = @OldDepartmentCode
+            ";
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                //cmd.Parameters.AddWithValue("@DepartmentCode", (object)partCode ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@OldDepartmentCode", (object)partCode ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NewDepartmentCode", (object)partCode ?? DBNull.Value);
+                //cmd.Parameters.AddWithValue("@DepartmentName", (object)departmentName ?? DBNull.Value);
+                //cmd.Parameters.AddWithValue("@OldDepartmentName", (object)departmentName ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NewDepartmentName", (object)departmentName ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Memo", (object)memo ?? DBNull.Value);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery();
+            }
+        }
+
+        // 부서 Delete
+        public static int DeleteDepartment(string departmentCode)
+        {
+            const string sql = @"DELETE FROM dbo.Department WHERE DepartmentCode = @DepartmentCode;";
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@DepartmentCode", (object)departmentCode ?? DBNull.Value);
+                conn.Open();
+                return cmd.ExecuteNonQuery();
+            }
+        }
+
         // 사원 Insert 
         public static int InsertEmployee(
-            int partCode, string departmentName,
+            string partCode, string departmentName,
             string employeeCode, string employeeName,
             string id, string password,
             string position, string employment, string gender,
@@ -81,8 +141,8 @@ namespace Roster
 
         // 사원 Update (사원코드 기준)
         public static int UpdateEmployee(
-            string employeeCode, string departmentName,
-            int partCode, string employeeName,
+            string partCode, string departmentName,
+            string employeeCode, string employeeName,
             string position, string employment, string gender,
             string phoneNum, string email, string messengerId, string memo)
         {
@@ -164,10 +224,27 @@ namespace Roster
                 return dt;
             }
         }
-        public static List<(string Code, string Name)> GetDepartments()
+
+        public static DataTable GetDepartment()
         {
-            const string sql = "SELECT DepartmentCode, DepartmentName FROM dbo.Department";
-            var list = new List<(string, string)>();
+            const string sql = @"
+                SELECT DepartmentCode, 
+                DepartmentName, 
+                Memo FROM dbo.Department";
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                var dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        public static List<DepartmentWorkout> GetDepartments()
+        {
+            const string sql = "SELECT DepartmentCode, DepartmentName, Memo FROM dbo.Department";
+            var list = new List<DepartmentWorkout>();
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -176,7 +253,13 @@ namespace Roster
                 {
                     while (reader.Read())
                     {
-                        list.Add((reader["DepartmentCode"].ToString(), reader["DepartmentName"].ToString()));
+                        list.Add(new DepartmentWorkout
+                        {
+                            DepartmentCode = reader["DepartmentCode"].ToString(),
+                            DepartmentName = reader["DepartmentName"].ToString(),
+                            Memo = reader["Memo"].ToString()
+                        }
+                            );
                     }
                 }
             }

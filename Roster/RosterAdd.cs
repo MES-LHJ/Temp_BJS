@@ -12,7 +12,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Roster.Models.Gender;
 using static Roster.RosterAdd;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
@@ -47,12 +46,12 @@ namespace Roster
             PartCode.Items.Clear();
             departmentMap.Clear();
             var departments = SqlRepository.GetDepartments()
-                .OrderBy(d => int.TryParse(d.Code, out var n) ? n : int.MaxValue)
-                .ThenBy(d => d.Code);
+                .OrderBy(d => int.TryParse(d.DepartmentCode, out var n) ? n : int.MaxValue)
+                .ThenBy(d => d.DepartmentCode);
             foreach (var dept in departments)
             {
-                PartCode.Items.Add(dept.Code);
-                departmentMap[dept.Code] = dept.Name;
+                PartCode.Items.Add(dept.DepartmentCode);
+                departmentMap[dept.DepartmentCode] = dept.DepartmentName;
             }
         }
 

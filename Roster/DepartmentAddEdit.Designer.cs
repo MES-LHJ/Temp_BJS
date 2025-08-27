@@ -32,9 +32,9 @@
             this.DepartmentName = new System.Windows.Forms.Label();
             this.DepartmentCode = new System.Windows.Forms.Label();
             this.Memo = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.Memo_label = new System.Windows.Forms.Label();
+            this.Exit = new System.Windows.Forms.Button();
+            this.Save = new System.Windows.Forms.Button();
             this.PartCode = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -82,46 +82,44 @@
             this.Memo.Size = new System.Drawing.Size(357, 21);
             this.Memo.TabIndex = 51;
             // 
-            // label13
+            // Memo_label
             // 
-            this.label13.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label13.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label13.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label13.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label13.Location = new System.Drawing.Point(8, 117);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(42, 23);
-            this.label13.TabIndex = 52;
-            this.label13.Text = "메모";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Memo_label.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.Memo_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Memo_label.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Memo_label.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Memo_label.Location = new System.Drawing.Point(8, 117);
+            this.Memo_label.Name = "Memo_label";
+            this.Memo_label.Size = new System.Drawing.Size(42, 23);
+            this.Memo_label.TabIndex = 52;
+            this.Memo_label.Text = "메모";
+            this.Memo_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button2
+            // Exit
             // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button2.BackColor = System.Drawing.Color.Red;
-            this.button2.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button2.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button2.Location = new System.Drawing.Point(276, 168);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(96, 31);
-            this.button2.TabIndex = 58;
-            this.button2.Text = "닫기";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.Exit.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.Exit.BackColor = System.Drawing.Color.Red;
+            this.Exit.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Exit.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.Exit.Location = new System.Drawing.Point(276, 168);
+            this.Exit.Name = "Exit";
+            this.Exit.Size = new System.Drawing.Size(96, 31);
+            this.Exit.TabIndex = 58;
+            this.Exit.Text = "닫기";
+            this.Exit.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // Save
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button1.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.button1.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.button1.Location = new System.Drawing.Point(164, 168);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(96, 31);
-            this.button1.TabIndex = 57;
-            this.button1.Text = "저장";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.Save.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.Save.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.Save.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Save.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.Save.Location = new System.Drawing.Point(164, 168);
+            this.Save.Name = "Save";
+            this.Save.Size = new System.Drawing.Size(96, 31);
+            this.Save.TabIndex = 57;
+            this.Save.Text = "저장";
+            this.Save.UseVisualStyleBackColor = false;
             // 
             // PartCode
             // 
@@ -138,10 +136,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(385, 211);
             this.Controls.Add(this.PartCode);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.Exit);
+            this.Controls.Add(this.Save);
             this.Controls.Add(this.Memo);
-            this.Controls.Add(this.label13);
+            this.Controls.Add(this.Memo_label);
             this.Controls.Add(this.DepartName);
             this.Controls.Add(this.DepartmentName);
             this.Controls.Add(this.DepartmentCode);
@@ -155,13 +153,13 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox DepartName;
+        public System.Windows.Forms.TextBox DepartName;
         private System.Windows.Forms.Label DepartmentName;
         private System.Windows.Forms.Label DepartmentCode;
-        private System.Windows.Forms.TextBox Memo;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox PartCode;
+        public System.Windows.Forms.TextBox Memo;
+        private System.Windows.Forms.Label Memo_label;
+        private System.Windows.Forms.Button Exit;
+        private System.Windows.Forms.Button Save;
+        public System.Windows.Forms.TextBox PartCode;
     }
 }

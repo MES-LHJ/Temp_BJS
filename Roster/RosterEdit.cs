@@ -37,12 +37,12 @@ namespace Roster
             PartCode.Items.Clear();
             departmentMap.Clear();
             var departments = SqlRepository.GetDepartments()
-                .OrderBy(d => d.Code)
-                .ThenBy(d => d.Code);
+                .OrderBy(d => d.DepartmentCode)
+                .ThenBy(d => d.DepartmentCode);
             foreach (var dept in departments)
             {
-                PartCode.Items.Add(dept.Code);
-                departmentMap[dept.Code] = dept.Name;
+                PartCode.Items.Add(dept.DepartmentCode);
+                departmentMap[dept.DepartmentCode] = dept.DepartmentName;
             }
         }
 

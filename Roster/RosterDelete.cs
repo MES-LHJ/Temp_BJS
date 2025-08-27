@@ -1,4 +1,5 @@
 ﻿using MetroFramework.Forms;
+using Roster.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,29 +26,16 @@ namespace Roster
             RosterCode.Text = code;
             RosterName.Text = name;
         }
+
+        
+
         private void Delete_Click(object sender, EventArgs e)
         {
             // DB 삭제
-            var codeToDelete = RosterCode.Text?.Trim();
-            if (!string.IsNullOrEmpty(codeToDelete))
-            {
-                SqlRepository.DeleteEmployeeByCode(codeToDelete);
-            }
+            EmployeeValue.DeleteEmployee(RosterCode.Text?.Trim());
 
-            var rowIndexes = _parentForm.EmployeeDataGrid.SelectedCells
-                .Cast<DataGridViewCell>()
-                .Select(c => c.RowIndex)
-                .OrderByDescending(i => i);
-
-            foreach (var rowIndex in rowIndexes)
-            {
-                if (rowIndex >= 0 &&
-                    rowIndex < _parentForm.EmployeeDataGrid.Rows.Count &&
-                    !_parentForm.EmployeeDataGrid.Rows[rowIndex].IsNewRow)
-                {
-                    _parentForm.EmployeeDataGrid.Rows.RemoveAt(rowIndex);
-                }
-            }
+            _parentForm.EmployeeDataGrid.DataSource = null;
+            _parentForm.EmployeeDataGrid.DataSource = EmployeeValue.GetAll();
             MessageBox.Show("삭제되었습니다.");
             this.Close();
         }
