@@ -19,10 +19,17 @@ namespace Roster
             const string sql = @"
                 IF EXISTS (
                     SELECT 1 FROM dbo.Department 
-                    WHERE DepartmentCode = @DepartmentCode
-                        OR DepartmentName = @DepartmentName)
+                    WHERE DepartmentCode = @DepartmentCode)
                 BEGIN
-                    RAISERROR('이미 존재하는 부서 코드 또는 부서명입니다.', 16, 1);
+                    RAISERROR('이미 존재하는 부서 코드입니다.', 16, 1);
+                    RETURN;
+                END
+
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Department 
+                    WHERE DepartmentName = @DepartmentName)
+                BEGIN
+                    RAISERROR('이미 존재하는 부서명입니다.', 16, 1);
                     RETURN;
                 END
 
@@ -73,11 +80,10 @@ namespace Roster
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                //cmd.Parameters.AddWithValue("@DepartmentCode", (object)partCode ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@DepartmentCode", (object)partCode ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@OldDepartmentCode", (object)partCode ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@NewDepartmentCode", (object)partCode ?? DBNull.Value);
-                //cmd.Parameters.AddWithValue("@DepartmentName", (object)departmentName ?? DBNull.Value);
-                //cmd.Parameters.AddWithValue("@OldDepartmentName", (object)departmentName ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@DepartmentName", (object)departmentName ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@NewDepartmentName", (object)departmentName ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Memo", (object)memo ?? DBNull.Value);
 
@@ -102,12 +108,50 @@ namespace Roster
         // 사원 Insert 
         public static int InsertEmployee(
             string partCode, string departmentName,
-            string employeeCode, string employeeName,
+            string oldemployeeCode, string employeeName,
             string id, string password,
             string position, string employment, string gender,
             string phoneNum, string email, string messengerId, string memo)
         {
             const string sql = @"
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee 
+                WHERE EmployeeCode = @EmployeeCode)
+
+            BEGIN
+                RAISERROR('이미 존재하는 사원 코드입니다.', 16, 1);
+                RETURN;
+            END
+
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee 
+                WHERE [ID] = @ID)
+            BEGIN
+                RAISERROR('이미 존재하는 ID입니다.', 16, 1);
+                RETURN;
+            END
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee 
+                WHERE PhoneNum = @PhoneNum)
+            BEGIN
+                RAISERROR('이미 존재하는 전화번호입니다.', 16, 1);
+                RETURN;
+            END
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee 
+                WHERE Email = @Email)
+            BEGIN
+                RAISERROR('이미 존재하는 이메일입니다.', 16, 1);
+                RETURN;
+            END
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee
+                WHERE MessengerID = @MessengerID)
+            BEGIN
+                RAISERROR('이미 존재하는 메신저ID입니다.', 16, 1);
+                RETURN;
+            END
+
             INSERT INTO dbo.Employee
             ( DepartmentId, DepartmentCode, DepartmentName, EmployeeCode, EmployeeName, [ID], [Password],
               [Position], Form_of_employment, Gender, PhoneNum, Email, MessengerID, Memo )
@@ -147,36 +191,77 @@ namespace Roster
             string phoneNum, string email, string messengerId, string memo)
         {
             const string sql = @"
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee
+                WHERE EmployeeCode = @NewEmployeeCode
+                    AND EmployeeCode <> @OldEmployeeCode)
+            BEGIN
+                RAISERROR('이미 존재하는 사원 코드입니다.', 16, 1);
+                RETURN;
+            END
+
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee 
+                WHERE Email = @NewEmail
+                    AND EmployeeCode <> @OldEmployeeCode)
+            BEGIN
+                RAISERROR('이미 존재하는 이메일입니다.', 16, 1);
+                RETURN;
+            END
+
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee 
+                WHERE PhoneNum = @NewPhoneNum
+                    AND EmployeeCode <> @OldEmployeeCode)
+            BEGIN
+                RAISERROR('이미 존재하는 전화번호입니다.', 16, 1);
+                RETURN;
+            END
+
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee
+                WHERE MessengerID = @NewMessengerID
+                    AND EmployeeCode <> @OldEmployeeCode)
+            BEGIN
+                RAISERROR('이미 존재하는 메신저ID입니다.', 16, 1);
+                RETURN;
+            END
+
             UPDATE e
             SET e.DepartmentId = d.DepartmentId,
                 e.DepartmentCode = @DepartmentCode,
                 e.DepartmentName = @DepartmentName,
-                e.EmployeeCode = @EmployeeCode,
+                e.EmployeeCode = @NewEmployeeCode,
                 e.EmployeeName = @EmployeeName,
                 e.[Position] = @Position,
                 e.Form_of_employment = @Employment,
                 e.Gender = @Gender,
-                e.PhoneNum = @PhoneNum,
-                e.Email = @Email,
-                e.MessengerID = @MessengerID,
+                e.PhoneNum = @NewPhoneNum,
+                e.Email = @NewEmail,
+                e.MessengerID = @NewMessengerID,
                 e.Memo = @Memo
             FROM dbo.Employee AS e
             JOIN dbo.Department AS d ON d.DepartmentCode = @DepartmentCode
-            WHERE e.EmployeeCode = @EmployeeCode;";
+            WHERE e.EmployeeCode = @OldEmployeeCode;";
 
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Parameters.AddWithValue("@DepartmentCode", (object)partCode ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@DepartmentName", (object)departmentName ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@EmployeeCode", (object)employeeCode ?? DBNull.Value);
+                //cmd.Parameters.AddWithValue("@EmployeeCode", (object)employeeCode ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NewEmployeeCode", (object)employeeCode ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@OldEmployeeCode", (object)employeeCode ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@EmployeeName", (object)employeeName ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Position", (object)position ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Employment", (object)employment ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Gender", (object)gender ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@PhoneNum", (object)phoneNum ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Email", (object)email ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@MessengerID", (object)messengerId ?? DBNull.Value);
+                //cmd.Parameters.AddWithValue("@PhoneNum", (object)phoneNum ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NewPhoneNum", (object)phoneNum ?? DBNull.Value);
+                //cmd.Parameters.AddWithValue("@Email", (object)email ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NewEmail", (object)email ?? DBNull.Value);
+                //cmd.Parameters.AddWithValue("@MessengerID", (object)messengerId ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NewMessengerID", (object)messengerId ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Memo", (object)memo ?? DBNull.Value);
                 conn.Open();
                 return cmd.ExecuteNonQuery();

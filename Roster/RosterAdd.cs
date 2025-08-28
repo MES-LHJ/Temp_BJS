@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -200,13 +201,19 @@ namespace Roster
                 return;
             }
 
-            SavedModel = EmployeeValue.FromFormControls(this);
+            try
+            {
+                SavedModel = EmployeeValue.FromFormControls(this);
 
-            EmployeeValue.InsertEmployee(SavedModel);
-
-            MessageBox.Show("사원이 추가되었습니다.");
-            this.DialogResult = DialogResult.OK;
-            this.Close(); // 폼 닫기
+                EmployeeValue.InsertEmployee(SavedModel);
+                this.DialogResult = DialogResult.OK;
+                MessageBox.Show("사원이 추가되었습니다.");
+                this.Close(); // 폼 닫기
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
         }
 
         private void Exit_Click(object sender, EventArgs e) // 닫기

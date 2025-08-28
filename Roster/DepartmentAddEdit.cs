@@ -24,6 +24,7 @@ namespace Roster
             this.Save.Click += Save_Click;
             this.Exit.Click += Exit_Click;
         }
+
         // 수정 모드용 생성자
         public DepartmentAddEdit(DepartmentWorkout model) : this()
         {

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
@@ -58,7 +59,7 @@ namespace Roster
                 DepartName.Text = string.Empty;
             }
         }
-        
+
         private void Male_CheckedChanged_1(object sender, EventArgs e)
         {
             if (Male.Checked) Female.Checked = false;
@@ -151,14 +152,21 @@ namespace Roster
                 Email.SelectAll();
                 return;
             }
-            
-            SavedModel = EmployeeValue.FromFormEditControls(this);
 
-            EmployeeValue.UpdateEmployee(SavedModel);
+            try
+            {
+                SavedModel = EmployeeValue.FromFormEditControls(this);
 
-            this.DialogResult = DialogResult.OK;
-            MessageBox.Show("수정 되었습니다.");
-            this.Close(); // 폼 닫기
+                EmployeeValue.UpdateEmployee(SavedModel);
+
+                MessageBox.Show("수정 되었습니다.");
+                this.DialogResult = DialogResult.OK;
+                this.Close(); // 폼 닫기
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
         }
 
         private void Exit_Click_1(object sender, EventArgs e)
@@ -166,6 +174,6 @@ namespace Roster
             this.Close();
         }
 
-        
+
     }
 }

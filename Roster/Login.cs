@@ -41,7 +41,7 @@ namespace Roster
         private bool TryLogin(string userId, string password)
         {
             const string sqlEn = @"
-            SELECT TOP 1 1
+            SELECT COUNT(*)
             FROM dbo.Employee
             WHERE [ID] = @id
               AND [Password] = @pw;";
@@ -77,6 +77,7 @@ namespace Roster
                 Password.Focus(); Password.SelectAll();
                 return;
             }
+
             var main = new Roster.MainRoster();
             // 로그인 폼 숨김, 메인 폼이 닫히면 로그인 폼도 함께 꺼짐
             //this.FormClosed += (s, args) => main.Show();
