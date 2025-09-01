@@ -87,10 +87,6 @@
             // 
             this.PartCode.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.PartCode.FormattingEnabled = true;
-            this.PartCode.Items.AddRange(new object[] {
-            "001",
-            "002",
-            "003"});
             this.PartCode.Location = new System.Drawing.Point(15, 90);
             this.PartCode.Name = "PartCode";
             this.PartCode.Size = new System.Drawing.Size(167, 20);
@@ -430,32 +426,32 @@
         #endregion
         private System.Windows.Forms.Label DepartmentCode;
         private System.Windows.Forms.Label DepartmentName;
-        public System.Windows.Forms.ComboBox PartCode;
-        public System.Windows.Forms.TextBox DepartName;
-        public System.Windows.Forms.TextBox EmployeeName;
+        private System.Windows.Forms.ComboBox PartCode;
+        private System.Windows.Forms.TextBox DepartName;
+        private System.Windows.Forms.TextBox EmployeeName;
         private System.Windows.Forms.Label EmployeeN;
         private System.Windows.Forms.Label EmployeeCo;
-        public System.Windows.Forms.TextBox Pass;
+        private System.Windows.Forms.TextBox Pass;
         private System.Windows.Forms.Label Password;
         private System.Windows.Forms.Label LoginId;
-        public System.Windows.Forms.TextBox Form_of_employment;
+        private System.Windows.Forms.TextBox Form_of_employment;
         private System.Windows.Forms.Label Employment;
         private System.Windows.Forms.Label Position_label;
-        public System.Windows.Forms.TextBox Email;
+        private System.Windows.Forms.TextBox Email;
         private System.Windows.Forms.Label Email_label;
         private System.Windows.Forms.Label PhoneNumber;
-        public System.Windows.Forms.TextBox MessengerId;
+        private System.Windows.Forms.TextBox MessengerId;
         private System.Windows.Forms.Label Meseenger;
-        public System.Windows.Forms.TextBox Memo;
+        private System.Windows.Forms.TextBox Memo;
         private System.Windows.Forms.Label Memo_label;
-        public System.Windows.Forms.TextBox EmployeeCode;
-        public System.Windows.Forms.TextBox ID;
-        public System.Windows.Forms.TextBox Position;
-        public System.Windows.Forms.TextBox PhoneNum;
+        private System.Windows.Forms.TextBox EmployeeCode;
+        private System.Windows.Forms.TextBox ID;
+        private System.Windows.Forms.TextBox Position;
+        private System.Windows.Forms.TextBox PhoneNum;
         private System.Windows.Forms.Button Exit;
         private System.Windows.Forms.Button Save;
-        public System.Windows.Forms.CheckBox Female;
-        public System.Windows.Forms.CheckBox Male;
+        private System.Windows.Forms.CheckBox Female;
+        private System.Windows.Forms.CheckBox Male;
         private System.Windows.Forms.Label Gender_label;
     }
 }

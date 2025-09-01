@@ -9,6 +9,8 @@ namespace Roster
 {
     public class RosterWorkout
     {
+        public int DepartmentId { get; set; }
+        public int EmployeeId { get; set; }
         [DisplayName("부서코드")]
         public string DepartmentCode { get; set; }
         [DisplayName("부서명")]

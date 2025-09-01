@@ -42,7 +42,7 @@
             this.RosterCode_label.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.RosterCode_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RosterCode_label.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.RosterCode_label.Location = new System.Drawing.Point(9, 69);
+            this.RosterCode_label.Location = new System.Drawing.Point(9, 70);
             this.RosterCode_label.Name = "RosterCode_label";
             this.RosterCode_label.Size = new System.Drawing.Size(78, 26);
             this.RosterCode_label.TabIndex = 0;
@@ -54,7 +54,7 @@
             this.RosterName_label.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.RosterName_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RosterName_label.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.RosterName_label.Location = new System.Drawing.Point(11, 95);
+            this.RosterName_label.Location = new System.Drawing.Point(11, 96);
             this.RosterName_label.Name = "RosterName_label";
             this.RosterName_label.Size = new System.Drawing.Size(61, 23);
             this.RosterName_label.TabIndex = 1;
@@ -66,7 +66,7 @@
             this.Check_label.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Check_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Check_label.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Check_label.Location = new System.Drawing.Point(9, 126);
+            this.Check_label.Location = new System.Drawing.Point(9, 127);
             this.Check_label.Name = "Check_label";
             this.Check_label.Size = new System.Drawing.Size(154, 23);
             this.Check_label.TabIndex = 2;
@@ -79,7 +79,7 @@
             this.Cancel.BackColor = System.Drawing.Color.Gray;
             this.Cancel.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Cancel.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.Cancel.Location = new System.Drawing.Point(265, 159);
+            this.Cancel.Location = new System.Drawing.Point(265, 160);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(112, 40);
             this.Cancel.TabIndex = 32;
@@ -92,7 +92,7 @@
             this.Delete.BackColor = System.Drawing.Color.Red;
             this.Delete.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Delete.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.Delete.Location = new System.Drawing.Point(137, 159);
+            this.Delete.Location = new System.Drawing.Point(137, 160);
             this.Delete.Name = "Delete";
             this.Delete.Size = new System.Drawing.Size(112, 40);
             this.Delete.TabIndex = 31;
@@ -105,7 +105,7 @@
             this.RosterCode.AutoSize = true;
             this.RosterCode.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RosterCode.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.RosterCode.Location = new System.Drawing.Point(88, 75);
+            this.RosterCode.Location = new System.Drawing.Point(88, 76);
             this.RosterCode.Name = "RosterCode";
             this.RosterCode.Size = new System.Drawing.Size(24, 15);
             this.RosterCode.TabIndex = 33;
@@ -117,7 +117,7 @@
             this.RosterName.AutoSize = true;
             this.RosterName.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RosterName.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.RosterName.Location = new System.Drawing.Point(73, 99);
+            this.RosterName.Location = new System.Drawing.Point(73, 100);
             this.RosterName.Name = "RosterName";
             this.RosterName.Size = new System.Drawing.Size(24, 15);
             this.RosterName.TabIndex = 34;
@@ -127,7 +127,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(398, 213);
+            this.ClientSize = new System.Drawing.Size(399, 214);
             this.Controls.Add(this.RosterName);
             this.Controls.Add(this.RosterCode);
             this.Controls.Add(this.Cancel);

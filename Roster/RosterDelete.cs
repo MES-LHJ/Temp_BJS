@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,13 +16,11 @@ namespace Roster
 {
     public partial class RosterDelete : MetroForm
     {
-        private MainRoster _parentForm;
-        public RosterDelete(MainRoster parentForm, string code, string name)
+        public RosterDelete(string code, string name)
         {
             InitializeComponent();
             this.Delete.Click += Delete_Click;
             this.Cancel.Click += Cancel_Click;
-            _parentForm = parentForm;
 
             RosterCode.Text = code;
             RosterName.Text = name;
@@ -31,13 +30,17 @@ namespace Roster
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            // DB 삭제
-            EmployeeValue.DeleteEmployee(RosterCode.Text?.Trim());
-
-            _parentForm.EmployeeDataGrid.DataSource = null;
-            _parentForm.EmployeeDataGrid.DataSource = EmployeeValue.GetAll();
-            MessageBox.Show("삭제되었습니다.");
-            this.Close();
+            try
+            {
+                SqlRepository.DeleteDepartment(RosterCode.Text?.Trim());
+                MessageBox.Show("삭제되었습니다.");
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         private void Cancel_Click(object sender, EventArgs e)
         {

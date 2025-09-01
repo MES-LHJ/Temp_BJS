@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using MetroFramework.Forms;
-using Roster.Models;
 
 namespace Roster
 {
@@ -34,11 +33,7 @@ namespace Roster
             panel1.BackColor = Color.Transparent;
 
             EmployeeDataGrid.AutoGenerateColumns = true;
-            var employees = SqlRepository.GetEmployeeWithDepartment()
-                                 .AsEnumerable()
-                                 .Select(EmployeeValue.FromDataRow)
-                                 .ToList();
-
+            
             Check.Focus();
         }
 
@@ -56,18 +51,31 @@ namespace Roster
             }
         }
 
-        private static int TryToInt(object value) // 정수 변환, 정렬
+        private void RefreshGrid() // 그리드 초기화
         {
-            if (value == null) return int.MaxValue;
-            var s = value.ToString();
-            return int.TryParse(s, out var n) ? n : int.MaxValue;
+            EmployeeDataGrid.DataSource = null; // 기존 데이터 소스 초기화
+            var dataTable = SqlRepository.RosterCheck(); // 데이터 조회
+
+            EmployeeDataGrid.DataSource = dataTable; // 데이터 소스 설정
+            EmployeeDataGrid.ClearSelection(); // 초기 선택 해제
+            EmployeeDataGrid.CurrentCell = null; // 포커스 제거
         }
+
+        //private static int TryToInt(object value) // 정수 변환, 정렬
+        //{
+        //    if (value == null) return int.MaxValue;
+        //    var s = value.ToString();
+        //    return int.TryParse(s, out var n) ? n : int.MaxValue;
+        //}
 
         private void EmployeeAdd_Click(object sender, EventArgs e) // 추가
         {
             using (var addForm = new RosterAdd())
             {
-                addForm.ShowDialog();
+                if(addForm.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshGrid();
+                }
             }
         }
 
@@ -80,11 +88,14 @@ namespace Roster
             }
 
             var row = EmployeeDataGrid.Rows[EmployeeDataGrid.SelectedCells[0].RowIndex];
-            var model = EmployeeValue.FromGridRow(row);
+            var model = SqlRepository.UpdateEmployee(this);
 
             using (var editForm = new RosterEdit(model))
             {
-                editForm.ShowDialog();
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshGrid();
+                }
             }
         }
 
@@ -101,9 +112,12 @@ namespace Roster
             string code = row.Cells["EmployeeCode"].Value?.ToString() ?? "";
             string name = row.Cells["EmployeeName"].Value?.ToString() ?? "";
 
-            using (var deleteForm = new RosterDelete(this, code, name))
+            using (var deleteForm = new RosterDelete(code, name))
             {
-                deleteForm.ShowDialog();
+                if (deleteForm.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshGrid(); 
+                }
             }
         }
 
@@ -117,21 +131,7 @@ namespace Roster
 
         private void Check_Click(object sender, EventArgs e) // 조회
         {
-            EmployeeDataGrid.DataSource = null;
-
-            var dataTable = SqlRepository.GetEmployeeWithDepartment();
-
-            var employees = dataTable
-                .AsEnumerable()
-                .Select(EmployeeValue.FromDataRow)
-                .OrderBy(emp => TryToInt(emp.DepartmentCode))
-                .ThenBy(emp => emp.EmployeeCode)
-                .ToList();
-
-            EmployeeDataGrid.DataSource = employees;
-
-            EmployeeDataGrid.ClearSelection();
-            EmployeeDataGrid.CurrentCell = null;
+            RefreshGrid();
         }
 
         private void LoginInfo_Click(object sender, EventArgs e) // 로그인 정보

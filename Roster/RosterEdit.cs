@@ -19,10 +19,11 @@ namespace Roster
 {
     public partial class RosterEdit : MetroForm
     {
+        private string originEmployeeCode;
         public RosterEdit(RosterWorkout model)
         {
             InitializeComponent();
-            EmployeeValue.ToFormControls(model, this);
+            originEmployeeCode = model.EmployeeCode;
             this.Load += RosterEdit_Load;
             this.PartCode.SelectedIndexChanged += PartCode_SelectedIndexChanged;
             this.Male.CheckedChanged += Male_CheckedChanged_1;
@@ -32,19 +33,25 @@ namespace Roster
             this.Exit.Click += Exit_Click_1;
         }
 
+        public RosterEdit(int model)
+        {
+            this.model=model;
+        }
+
         private Dictionary<string, string> departmentMap = new Dictionary<string, string>();
+        private int model;
+
         private void RosterEdit_Load(object sender, EventArgs e) // 폼 로드 시 콤보 박스 초기화 및 정렬
         {
-            PartCode.Items.Clear();
-            departmentMap.Clear();
-            var departments = SqlRepository.GetDepartments()
-                .OrderBy(d => d.DepartmentCode)
-                .ThenBy(d => d.DepartmentCode);
-            foreach (var dept in departments)
-            {
-                PartCode.Items.Add(dept.DepartmentCode);
-                departmentMap[dept.DepartmentCode] = dept.DepartmentName;
-            }
+            PartCode.Items.Clear(); // 부서 코드 콤보박스 초기화
+            departmentMap.Clear();  // 부서명 맵 초기화
+
+            SqlRepository.RosterCheck();  // 부서조회
+
+            var departments = SqlRepository.UpdateEmployee() // 부서코드 오름차순 정렬
+                .OrderBy(d => d.DepartmentCode);
+
+            PartCode.Items.AddRange(departments.ToArray()); // 부서코드 콤보박스에 파싱
         }
 
         private void PartCode_SelectedIndexChanged(object sender, EventArgs e) // 부서 코드
@@ -110,15 +117,6 @@ namespace Roster
             }
         }
 
-        private bool IsValidEmail(string email) // 이메일 형식 검증
-        {
-            if (string.IsNullOrWhiteSpace(email))
-                return false;
-
-            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-            return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
-        }
-
         public RosterWorkout SavedModel { get; private set; }
 
         private void Save_Click(object sender, EventArgs e) // 저장 버튼
@@ -145,7 +143,7 @@ namespace Roster
                 return;
             }
 
-            if (!IsValidEmail(Email.Text))
+            if (!RosterAdd.IsValidEmail(Email.Text))
             {
                 MessageBox.Show("올바른 이메일 형식이 아닙니다.");
                 Email.Focus();
@@ -155,9 +153,8 @@ namespace Roster
 
             try
             {
-                SavedModel = EmployeeValue.FromFormEditControls(this);
-
-                EmployeeValue.UpdateEmployee(SavedModel);
+                SqlRepository.UpdateEmployee(this);
+                //SqlRepository.UpdateEmployee(originEmployeeCode, SavedModel);
 
                 MessageBox.Show("수정 되었습니다.");
                 this.DialogResult = DialogResult.OK;

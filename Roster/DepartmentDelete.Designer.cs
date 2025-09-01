@@ -105,7 +105,7 @@
             this.DepartmentName.AutoSize = true;
             this.DepartmentName.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.DepartmentName.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.DepartmentName.Location = new System.Drawing.Point(78, 99);
+            this.DepartmentName.Location = new System.Drawing.Point(73, 99);
             this.DepartmentName.Name = "DepartmentName";
             this.DepartmentName.Size = new System.Drawing.Size(24, 15);
             this.DepartmentName.TabIndex = 39;
@@ -117,7 +117,7 @@
             this.PartCode.AutoSize = true;
             this.PartCode.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.PartCode.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.PartCode.Location = new System.Drawing.Point(93, 75);
+            this.PartCode.Location = new System.Drawing.Point(88, 75);
             this.PartCode.Name = "PartCode";
             this.PartCode.Size = new System.Drawing.Size(24, 15);
             this.PartCode.TabIndex = 38;

@@ -23,7 +23,6 @@ namespace Roster
         public RosterAdd()
         {
             InitializeComponent();
-            EmployeeValue.FromFormControls(this);
             this.AcceptButton = this.Save;
             this.Load +=RosterAdd_Load;
             this.PartCode.SelectedIndexChanged += PartCode_SelectedIndexChanged;
@@ -44,29 +43,41 @@ namespace Roster
         private Dictionary<string, string> departmentMap = new Dictionary<string, string>();
         private void RosterAdd_Load(object sender, EventArgs e) // 폼 로드 시 콤보 박스 초기화 및 정렬
         {
+            // 부서 코드 콤보박스 초기화
             PartCode.Items.Clear();
             departmentMap.Clear();
-            var departments = SqlRepository.GetDepartments()
-                .OrderBy(d => int.TryParse(d.DepartmentCode, out var n) ? n : int.MaxValue)
-                .ThenBy(d => d.DepartmentCode);
-            foreach (var dept in departments)
-            {
-                PartCode.Items.Add(dept.DepartmentCode);
-                departmentMap[dept.DepartmentCode] = dept.DepartmentName;
-            }
+
+            // 부서조회
+            SqlRepository.RosterCheck();
+            // 부서코드 오름차순 정렬
+            var departments = SqlRepository.InsertEmployee()
+                .OrderBy(d => d.DepartmentCode);
+
+            // 부서코드 콤보박스에 파싱
+            PartCode.Items.AddRange(departments.ToArray()); // 빈 항목 추가
         }
 
         private void PartCode_SelectedIndexChanged(object sender, EventArgs e) // 부서 코드
         {
-            string code = PartCode.SelectedItem?.ToString();
-            if (code != null && departmentMap.ContainsKey(code))
+            DepartmentWorkout departmentWorkout = PartCode.SelectedItem as DepartmentWorkout;
+            if(departmentWorkout != null)
             {
-                DepartName.Text = departmentMap[code];
+                DepartName.Text = departmentWorkout.DepartmentName;
             }
             else
             {
                 DepartName.Text = string.Empty;
             }
+
+            //string code = PartCode.SelectedItem?.ToString();
+            //if (code != null && departmentMap.ContainsKey(code))
+            //{
+            //    DepartName.Text = departmentMap[code];
+            //}
+            //else
+            //{
+            //    DepartName.Text = string.Empty;
+            //}
         }
 
         private bool IsValidPassword(string password) // 비밀번호 형식 검증
@@ -135,7 +146,7 @@ namespace Roster
             }
         }
 
-        private bool IsValidEmail(string email) // 이메일 형식 검증
+        public static bool IsValidEmail(string email) // 이메일 형식 검증
         {
             if (string.IsNullOrWhiteSpace(email))
                 return false;
@@ -203,12 +214,11 @@ namespace Roster
 
             try
             {
-                SavedModel = EmployeeValue.FromFormControls(this);
+                SavedModel = SqlRepository.InsertEmployee(SavedModel);
 
-                EmployeeValue.InsertEmployee(SavedModel);
                 this.DialogResult = DialogResult.OK;
                 MessageBox.Show("사원이 추가되었습니다.");
-                this.Close(); // 폼 닫기
+                this.Close();
             }
             catch (SqlException ex)
             {

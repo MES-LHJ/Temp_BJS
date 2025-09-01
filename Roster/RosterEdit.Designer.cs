@@ -271,10 +271,6 @@
             // 
             this.PartCode.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.PartCode.FormattingEnabled = true;
-            this.PartCode.Items.AddRange(new object[] {
-            "001",
-            "002",
-            "003"});
             this.PartCode.Location = new System.Drawing.Point(19, 94);
             this.PartCode.Name = "PartCode";
             this.PartCode.Size = new System.Drawing.Size(167, 20);
@@ -386,28 +382,28 @@
 
         private System.Windows.Forms.Button Exit;
         private System.Windows.Forms.Button Save;
-        public System.Windows.Forms.TextBox PhoneNum;
-        public System.Windows.Forms.TextBox Position;
-        public System.Windows.Forms.TextBox EmployeeCo;
-        public System.Windows.Forms.TextBox Memo;
+        private System.Windows.Forms.TextBox PhoneNum;
+        private System.Windows.Forms.TextBox Position;
+        private System.Windows.Forms.TextBox EmployeeCo;
+        private System.Windows.Forms.TextBox Memo;
         private System.Windows.Forms.Label Memo_label;
-        public System.Windows.Forms.TextBox MessengerId;
+        private System.Windows.Forms.TextBox MessengerId;
         private System.Windows.Forms.Label Messenger_label;
-        public System.Windows.Forms.TextBox Email;
+        private System.Windows.Forms.TextBox Email;
         private System.Windows.Forms.Label Email_label;
         private System.Windows.Forms.Label PhoneNum_label;
-        public System.Windows.Forms.TextBox Form_of_employment;
+        private System.Windows.Forms.TextBox Form_of_employment;
         private System.Windows.Forms.Label Employment_label;
         private System.Windows.Forms.Label Position_label;
-        public System.Windows.Forms.TextBox EmployeeName;
+        private System.Windows.Forms.TextBox EmployeeName;
         private System.Windows.Forms.Label Employee;
-        public System.Windows.Forms.Label EmployeeCode;
-        public System.Windows.Forms.TextBox DepartName;
-        public System.Windows.Forms.ComboBox PartCode;
-        public System.Windows.Forms.Label DepartmentName;
-        public System.Windows.Forms.Label DepartmentCode;
-        public System.Windows.Forms.CheckBox Female;
-        public System.Windows.Forms.CheckBox Male;
-        public System.Windows.Forms.Label Gender;
+        private System.Windows.Forms.Label EmployeeCode;
+        private System.Windows.Forms.TextBox DepartName;
+        private System.Windows.Forms.ComboBox PartCode;
+        private System.Windows.Forms.Label DepartmentName;
+        private System.Windows.Forms.Label DepartmentCode;
+        private System.Windows.Forms.CheckBox Female;
+        private System.Windows.Forms.CheckBox Male;
+        private System.Windows.Forms.Label Gender;
     }
 }

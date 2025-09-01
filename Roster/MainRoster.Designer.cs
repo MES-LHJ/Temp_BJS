@@ -195,7 +195,7 @@
 
         #endregion
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        public System.Windows.Forms.DataGridView EmployeeDataGrid;
+        private System.Windows.Forms.DataGridView EmployeeDataGrid;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button Department;
         private System.Windows.Forms.Button Exit;

@@ -43,6 +43,8 @@ namespace Roster
                 Save.Text = "저장";
         }
 
+        //
+
         public DepartmentWorkout SavedModel { get; private set; }
         private void Save_Click(object sender, EventArgs e) // 저장 버튼
         {
@@ -59,17 +61,22 @@ namespace Roster
 
             try
             {
-                SavedModel = DepartmentValue.FromFormConstrols(this);
+                SavedModel = new DepartmentWorkout
+                {
+                    DepartmentCode = PartCode.Text,
+                    DepartmentName = DepartName.Text,
+                    Memo = Memo.Text
+                };
 
                 if (isEditMode)
                 {
-                    DepartmentValue.UpdateDepartment(SavedModel);
+                    SqlRepository.UpdateDepartment(SavedModel);
                     MessageBox.Show("수정되었습니다.");
                     this.Close();
                 }
                 else
                 {
-                    DepartmentValue.InsertDepartment(SavedModel);
+                    SqlRepository.InsertDepartment(SavedModel);
                     MessageBox.Show("부서가 추가되었습니다.");
                     this.Close();
                 }

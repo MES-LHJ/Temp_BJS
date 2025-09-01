@@ -71,9 +71,10 @@ namespace Roster.Models
                 );
         }
 
-        public static void UpdateEmployee(RosterWorkout model)
+        public static void UpdateEmployee(string oldEmployeeCode, RosterWorkout model)
         {
             SqlRepository.UpdateEmployee(
+                oldEmployeeCode,
                 model.DepartmentCode,
                 model.DepartmentName,
                 model.EmployeeCode,

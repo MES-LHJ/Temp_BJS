@@ -153,13 +153,13 @@
 
         #endregion
 
-        public System.Windows.Forms.TextBox DepartName;
+        private System.Windows.Forms.TextBox DepartName;
         private System.Windows.Forms.Label DepartmentName;
         private System.Windows.Forms.Label DepartmentCode;
-        public System.Windows.Forms.TextBox Memo;
+        private System.Windows.Forms.TextBox Memo;
         private System.Windows.Forms.Label Memo_label;
         private System.Windows.Forms.Button Exit;
         private System.Windows.Forms.Button Save;
-        public System.Windows.Forms.TextBox PartCode;
+        private System.Windows.Forms.TextBox PartCode;
     }
 }

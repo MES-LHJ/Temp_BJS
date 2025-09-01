@@ -19,7 +19,6 @@ namespace Roster
         {
             InitializeComponent();
             this.AcceptButton = this.LoginButton;
-            this.Load += Login_Load;                   // 폼 로드 이벤트
             this.LoginButton.Click += LoginButton_Click; // 버튼 클릭 이벤트 연결
             this.Exit.Click += Exit_Click;
 
@@ -31,12 +30,6 @@ namespace Roster
             "Encrypt=True;" +
             "TrustServerCertificate=True;";
 
-
-
-        private void Login_Load(object sender, EventArgs e)
-        {
-
-        }
         // ID/Password 일치 여부 확인
         private bool TryLogin(string userId, string password)
         {
@@ -52,8 +45,8 @@ namespace Roster
                 cmd.Parameters.AddWithValue("@id", userId ?? "");
                 cmd.Parameters.AddWithValue("@pw", password ?? "");
                 conn.Open();
-                var result = cmd.ExecuteScalar();
-                return result != null; // 레코드가 있으면 로그인 성공
+                var result = (int)cmd.ExecuteScalar();
+                return result > 0; // 레코드가 있으면 로그인 성공
             }
         }
 
@@ -78,17 +71,13 @@ namespace Roster
                 return;
             }
 
-            var main = new Roster.MainRoster();
-            // 로그인 폼 숨김, 메인 폼이 닫히면 로그인 폼도 함께 꺼짐
-            //this.FormClosed += (s, args) => main.Show();
             this.DialogResult = DialogResult.OK;
             this.Close();
-            //main.FormClosed += (s, args) => this.Close();
         }
 
         private void Exit_Click(object sender, EventArgs e)
         {
-            this.Close(); // 로그인 취소 시 폼 닫기
+            Application.Exit();
         }
     }
 }

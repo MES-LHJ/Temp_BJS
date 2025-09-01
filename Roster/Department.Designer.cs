@@ -124,7 +124,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        public System.Windows.Forms.DataGridView DepartmentDataGrid;
+        private System.Windows.Forms.DataGridView DepartmentDataGrid;
         private System.Windows.Forms.Button Add;
         private System.Windows.Forms.Button Exit;
         private System.Windows.Forms.Button Delete;

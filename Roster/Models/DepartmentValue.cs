@@ -10,6 +10,8 @@ namespace Roster.Models
 {
     internal class DepartmentValue
     {
+        private const string departmentCodeColy = "DepartmentCode";
+
         public static DepartmentWorkout FromDataRow(DataRow row)
         {
             return new DepartmentWorkout
@@ -50,12 +52,6 @@ namespace Roster.Models
         {
             if(string.IsNullOrEmpty(departmentCode)) return;
             SqlRepository.DeleteDepartment(departmentCode);
-        }
-
-        public static List<DepartmentWorkout> GetAll()
-        {
-            var datatable = SqlRepository.GetDepartment();
-            return datatable.AsEnumerable().Select(DepartmentValue.FromDataRow).ToList();
         }
 
         public static DepartmentWorkout FromFormConstrols(DepartmentAddEdit form)
