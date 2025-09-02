@@ -46,9 +46,9 @@ namespace Roster
             PartCode.Items.Clear(); // 부서 코드 콤보박스 초기화
             departmentMap.Clear();  // 부서명 맵 초기화
 
-            SqlRepository.RosterCheck();  // 부서조회
+            //SqlRepository.RosterCheck();  // 부서조회
 
-            var departments = SqlRepository.UpdateEmployee() // 부서코드 오름차순 정렬
+            var departments = SqlRepository.GetDepartments() // 부서코드 오름차순 정렬
                 .OrderBy(d => d.DepartmentCode);
 
             PartCode.Items.AddRange(departments.ToArray()); // 부서코드 콤보박스에 파싱
@@ -153,10 +153,23 @@ namespace Roster
 
             try
             {
-                SqlRepository.UpdateEmployee(this);
+                //SqlRepository.UpdateEmployee(this);
                 //SqlRepository.UpdateEmployee(originEmployeeCode, SavedModel);
+                SavedModel = new RosterWorkout
+                {
+                    DepartmentCode = PartCode.Text,
+                    EmployeeCode = EmployeeCo.Text,
+                    EmployeeName = EmployeeName.Text,
+                    Position = Position.Text,
+                    Employment = Form_of_employment.Text,
+                    Email = Email.Text,
+                    PhoneNum = PhoneNum.Text,
+                    Gender = Male.Checked ? RosterAdd.Gender.Male : RosterAdd.Gender.Female,
+                    MessengerID = MessengerId.Text,
+                    Memo = Memo.Text,
+                };
 
-                MessageBox.Show("수정 되었습니다.");
+                    MessageBox.Show("수정 되었습니다.");
                 this.DialogResult = DialogResult.OK;
                 this.Close(); // 폼 닫기
             }

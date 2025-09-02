@@ -10,56 +10,68 @@ using System.Threading.Tasks;
 namespace Roster
 {
     public static class Repetition
+    {
+        public static void AddValue(this SqlCommand cmd, string name, object value)
         {
-            public static void AddValue(this SqlCommand cmd, string name, object value)
-            {
-                cmd.AddValue(name, (object)value ?? DBNull.Value);
-            }
+            cmd.Parameters.AddWithValue(name, value ?? DBNull.Value);
         }
+    }
     internal class SqlRepository
     {
         private const string CS = "Server=DESKTOP-6VSVCKC\\JSTESTSERVER;Database=WorkTestDB;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;";
 
-        public static class SqlDepartConst
-        {
-            public const string DepartmentId = "@DepartmentId";
-            public const string DepartmentCode = "@DepartmentCode";
-            public const string DepartmentName = "@DepartmentName";
-            public const string Memo = "@Memo";
-        }
+        //public static class SqlDepartConst
+        //{
+        //    public const string DepartmentId = "@DepartmentId";
+        //    public const string DepartmentCode = "@DepartmentCode";
+        //    public const string DepartmentName = "@DepartmentName";
+        //    public const string Memo = "@Memo";
+        //}
 
-        public static class SqlEmployeeConst
-        {
-            public const string DepartmentId = "@DepartmentId";
-            public const string EmployeeId = "@EmployeeId";
-            public const string DepartmentCode = "@DepartmentCode";
-            public const string DepartmentName = "@DepartmentName";
-            public const string EmployeeCode = "@EmployeeCode";
-            public const string EmployeeName = "@EmployeeName";
-            public const string ID = "@ID";
-            public const string Password = "@Password";
-            public const string Position = "@Position";
-            public const string Employment = "@Employment";
-            public const string Gender = "@Gender";
-            public const string PhoneNum = "@PhoneNum";
-            public const string Email = "@Email";
-            public const string MessengerID = "@MessengerID";
-            public const string Memo = "@Memo";
-        }
+        //public static class SqlEmployeeConst
+        //{
+        //    public const string DepartmentId = "@DepartmentId";
+        //    public const string EmployeeId = "@EmployeeId";
+        //    public const string DepartmentCode = "@DepartmentCode";
+        //    public const string DepartmentName = "@DepartmentName";
+        //    public const string EmployeeCode = "@EmployeeCode";
+        //    public const string EmployeeName = "@EmployeeName";
+        //    public const string ID = "@ID";
+        //    public const string Password = "@Password";
+        //    public const string Position = "@Position";
+        //    public const string Employment = "@Employment";
+        //    public const string Gender = "@Gender";
+        //    public const string PhoneNum = "@PhoneNum";
+        //    public const string Email = "@Email";
+        //    public const string MessengerID = "@MessengerID";
+        //    public const string Memo = "@Memo";
+        //}
 
         // 부서 조회
-        public static DataTable RosterCheck(RosterWorkout model)
+        public static DataTable LoadRoster()
         {
-            const string sql = @"SELECT e.EmployeeId, e.EmployeeCode, e.EmployeeName, e.ID, e.Position, e.Form_of_employment,
-                                 e.Gender, e.PhoneNum, e.Email, e.MessengerID, e.Memo, d.DepartmentId, d.DepartmentCode, d.DepartmentName
+            const string sql = @"
+                                 SELECT 
+                                    d.DepartmentCode,
+                                    d.DepartmentName,
+                                    e.EmployeeCode,
+                                    e.EmployeeName,
+                                    e.ID,
+                                    e.Password,
+                                    e.Position,
+                                    e.Form_of_employment,
+                                    e.Gender,
+                                    e.PhoneNum,
+                                    e.Email,
+                                    e.MessengerID,
+                                    e.Memo
                                  FROM dbo.Employee AS e " +
                                 "JOIN dbo.Department AS d " +
-                                "ON e.DepartmentId = d.DepartmentId " +
-                                "WHERE e.EmployeeId = @EmployeeId;";
+                                "ON e.DepartmentId = d.DepartmentId ";
 
-            using (SqlConnection conn = new SqlConnection(CS))
-            using (SqlCommand cmd = new SqlCommand(sql, conn))
-            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            using (var da = new SqlDataAdapter(cmd))
             {
                 //cmd.AddValue(SqlEmployeeConst.EmployeeId, model.EmployeeId);
                 DataTable dt = new DataTable();
@@ -69,9 +81,14 @@ namespace Roster
         }
 
 
-        // 부서 Insert
+        /// <summary>
+        /// 부서 Insert
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static int InsertDepartment(DepartmentWorkout model)
         {
+            // 부서 코드 및 부서명 중복 체크
             const string sql = @"
                 IF EXISTS (
                     SELECT 1 FROM dbo.Department 
@@ -96,10 +113,10 @@ namespace Roster
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.AddValue(SqlDepartConst.DepartmentId, model.DepartmentId);
-                cmd.AddValue(SqlDepartConst.DepartmentCode, model.DepartmentCode);
-                cmd.AddValue(SqlDepartConst.DepartmentName, model.DepartmentName);
-                cmd.AddValue(SqlDepartConst.Memo, model.Memo);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentId)}", model.DepartmentId);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentCode)}", model.DepartmentCode);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentName)}", model.DepartmentName);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.Memo)}", model.Memo);
 
                 conn.Open();
                 return cmd.ExecuteNonQuery();
@@ -137,10 +154,10 @@ namespace Roster
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.AddValue(SqlDepartConst.DepartmentId, model.DepartmentId);
-                cmd.AddValue(SqlDepartConst.DepartmentCode, model.DepartmentCode);
-                cmd.AddValue(SqlDepartConst.DepartmentName, model.DepartmentName);
-                cmd.AddValue(SqlDepartConst.Memo, model.Memo);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentId)}", model.DepartmentId);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentCode)}", model.DepartmentCode);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentName)}", model.DepartmentName);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.Memo)}", model.Memo);
 
                 conn.Open();
                 return cmd.ExecuteNonQuery();
@@ -154,14 +171,14 @@ namespace Roster
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.AddValue(SqlDepartConst.DepartmentId, departmentId);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentId)}", departmentId);
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
         }
 
         // 사원 Insert 
-        public static int InsertEmployee(RosterWorkout model)
+        public static RosterWorkout InsertEmployee(RosterWorkout model)
         {
             const string sql = @"
             IF EXISTS (
@@ -213,23 +230,25 @@ namespace Roster
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.AddValue(SqlDepartConst.DepartmentId, model.DepartmentId);
-                cmd.AddValue(SqlDepartConst.DepartmentCode, model.DepartmentCode);
-                cmd.AddValue(SqlEmployeeConst.EmployeeCode, model.EmployeeCode);
-                cmd.AddValue(SqlEmployeeConst.EmployeeName, model.EmployeeName);
-                cmd.AddValue(SqlEmployeeConst.ID, model.ID);
-                cmd.AddValue(SqlEmployeeConst.Password, model.Password);
-                cmd.AddValue(SqlEmployeeConst.Position, model.Position);
-                cmd.AddValue(SqlEmployeeConst.Employment, model.Employment);
-                cmd.AddValue(SqlEmployeeConst.Gender, model.Gender);
-                cmd.AddValue(SqlEmployeeConst.PhoneNum, model.PhoneNum);
-                cmd.AddValue(SqlEmployeeConst.Email, model.Email);
-                cmd.AddValue(SqlEmployeeConst.MessengerID, model.MessengerID);
-                cmd.AddValue(SqlEmployeeConst.Memo, model.Memo);
+                cmd.AddValue($"@{nameof(RosterWorkout.DepartmentId)}", model.DepartmentId);
+                cmd.AddValue($"@{nameof(RosterWorkout.DepartmentCode)}", model.DepartmentCode);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeId)}", model.EmployeeId);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeCode)}", model.EmployeeCode);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeName)}", model.EmployeeName);
+                cmd.AddValue($"@{nameof(RosterWorkout.ID)}", model.ID);
+                cmd.AddValue($"@{nameof(RosterWorkout.Password)}", model.Password);
+                cmd.AddValue($"@{nameof(RosterWorkout.Position)}", model.Position);
+                cmd.AddValue($"@{nameof(RosterWorkout.Employment)}", model.Employment);
+                cmd.AddValue($"@{nameof(RosterWorkout.Gender)}", model.Gender);
+                cmd.AddValue($"@{nameof(RosterWorkout.PhoneNum)}", model.PhoneNum);
+                cmd.AddValue($"@{nameof(RosterWorkout.Email)}", model.Email);
+                cmd.AddValue($"@{nameof(RosterWorkout.MessengerID)}", model.MessengerID);
+                cmd.AddValue($"@{nameof(RosterWorkout.Memo)}", model.Memo);
 
                 conn.Open();
-                return cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
             }
+            return model;
         }
 
         // 사원 Update
@@ -272,9 +291,8 @@ namespace Roster
             END
 
             UPDATE e
-            SET e.DepartmentCode = @DepartmentCode,
-                e.EmployeeCode = @EmployeeCode,
-                e.EmployeeName = @EmployeeName,
+            SET e.DepartmentId = @DepartmentId,
+                e.EmployeeId = @EmployeeId,
                 e.[Position] = @Position,
                 e.Form_of_employment = @Employment,
                 e.Gender = @Gender,
@@ -289,17 +307,17 @@ namespace Roster
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.AddValue(SqlDepartConst.DepartmentId, model.DepartmentId);
-                cmd.AddValue(SqlDepartConst.DepartmentCode, model.DepartmentCode);
-                cmd.AddValue(SqlEmployeeConst.EmployeeCode, model.EmployeeCode);
-                cmd.AddValue(SqlEmployeeConst.EmployeeName, model.EmployeeName);
-                cmd.AddValue(SqlEmployeeConst.Position, model.Position);
-                cmd.AddValue(SqlEmployeeConst.Employment, model.Employment);
-                cmd.AddValue(SqlEmployeeConst.Gender, model.Gender);
-                cmd.AddValue(SqlEmployeeConst.PhoneNum, model.PhoneNum);
-                cmd.AddValue(SqlEmployeeConst.Email, model.Email);
-                cmd.AddValue(SqlEmployeeConst.MessengerID, model.MessengerID);
-                cmd.AddValue(SqlEmployeeConst.Memo, model.Memo);
+                cmd.AddValue($"@{nameof(RosterWorkout.DepartmentId)}", model.DepartmentId);
+                cmd.AddValue($"@{nameof(RosterWorkout.DepartmentCode)}", model.DepartmentCode);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeCode)}", model.EmployeeCode);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeName)}", model.EmployeeName);
+                cmd.AddValue($"@{nameof(RosterWorkout.Position)}", model.Position);
+                cmd.AddValue($"@{nameof(RosterWorkout.Employment)}", model.Employment);
+                cmd.AddValue($"@{nameof(RosterWorkout.Gender)}", model.Gender);
+                cmd.AddValue($"@{nameof(RosterWorkout.PhoneNum)}", model.PhoneNum);
+                cmd.AddValue($"@{nameof(RosterWorkout.Email)}", model.Email);
+                cmd.AddValue($"@{nameof(RosterWorkout.MessengerID)}", model.MessengerID);
+                cmd.AddValue($"@{nameof(RosterWorkout.Memo)}", model.Memo);
 
                 conn.Open();
                 return cmd.ExecuteNonQuery();
@@ -307,46 +325,44 @@ namespace Roster
         }
 
         // 사원 Delete
-        public static int DeleteEmployeeByCode(string employeeId)
+        public static int DeleteEmployee(string employeeId)
         {
             const string sql = @"DELETE FROM dbo.Employee WHERE EmployeeId = @EmployeeId;";
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.AddValue(SqlEmployeeConst.EmployeeId, employeeId);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeId)}", employeeId);
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
         }
-        //public static DataTable GetEmployeeWithDepartment()
-        //{
-        //    const string sql = @"
-        //SELECT 
-        //    d.DepartmentCode,
-        //    d.DepartmentName,
-        //    e.EmployeeCode,
-        //    e.EmployeeName,
-        //    e.ID,
-        //    e.Password,
-        //    e.Position,
-        //    e.Form_of_employment,
-        //    e.Gender,
-        //    e.PhoneNum,
-        //    e.Email,
-        //    e.MessengerID,
-        //    e.Memo
-        //FROM dbo.Employee e
-        //JOIN dbo.Department d ON e.DepartmentId = d.DepartmentId";
+        public static DataTable GetEmployeeWithDepartment()
+        {
+            const string sql = @"
+        SELECT 
+            d.DepartmentId,
+            e.EmployeeId,
+            e.ID,
+            e.Password,
+            e.Position,
+            e.Form_of_employment,
+            e.Gender,
+            e.PhoneNum,
+            e.Email,
+            e.MessengerID,
+            e.Memo
+        FROM dbo.Employee e
+        JOIN dbo.Department d ON e.DepartmentId = d.DepartmentId";
 
-        //    using (var conn = new SqlConnection(CS))
-        //    using (var cmd = new SqlCommand(sql, conn))
-        //    using (var da = new SqlDataAdapter(cmd))
-        //    {
-        //        var dt = new DataTable();
-        //        da.Fill(dt);
-        //        return dt;
-        //    }
-        //}
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                var dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
 
         //public static DataTable GetDepartment()
         //{
@@ -364,29 +380,29 @@ namespace Roster
         //    }
         //}
 
-        //public static List<DepartmentWorkout> GetDepartments()
-        //{
-        //    const string sql = "SELECT DepartmentCode, DepartmentName, Memo FROM dbo.Department";
-        //    var list = new List<DepartmentWorkout>();
-        //    using (var conn = new SqlConnection(CS))
-        //    using (var cmd = new SqlCommand(sql, conn))
-        //    {
-        //        conn.Open();
-        //        using (var reader = cmd.ExecuteReader())
-        //        {
-        //            while (reader.Read())
-        //            {
-        //                list.Add(new DepartmentWorkout
-        //                {
-        //                    DepartmentCode = reader["DepartmentCode"].ToString(),
-        //                    DepartmentName = reader["DepartmentName"].ToString(),
-        //                    Memo = reader["Memo"].ToString()
-        //                }
-        //                    );
-        //            }
-        //        }
-        //    }
-        //    return list;
-        //}
+        public static List<DepartmentWorkout> GetDepartments()
+        {
+            const string sql = "SELECT DepartmentCode, DepartmentName, Memo FROM dbo.Department";
+            var list = new List<DepartmentWorkout>();
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                conn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new DepartmentWorkout
+                        {
+                            DepartmentCode = reader["DepartmentCode"].ToString(),
+                            DepartmentName = reader["DepartmentName"].ToString(),
+                            Memo = reader["Memo"].ToString()
+                        }
+                            );
+                    }
+                }
+            }
+            return list;
+        }
     }
 }

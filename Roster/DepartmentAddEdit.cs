@@ -29,10 +29,10 @@ namespace Roster
         public DepartmentAddEdit(DepartmentWorkout model) : this()
         {
             isEditMode = true;
-            PartCode.Text = model.DepartmentCode;
-            DepartName.Text = model.DepartmentName;
-            Memo.Text = model.Memo;
-            PartCode.Enabled = true;
+            partCode.Text = model.DepartmentCode;
+            departName.Text = model.DepartmentName;
+            memo.Text = model.Memo;
+            partCode.Enabled = true;
         }
 
         private void DepartmentAddEdit_Load(object sender, EventArgs e) // 각 기능별 로드 초기화
@@ -48,12 +48,12 @@ namespace Roster
         public DepartmentWorkout SavedModel { get; private set; }
         private void Save_Click(object sender, EventArgs e) // 저장 버튼
         {
-            if (string.IsNullOrWhiteSpace(PartCode.Text))
+            if (string.IsNullOrWhiteSpace(partCode.Text))
             {
                 MessageBox.Show("부서코드를 입력해주세요.");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(DepartName.Text))
+            if (string.IsNullOrWhiteSpace(departName.Text))
             {
                 MessageBox.Show("부서명을 입력해주세요.");
                 return;
@@ -63,9 +63,9 @@ namespace Roster
             {
                 SavedModel = new DepartmentWorkout
                 {
-                    DepartmentCode = PartCode.Text,
-                    DepartmentName = DepartName.Text,
-                    Memo = Memo.Text
+                    DepartmentCode = partCode.Text,
+                    DepartmentName = departName.Text,
+                    Memo = memo.Text
                 };
 
                 if (isEditMode)

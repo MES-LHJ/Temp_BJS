@@ -32,7 +32,7 @@ namespace Roster
         {
             try
             {
-                SqlRepository.DeleteDepartment(RosterCode.Text?.Trim());
+                SqlRepository.DeleteEmployee(RosterCode.Text?.Trim());
                 MessageBox.Show("삭제되었습니다.");
                 this.DialogResult = DialogResult.OK;
                 this.Close();

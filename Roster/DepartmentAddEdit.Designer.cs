@@ -28,24 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.DepartName = new System.Windows.Forms.TextBox();
+            this.departName = new System.Windows.Forms.TextBox();
             this.DepartmentName = new System.Windows.Forms.Label();
             this.DepartmentCode = new System.Windows.Forms.Label();
-            this.Memo = new System.Windows.Forms.TextBox();
+            this.memo = new System.Windows.Forms.TextBox();
             this.Memo_label = new System.Windows.Forms.Label();
             this.Exit = new System.Windows.Forms.Button();
             this.Save = new System.Windows.Forms.Button();
-            this.PartCode = new System.Windows.Forms.TextBox();
+            this.partCode = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // DepartName
+            // departName
             // 
-            this.DepartName.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.DepartName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.DepartName.Location = new System.Drawing.Point(205, 91);
-            this.DepartName.Name = "DepartName";
-            this.DepartName.Size = new System.Drawing.Size(167, 21);
-            this.DepartName.TabIndex = 38;
+            this.departName.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.departName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.departName.Location = new System.Drawing.Point(205, 91);
+            this.departName.Name = "departName";
+            this.departName.Size = new System.Drawing.Size(167, 21);
+            this.departName.TabIndex = 38;
             // 
             // DepartmentName
             // 
@@ -73,14 +73,14 @@
             this.DepartmentCode.Text = "부서코드";
             this.DepartmentCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Memo
+            // memo
             // 
-            this.Memo.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.Memo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Memo.Location = new System.Drawing.Point(15, 137);
-            this.Memo.Name = "Memo";
-            this.Memo.Size = new System.Drawing.Size(357, 21);
-            this.Memo.TabIndex = 51;
+            this.memo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.memo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.memo.Location = new System.Drawing.Point(15, 137);
+            this.memo.Name = "memo";
+            this.memo.Size = new System.Drawing.Size(357, 21);
+            this.memo.TabIndex = 51;
             // 
             // Memo_label
             // 
@@ -121,26 +121,26 @@
             this.Save.Text = "저장";
             this.Save.UseVisualStyleBackColor = false;
             // 
-            // PartCode
+            // partCode
             // 
-            this.PartCode.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.PartCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PartCode.Location = new System.Drawing.Point(15, 91);
-            this.PartCode.Name = "PartCode";
-            this.PartCode.Size = new System.Drawing.Size(167, 21);
-            this.PartCode.TabIndex = 59;
+            this.partCode.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.partCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.partCode.Location = new System.Drawing.Point(15, 91);
+            this.partCode.Name = "partCode";
+            this.partCode.Size = new System.Drawing.Size(167, 21);
+            this.partCode.TabIndex = 59;
             // 
             // DepartmentAddEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(385, 211);
-            this.Controls.Add(this.PartCode);
+            this.Controls.Add(this.partCode);
             this.Controls.Add(this.Exit);
             this.Controls.Add(this.Save);
-            this.Controls.Add(this.Memo);
+            this.Controls.Add(this.memo);
             this.Controls.Add(this.Memo_label);
-            this.Controls.Add(this.DepartName);
+            this.Controls.Add(this.departName);
             this.Controls.Add(this.DepartmentName);
             this.Controls.Add(this.DepartmentCode);
             this.Name = "DepartmentAddEdit";
@@ -153,13 +153,13 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox DepartName;
+        private System.Windows.Forms.TextBox departName;
         private System.Windows.Forms.Label DepartmentName;
         private System.Windows.Forms.Label DepartmentCode;
-        private System.Windows.Forms.TextBox Memo;
+        private System.Windows.Forms.TextBox memo;
         private System.Windows.Forms.Label Memo_label;
         private System.Windows.Forms.Button Exit;
         private System.Windows.Forms.Button Save;
-        private System.Windows.Forms.TextBox PartCode;
+        private System.Windows.Forms.TextBox partCode;
     }
 }

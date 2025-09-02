@@ -57,6 +57,9 @@
             this.Female = new System.Windows.Forms.CheckBox();
             this.Male = new System.Windows.Forms.CheckBox();
             this.Gender_label = new System.Windows.Forms.Label();
+            this.photo = new System.Windows.Forms.PictureBox();
+            this.inserPhoto = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.photo)).BeginInit();
             this.SuspendLayout();
             // 
             // DepartmentCode
@@ -374,17 +377,37 @@
             this.Gender_label.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Gender_label.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Gender_label.Location = new System.Drawing.Point(394, 243);
-            this.Gender_label.Name = "Gender";
+            this.Gender_label.Name = "Gender_label";
             this.Gender_label.Size = new System.Drawing.Size(35, 23);
             this.Gender_label.TabIndex = 62;
             this.Gender_label.Text = "성별";
             this.Gender_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // photo
+            // 
+            this.photo.Location = new System.Drawing.Point(396, 70);
+            this.photo.Name = "photo";
+            this.photo.Size = new System.Drawing.Size(167, 150);
+            this.photo.TabIndex = 63;
+            this.photo.TabStop = false;
+            // 
+            // inserPhoto
+            // 
+            this.inserPhoto.ForeColor = System.Drawing.Color.Black;
+            this.inserPhoto.Location = new System.Drawing.Point(443, 225);
+            this.inserPhoto.Name = "inserPhoto";
+            this.inserPhoto.Size = new System.Drawing.Size(75, 23);
+            this.inserPhoto.TabIndex = 64;
+            this.inserPhoto.Text = "이미지등록";
+            this.inserPhoto.UseVisualStyleBackColor = true;
             // 
             // RosterAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 468);
+            this.Controls.Add(this.inserPhoto);
+            this.Controls.Add(this.photo);
             this.Controls.Add(this.Female);
             this.Controls.Add(this.Male);
             this.Controls.Add(this.Gender_label);
@@ -418,6 +441,7 @@
             this.Name = "RosterAdd";
             this.Text = "사원추가";
             this.Load += new System.EventHandler(this.RosterAdd_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.photo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -453,5 +477,7 @@
         private System.Windows.Forms.CheckBox Female;
         private System.Windows.Forms.CheckBox Male;
         private System.Windows.Forms.Label Gender_label;
+        private System.Windows.Forms.PictureBox photo;
+        private System.Windows.Forms.Button inserPhoto;
     }
 }

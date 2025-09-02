@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using Roster.Models;
+using System.Collections.Generic;
 
 namespace Roster
 {
@@ -13,16 +14,18 @@ namespace Roster
         {
             InitializeComponent();
             this.Load += Department_Load;
-            this.Add.Click += Add_Click;
-            this.Edit.Click += Edit_Click;
-            this.Delete.Click += Delete_Click;
-            this.Exit.Click += Exit_Click;
+            this.add.Click += add_Click;
+            this.edit.Click += edit_Click;
+            this.delete.Click += delete_Click;
+            this.exit.Click += exit_Click;
         }
         private void RefreshDepartmentGrid() // 부서 데이터 정렬 및 갱신
         {
+            DepartmentDataGrid.AutoGenerateColumns = false;
             DepartmentDataGrid.DataSource = null; // 기존 데이터 소스 초기화
-            var departments = SqlRepository.RosterCheck()
-                .OrderBy(d => d.DepartmentCode); // 부서코드 기준으로 오름차순 정렬
+
+            List<DepartmentWorkout> departments = SqlRepository.GetDepartments()
+                .OrderBy(d => d.DepartmentCode).ToList(); // 부서코드 기준으로 오름차순 정렬
 
             DepartmentDataGrid.DataSource = departments;
             DepartmentDataGrid.ClearSelection(); // 초기 선택 해제
@@ -31,12 +34,10 @@ namespace Roster
 
         private void Department_Load(object sender, EventArgs e) // 그리드 양식
         {
-            DepartmentDataGrid.AutoGenerateColumns = true;
-
             RefreshDepartmentGrid();
         }
 
-        private void Add_Click(object sender, EventArgs e) // 추가
+        private void add_Click(object sender, EventArgs e) // 추가
         {
             using (var form = new DepartmentAddEdit())
             {
@@ -46,7 +47,7 @@ namespace Roster
                 }
             }
         }
-        private void Edit_Click(object sender, EventArgs e) // 수정
+        private void edit_Click(object sender, EventArgs e) // 수정
         {
             if (DepartmentDataGrid.SelectedCells.Count == 0)
             {
@@ -55,9 +56,13 @@ namespace Roster
             }
 
             int rowIndex = DepartmentDataGrid.SelectedCells[0].RowIndex;
-            var model = SqlRepository.UpdateDepartment(DepartmentDataGrid.Rows[rowIndex]);
+            var model = new DepartmentWorkout
+            {
+                DepartmentCode = DepartmentDataGrid.Rows[rowIndex].Cells["DepartmentCode"].Value?.ToString() ?? "",
+                //DepartmentName = DepartmentDataGrid.Rows[rowIndex].Cells["DepartmentName"].Value?.ToString() ?? ""
+            };
 
-            using (var form = new DepartmentAddEdit())
+            using (var form = new DepartmentAddEdit(model))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -65,7 +70,7 @@ namespace Roster
                 }
             }
         }
-        private void Delete_Click(object sender, EventArgs e) // 삭제
+        private void delete_Click(object sender, EventArgs e) // 삭제
         {
             if (DepartmentDataGrid.SelectedCells.Count == 0)
             {
@@ -86,7 +91,7 @@ namespace Roster
                 }
             }
         }
-        private void Exit_Click(object sender, EventArgs e) // 닫기
+        private void exit_Click(object sender, EventArgs e) // 닫기
         {
             this.Close();
         }

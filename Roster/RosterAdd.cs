@@ -45,12 +45,12 @@ namespace Roster
         {
             // 부서 코드 콤보박스 초기화
             PartCode.Items.Clear();
-            departmentMap.Clear();
+            departmentMap.Clear(); // 부서명 맵 초기화
 
             // 부서조회
-            SqlRepository.RosterCheck();
+            //SqlRepository.RosterCheck();
             // 부서코드 오름차순 정렬
-            var departments = SqlRepository.InsertEmployee()
+            var departments = SqlRepository.GetDepartments()
                 .OrderBy(d => d.DepartmentCode);
 
             // 부서코드 콤보박스에 파싱
@@ -60,7 +60,7 @@ namespace Roster
         private void PartCode_SelectedIndexChanged(object sender, EventArgs e) // 부서 코드
         {
             DepartmentWorkout departmentWorkout = PartCode.SelectedItem as DepartmentWorkout;
-            if(departmentWorkout != null)
+            if (departmentWorkout != null)
             {
                 DepartName.Text = departmentWorkout.DepartmentName;
             }
@@ -80,11 +80,11 @@ namespace Roster
             //}
         }
 
-        private bool IsValidPassword(string password) // 비밀번호 형식 검증
-        {
-            // 영문, 숫자 포함 8자리 이상
-            return Regex.IsMatch(password, @"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
-        }
+        //private bool IsValidPassword(string password) // 비밀번호 형식 검증
+        //{
+        //    // 영문, 숫자 포함 8자리 이상
+        //    return Regex.IsMatch(password, @"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+        //}
 
         private void Male_CheckedChanged(object sender, EventArgs e)
         {
@@ -106,18 +106,19 @@ namespace Roster
             }
         }
 
-        private void PhoneNum_TextChanged(object sender, EventArgs e) // 휴대전화 번호 포맷팅
-        {
-            // 현재 커서 위치 저장
-            int oldSelectionStart = PhoneNum.SelectionStart;
-            int oldLength = PhoneNum.Text.Length;
+        private bool isFormatting = false;
 
-            // 숫자만 추출 (최대 11자리로 제한)
+        private void PhoneNum_TextChanged(object sender, EventArgs e)
+        {
+            if (isFormatting) return;
+            isFormatting = true;
+
+            int oldSelectionStart = PhoneNum.SelectionStart;
+
             string digits = new string(PhoneNum.Text.Where(char.IsDigit).ToArray());
             if (digits.Length > 11)
                 digits = digits.Substring(0, 11);
 
-            // 010으로 시작하고 11자리 이하일 때만 포맷 적용
             string formatted = digits;
             if (digits.StartsWith("010"))
             {
@@ -126,24 +127,14 @@ namespace Roster
                 else if (digits.Length > 3)
                     formatted = $"{digits.Substring(0, 3)}-{digits.Substring(3)}";
             }
-            else
-            {
-                formatted = digits;
-            }
 
-            // 값이 다를 때만 갱신 (무한루프 방지)
             if (PhoneNum.Text != formatted)
             {
-                // 하이픈 개수 차이 계산
-                int oldHyphenCount = PhoneNum.Text.Take(oldSelectionStart).Count(c => c == '-');
-                int newHyphenCount = formatted.Take(oldSelectionStart).Count(c => c == '-');
-
                 PhoneNum.Text = formatted;
-
-                // 커서 위치 보정
-                int newSelectionStart = oldSelectionStart + (newHyphenCount - oldHyphenCount);
-                PhoneNum.SelectionStart = Math.Max(0, Math.Min(newSelectionStart, PhoneNum.Text.Length));
+                PhoneNum.SelectionStart = Math.Min(oldSelectionStart, PhoneNum.Text.Length);
             }
+
+            isFormatting = false;
         }
 
         public static bool IsValidEmail(string email) // 이메일 형식 검증
@@ -203,18 +194,35 @@ namespace Roster
                 return;
             }
 
-            if (!IsValidPassword(Pass.Text))
-            {
-                // 비밀번호 규칙 x
-                MessageBox.Show("비밀번호는 영문, 숫자를 포함하여 8자리 이상이어야 합니다.");
-                Pass.Focus();
-                Pass.SelectAll();
-                return;
-            }
+            //if (!IsValidPassword(Pass.Text))
+            //{
+            //    // 비밀번호 규칙 x
+            //    MessageBox.Show("비밀번호는 영문, 숫자를 포함하여 8자리 이상이어야 합니다.");
+            //    Pass.Focus();
+            //    Pass.SelectAll();
+            //    return;
+            //}
 
             try
             {
-                SavedModel = SqlRepository.InsertEmployee(SavedModel);
+                var newModel = new RosterWorkout
+                {
+                    DepartmentCode = PartCode.Text,
+                    EmployeeCode = EmployeeCode.Text,
+                    EmployeeName = EmployeeName.Text,
+                    ID = ID.Text,
+                    Password = Pass.Text,
+                    Email = Email.Text,
+                    PhoneNum = PhoneNum.Text,
+                    Position = Position.Text,
+                    Employment = Employment.Text,
+                    Gender = Male.Checked ? Gender.Male : Gender.Female,
+                    MessengerID = MessengerId.Text,
+                    Memo = Memo.Text
+                };
+
+
+                SavedModel = SqlRepository.InsertEmployee(newModel);
 
                 this.DialogResult = DialogResult.OK;
                 MessageBox.Show("사원이 추가되었습니다.");

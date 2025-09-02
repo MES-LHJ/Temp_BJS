@@ -54,7 +54,7 @@ namespace Roster
         {
             var userId = Id.Text?.Trim();
             var userPw = Password.Text;
-
+            
             // 공백 검사
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(userPw))
             {
