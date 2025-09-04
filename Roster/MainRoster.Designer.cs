@@ -52,6 +52,7 @@
             this.email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.messengerId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.memo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.photo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.employeeDataGrid)).BeginInit();
             this.panel1.SuspendLayout();
@@ -79,7 +80,7 @@
             this.tableLayoutPanel3.Controls.Add(this.Department, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.Exit, 7, 0);
             this.tableLayoutPanel3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(742, 23);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(838, 23);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -185,11 +186,12 @@
             this.phoneNum,
             this.email,
             this.messengerId,
-            this.memo});
+            this.memo,
+            this.photo});
             this.employeeDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.employeeDataGrid.Location = new System.Drawing.Point(0, 0);
             this.employeeDataGrid.Name = "employeeDataGrid";
-            this.employeeDataGrid.Size = new System.Drawing.Size(1347, 382);
+            this.employeeDataGrid.Size = new System.Drawing.Size(1443, 382);
             this.employeeDataGrid.TabIndex = 32;
             this.employeeDataGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.EmployeeDataGrid_CellFormatting);
             // 
@@ -199,79 +201,98 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(20, 60);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1347, 382);
+            this.panel1.Size = new System.Drawing.Size(1443, 382);
             this.panel1.TabIndex = 33;
             // 
             // partCode
             // 
+            this.partCode.DataPropertyName = "DepartmentCode";
             this.partCode.HeaderText = "부서코드";
             this.partCode.Name = "partCode";
             // 
             // departmentName
             // 
+            this.departmentName.DataPropertyName = "DepartmentName";
             this.departmentName.HeaderText = "부서명";
             this.departmentName.Name = "departmentName";
             // 
             // employeeCode
             // 
+            this.employeeCode.DataPropertyName = "EmployeeCode";
             this.employeeCode.HeaderText = "사원코드";
             this.employeeCode.Name = "employeeCode";
             // 
             // employeeName
             // 
+            this.employeeName.DataPropertyName = "EmployeeName";
             this.employeeName.HeaderText = "사원명";
             this.employeeName.Name = "employeeName";
             // 
             // id
             // 
+            this.id.DataPropertyName = "ID";
             this.id.HeaderText = "아이디";
             this.id.Name = "id";
             // 
             // password
             // 
+            this.password.DataPropertyName = "Password";
             this.password.HeaderText = "비밀번호";
             this.password.Name = "password";
             // 
             // position
             // 
+            this.position.DataPropertyName = "Position";
             this.position.HeaderText = "직급";
             this.position.Name = "position";
             // 
             // form_of_employment
             // 
+            this.form_of_employment.DataPropertyName = "Employment";
             this.form_of_employment.HeaderText = "고용형태";
             this.form_of_employment.Name = "form_of_employment";
             // 
             // gender
             // 
+            this.gender.DataPropertyName = "Gender";
             this.gender.HeaderText = "성별";
             this.gender.Name = "gender";
             // 
             // phoneNum
             // 
+            this.phoneNum.DataPropertyName = "PhoneNum";
             this.phoneNum.HeaderText = "전화번호";
             this.phoneNum.Name = "phoneNum";
             // 
             // email
             // 
+            this.email.DataPropertyName = "Email";
             this.email.HeaderText = "이메일";
             this.email.Name = "email";
             // 
             // messengerId
             // 
+            this.messengerId.DataPropertyName = "MessengerID";
             this.messengerId.HeaderText = "메신저ID";
             this.messengerId.Name = "messengerId";
             // 
             // memo
             // 
+            this.memo.DataPropertyName = "Memo";
             this.memo.HeaderText = "메모";
             this.memo.Name = "memo";
+            // 
+            // photo
+            // 
+            this.photo.DataPropertyName = "PhotoPath";
+            this.photo.HeaderText = "사원이미지";
+            this.photo.Name = "photo";
             // 
             // MainRoster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1387, 462);
+            this.ClientSize = new System.Drawing.Size(1483, 462);
             this.Controls.Add(this.tableLayoutPanel3);
             this.Controls.Add(this.panel1);
             this.Name = "MainRoster";
@@ -310,6 +331,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn email;
         private System.Windows.Forms.DataGridViewTextBoxColumn messengerId;
         private System.Windows.Forms.DataGridViewTextBoxColumn memo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn photo;
     }
 }
 

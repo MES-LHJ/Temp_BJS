@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static Roster.RosterAdd;
 
 namespace Roster
 {
@@ -220,18 +222,17 @@ namespace Roster
             END
 
             INSERT INTO dbo.Employee
-            ( DepartmentId, DepartmentCode, EmployeeCode, EmployeeName, [ID], [Password],
-              [Position], Form_of_employment, Gender, PhoneNum, Email, MessengerID, Memo )
+            ( DepartmentId, EmployeeCode, EmployeeName, [ID], [Password],
+              [Position], Form_of_employment, Gender, PhoneNum, Email, MessengerID, Memo, PhotoPath)
             VALUES
-            (@DepartmentId, @DepartmentCode, @EmployeeCode, @EmployeeName, @ID, @Password,
-            @Position, @Employment, @Gender, @PhoneNum, @Email, @MessengerID, @Memo)
+            (@DepartmentId, @EmployeeCode, @EmployeeName, @ID, @Password,
+            @Position, @Employment, @Gender, @PhoneNum, @Email, @MessengerID, @Memo, @PhotoPath)
             ;";
 
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.AddValue($"@{nameof(RosterWorkout.DepartmentId)}", model.DepartmentId);
-                cmd.AddValue($"@{nameof(RosterWorkout.DepartmentCode)}", model.DepartmentCode);
                 cmd.AddValue($"@{nameof(RosterWorkout.EmployeeId)}", model.EmployeeId);
                 cmd.AddValue($"@{nameof(RosterWorkout.EmployeeCode)}", model.EmployeeCode);
                 cmd.AddValue($"@{nameof(RosterWorkout.EmployeeName)}", model.EmployeeName);
@@ -244,6 +245,7 @@ namespace Roster
                 cmd.AddValue($"@{nameof(RosterWorkout.Email)}", model.Email);
                 cmd.AddValue($"@{nameof(RosterWorkout.MessengerID)}", model.MessengerID);
                 cmd.AddValue($"@{nameof(RosterWorkout.Memo)}", model.Memo);
+                cmd.AddValue($"@{nameof(RosterWorkout.PhotoPath)}", model.PhotoPath);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
@@ -267,6 +269,7 @@ namespace Roster
                 SELECT 1 FROM dbo.Employee 
                 WHERE Email = @Email
                     AND EmployeeId <> @EmployeeId)
+                    AND @Email IS NOT NULL
             BEGIN
                 RAISERROR('이미 존재하는 이메일입니다.', 16, 1);
                 RETURN;
@@ -276,6 +279,7 @@ namespace Roster
                 SELECT 1 FROM dbo.Employee 
                 WHERE PhoneNum = @PhoneNum
                     AND EmployeeId <> @EmployeeId)
+                    AND @PhoneNum IS NOT NULL
             BEGIN
                 RAISERROR('이미 존재하는 전화번호입니다.', 16, 1);
                 RETURN;
@@ -285,30 +289,33 @@ namespace Roster
                 SELECT 1 FROM dbo.Employee
                 WHERE MessengerID = @MessengerID
                     AND EmployeeId <> @EmployeeId)
+                    AND @MessengerID IS NOT NULL
             BEGIN
                 RAISERROR('이미 존재하는 메신저ID입니다.', 16, 1);
                 RETURN;
             END
 
-            UPDATE e
-            SET e.DepartmentId = @DepartmentId,
-                e.EmployeeId = @EmployeeId,
-                e.[Position] = @Position,
-                e.Form_of_employment = @Employment,
-                e.Gender = @Gender,
-                e.PhoneNum = @PhoneNum,
-                e.Email = @Email,
-                e.MessengerID = @MessengerID,
-                e.Memo = @Memo
-            FROM dbo.Department AS d
-            WHERE d.DepartmentId = @DepartmentId;";
+            UPDATE dbo.Employee
+            SET  DepartmentId = @DepartmentId,
+                 EmployeeCode = @EmployeeCode,
+                 EmployeeName = @EmployeeName,
+                 ID = @ID,
+                 Password = @Password,
+                 Position = @Position,
+                 Form_of_employment = @Employment,
+                 Gender = @Gender,
+                 PhoneNum = @PhoneNum,
+                 Email = @Email,
+                 MessengerID = @MessengerID,
+                 Memo = @Memo,
+                 PhotoPath = @PhotoPath
+             WHERE EmployeeId = @EmployeeId;";
 
 
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.AddValue($"@{nameof(RosterWorkout.DepartmentId)}", model.DepartmentId);
-                cmd.AddValue($"@{nameof(RosterWorkout.DepartmentCode)}", model.DepartmentCode);
                 cmd.AddValue($"@{nameof(RosterWorkout.EmployeeCode)}", model.EmployeeCode);
                 cmd.AddValue($"@{nameof(RosterWorkout.EmployeeName)}", model.EmployeeName);
                 cmd.AddValue($"@{nameof(RosterWorkout.Position)}", model.Position);
@@ -325,64 +332,57 @@ namespace Roster
         }
 
         // 사원 Delete
-        public static int DeleteEmployee(string employeeId)
+        public static int DeleteEmployee(long employeeId)
         {
             const string sql = @"DELETE FROM dbo.Employee WHERE EmployeeId = @EmployeeId;";
+
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.AddValue($"@{nameof(RosterWorkout.EmployeeId)}", employeeId);
+
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
         }
-        public static DataTable GetEmployeeWithDepartment()
+        public static List<RosterWorkout> GetEmployment()
         {
             const string sql = @"
         SELECT 
-            d.DepartmentId,
+            e.DepartmentId,
+            d.DepartmentCode,
+            d.DepartmentName,
             e.EmployeeId,
+            e.EmployeeCode,
+            e.EmployeeName,
             e.ID,
             e.Password,
             e.Position,
-            e.Form_of_employment,
+            e.Form_of_employment AS Employment,
             e.Gender,
             e.PhoneNum,
             e.Email,
             e.MessengerID,
-            e.Memo
+            e.Memo,
+            e.PhotoPath
         FROM dbo.Employee e
         JOIN dbo.Department d ON e.DepartmentId = d.DepartmentId";
 
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
-            using (var da = new SqlDataAdapter(cmd))
+            using (var adapter = new SqlDataAdapter(cmd))
             {
                 var dt = new DataTable();
-                da.Fill(dt);
-                return dt;
+                adapter.Fill(dt);
+                return dt.AsEnumerable()
+                         .Select(RosterWorkout.DataRow)
+                         .ToList();
             }
         }
 
-        //public static DataTable GetDepartment()
-        //{
-        //    const string sql = @"
-        //                SELECT DepartmentCode, 
-        //                DepartmentName, 
-        //                Memo FROM dbo.Department";
-        //    using (var conn = new SqlConnection(CS))
-        //    using (var cmd = new SqlCommand(sql, conn))
-        //    using (var da = new SqlDataAdapter(cmd))
-        //    {
-        //        var dt = new DataTable();
-        //        da.Fill(dt);
-        //        return dt;
-        //    }
-        //}
-
         public static List<DepartmentWorkout> GetDepartments()
         {
-            const string sql = "SELECT DepartmentCode, DepartmentName, Memo FROM dbo.Department";
+            const string sql = "SELECT DepartmentId, DepartmentCode, DepartmentName, Memo FROM dbo.Department";
             var list = new List<DepartmentWorkout>();
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
@@ -394,11 +394,11 @@ namespace Roster
                     {
                         list.Add(new DepartmentWorkout
                         {
+                            DepartmentId = Convert.ToInt32(reader["DepartmentId"]),
                             DepartmentCode = reader["DepartmentCode"].ToString(),
                             DepartmentName = reader["DepartmentName"].ToString(),
                             Memo = reader["Memo"].ToString()
-                        }
-                            );
+                        });
                     }
                 }
             }

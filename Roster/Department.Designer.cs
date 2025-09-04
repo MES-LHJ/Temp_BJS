@@ -114,16 +114,19 @@
             // 
             // partCode
             // 
+            this.partCode.DataPropertyName = "DepartmentCode";
             this.partCode.HeaderText = "부서코드";
             this.partCode.Name = "partCode";
             // 
             // departName
             // 
+            this.departName.DataPropertyName = "DepartmentName";
             this.departName.HeaderText = "부서명";
             this.departName.Name = "departName";
             // 
             // memo
             // 
+            this.memo.DataPropertyName = "Memo";
             this.memo.HeaderText = "메모";
             this.memo.Name = "memo";
             // 

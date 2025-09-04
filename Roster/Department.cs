@@ -49,20 +49,15 @@ namespace Roster
         }
         private void edit_Click(object sender, EventArgs e) // 수정
         {
-            if (DepartmentDataGrid.SelectedCells.Count == 0)
+            var department = DepartmentDataGrid.CurrentRow?.DataBoundItem as DepartmentWorkout;
+
+            if (department == null)
             {
                 MessageBox.Show("수정할 항목을 선택해주세요.");
                 return;
             }
 
-            int rowIndex = DepartmentDataGrid.SelectedCells[0].RowIndex;
-            var model = new DepartmentWorkout
-            {
-                DepartmentCode = DepartmentDataGrid.Rows[rowIndex].Cells["DepartmentCode"].Value?.ToString() ?? "",
-                //DepartmentName = DepartmentDataGrid.Rows[rowIndex].Cells["DepartmentName"].Value?.ToString() ?? ""
-            };
-
-            using (var form = new DepartmentAddEdit(model))
+            using (var form = new DepartmentAddEdit(department))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -72,18 +67,15 @@ namespace Roster
         }
         private void delete_Click(object sender, EventArgs e) // 삭제
         {
-            if (DepartmentDataGrid.SelectedCells.Count == 0)
+            var department = DepartmentDataGrid.CurrentRow?.DataBoundItem as DepartmentWorkout;
+
+            if (department == null)
             {
                 MessageBox.Show("삭제할 항목을 선택해주세요.");
                 return;
             }
-            int rowIndex = DepartmentDataGrid.SelectedCells[0].RowIndex;
-            var row = DepartmentDataGrid.Rows[rowIndex];
 
-            string code = row.Cells["DepartmentCode"].Value?.ToString() ?? "";
-            string name = row.Cells["DepartmentName"].Value?.ToString() ?? "";
-
-            using (var deleteForm = new DepartmentDelete(this, code, name))
+            using (var deleteForm = new DepartmentDelete(department))
             {
                 if (deleteForm.ShowDialog() == DialogResult.OK)
                 {

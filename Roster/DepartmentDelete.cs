@@ -15,14 +15,16 @@ namespace Roster
 {
     public partial class DepartmentDelete : MetroForm
     {
-        public DepartmentDelete(Department parentForm, string code, string name)
+        private readonly DepartmentWorkout department;
+        public DepartmentDelete(DepartmentWorkout department)
         {
             InitializeComponent();
             this.Delete.Click += Delete_Click;
             this.Cancel.Click += Cancel_Click;
+            this.department = department;
 
-            PartCode.Text = code;
-            DepartmentName.Text = name;
+            PartCode.Text = department.DepartmentCode;
+            DepartmentName.Text = department.DepartmentName;
         }
 
         private void Delete_Click(object sender, EventArgs e) //삭제
@@ -30,7 +32,7 @@ namespace Roster
             // DB 삭제
             try
             {
-                SqlRepository.DeleteDepartment(PartCode.Text?.Trim());
+                SqlRepository.DeleteDepartment(department.DepartmentId.ToString());
                 MessageBox.Show("삭제되었습니다.");
                 this.DialogResult = DialogResult.OK; 
                 this.Close();

@@ -58,7 +58,7 @@
             this.Male = new System.Windows.Forms.CheckBox();
             this.Gender_label = new System.Windows.Forms.Label();
             this.photo = new System.Windows.Forms.PictureBox();
-            this.inserPhoto = new System.Windows.Forms.Button();
+            this.insertPhoto = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.photo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -385,28 +385,31 @@
             // 
             // photo
             // 
+            this.photo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.photo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.photo.Location = new System.Drawing.Point(396, 70);
             this.photo.Name = "photo";
             this.photo.Size = new System.Drawing.Size(167, 150);
             this.photo.TabIndex = 63;
             this.photo.TabStop = false;
             // 
-            // inserPhoto
+            // insertPhoto
             // 
-            this.inserPhoto.ForeColor = System.Drawing.Color.Black;
-            this.inserPhoto.Location = new System.Drawing.Point(443, 225);
-            this.inserPhoto.Name = "inserPhoto";
-            this.inserPhoto.Size = new System.Drawing.Size(75, 23);
-            this.inserPhoto.TabIndex = 64;
-            this.inserPhoto.Text = "이미지등록";
-            this.inserPhoto.UseVisualStyleBackColor = true;
+            this.insertPhoto.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.insertPhoto.ForeColor = System.Drawing.Color.Black;
+            this.insertPhoto.Location = new System.Drawing.Point(443, 225);
+            this.insertPhoto.Name = "insertPhoto";
+            this.insertPhoto.Size = new System.Drawing.Size(75, 23);
+            this.insertPhoto.TabIndex = 64;
+            this.insertPhoto.Text = "이미지등록";
+            this.insertPhoto.UseVisualStyleBackColor = true;
             // 
             // RosterAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 468);
-            this.Controls.Add(this.inserPhoto);
+            this.Controls.Add(this.insertPhoto);
             this.Controls.Add(this.photo);
             this.Controls.Add(this.Female);
             this.Controls.Add(this.Male);
@@ -478,6 +481,6 @@
         private System.Windows.Forms.CheckBox Male;
         private System.Windows.Forms.Label Gender_label;
         private System.Windows.Forms.PictureBox photo;
-        private System.Windows.Forms.Button inserPhoto;
+        private System.Windows.Forms.Button insertPhoto;
     }
 }

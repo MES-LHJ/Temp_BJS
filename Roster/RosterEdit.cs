@@ -29,37 +29,34 @@ namespace Roster
             this.Male.CheckedChanged += Male_CheckedChanged_1;
             this.Female.CheckedChanged += Female_CheckedChanged_1;
             this.PhoneNum.TextChanged += PhoneNum_TextChanged;
+            this.changePhoto.Click += ChangePhoto_Click;
             this.Save.Click += Save_Click;
             this.Exit.Click += Exit_Click_1;
         }
 
-        public RosterEdit(int model)
-        {
-            this.model=model;
-        }
+        //public RosterEdit(int model)
+        //{
+        //    this.model=model;
+        //}
 
-        private Dictionary<string, string> departmentMap = new Dictionary<string, string>();
-        private int model;
 
         private void RosterEdit_Load(object sender, EventArgs e) // 폼 로드 시 콤보 박스 초기화 및 정렬
         {
-            PartCode.Items.Clear(); // 부서 코드 콤보박스 초기화
-            departmentMap.Clear();  // 부서명 맵 초기화
-
-            //SqlRepository.RosterCheck();  // 부서조회
+            //PartCode.Items.Clear(); // 부서 코드 콤보박스 초기화
 
             var departments = SqlRepository.GetDepartments() // 부서코드 오름차순 정렬
                 .OrderBy(d => d.DepartmentCode);
 
-            PartCode.Items.AddRange(departments.ToArray()); // 부서코드 콤보박스에 파싱
+            //PartCode.Items.AddRange(departments.ToArray()); // 부서코드 콤보박스에 파싱
+            PartCode.DisplayMember = "DepartmentCode";
+            PartCode.ValueMember = "DepartmentId";
         }
 
         private void PartCode_SelectedIndexChanged(object sender, EventArgs e) // 부서 코드
         {
-            string code = PartCode.SelectedItem?.ToString();
-            if (code != null && departmentMap.ContainsKey(code))
+            if (PartCode.SelectedItem is DepartmentWorkout dept)
             {
-                DepartName.Text = departmentMap[code];
+                DepartName.Text = dept.DepartmentName;
             }
             else
             {
@@ -117,6 +114,23 @@ namespace Roster
             }
         }
 
+        private void ChangePhoto_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Filter = "이미지 파일|*.jpg;*.jpeg;*.png;*.bmp";
+                dialog.Title = "사원 이미지 변경";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    photo.Image = Image.FromFile(dialog.FileName);
+                    photo.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                    SavedModel.PhotoPath = dialog.FileName;
+                }
+            }
+        }
+
         public RosterWorkout SavedModel { get; private set; }
 
         private void Save_Click(object sender, EventArgs e) // 저장 버튼
@@ -153,11 +167,10 @@ namespace Roster
 
             try
             {
-                //SqlRepository.UpdateEmployee(this);
-                //SqlRepository.UpdateEmployee(originEmployeeCode, SavedModel);
+                
                 SavedModel = new RosterWorkout
                 {
-                    DepartmentCode = PartCode.Text,
+                    DepartmentId = (int)PartCode.SelectedValue,
                     EmployeeCode = EmployeeCo.Text,
                     EmployeeName = EmployeeName.Text,
                     Position = Position.Text,
@@ -167,9 +180,12 @@ namespace Roster
                     Gender = Male.Checked ? RosterAdd.Gender.Male : RosterAdd.Gender.Female,
                     MessengerID = MessengerId.Text,
                     Memo = Memo.Text,
+                    PhotoPath = SavedModel?.PhotoPath
                 };
 
-                    MessageBox.Show("수정 되었습니다.");
+                SqlRepository.UpdateEmployee(SavedModel);
+
+                MessageBox.Show("수정 되었습니다.");
                 this.DialogResult = DialogResult.OK;
                 this.Close(); // 폼 닫기
             }

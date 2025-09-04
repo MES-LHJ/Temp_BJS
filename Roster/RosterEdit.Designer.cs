@@ -53,6 +53,13 @@
             this.Female = new System.Windows.Forms.CheckBox();
             this.Male = new System.Windows.Forms.CheckBox();
             this.Gender = new System.Windows.Forms.Label();
+            this.changePhoto = new System.Windows.Forms.Button();
+            this.photo = new System.Windows.Forms.PictureBox();
+            this.ID = new System.Windows.Forms.TextBox();
+            this.Pass = new System.Windows.Forms.TextBox();
+            this.Password = new System.Windows.Forms.Label();
+            this.LoginId = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.photo)).BeginInit();
             this.SuspendLayout();
             // 
             // Exit
@@ -61,7 +68,7 @@
             this.Exit.BackColor = System.Drawing.Color.Red;
             this.Exit.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Exit.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.Exit.Location = new System.Drawing.Point(479, 361);
+            this.Exit.Location = new System.Drawing.Point(474, 419);
             this.Exit.Name = "Exit";
             this.Exit.Size = new System.Drawing.Size(96, 31);
             this.Exit.TabIndex = 56;
@@ -74,7 +81,7 @@
             this.Save.BackColor = System.Drawing.SystemColors.HotTrack;
             this.Save.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Save.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.Save.Location = new System.Drawing.Point(367, 361);
+            this.Save.Location = new System.Drawing.Point(362, 419);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(96, 31);
             this.Save.TabIndex = 55;
@@ -85,7 +92,7 @@
             // 
             this.PhoneNum.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.PhoneNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PhoneNum.Location = new System.Drawing.Point(18, 265);
+            this.PhoneNum.Location = new System.Drawing.Point(15, 323);
             this.PhoneNum.Name = "PhoneNum";
             this.PhoneNum.Size = new System.Drawing.Size(167, 21);
             this.PhoneNum.TabIndex = 54;
@@ -94,7 +101,7 @@
             // 
             this.Position.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Position.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Position.Location = new System.Drawing.Point(18, 202);
+            this.Position.Location = new System.Drawing.Point(15, 260);
             this.Position.Name = "Position";
             this.Position.Size = new System.Drawing.Size(167, 21);
             this.Position.TabIndex = 53;
@@ -103,7 +110,7 @@
             // 
             this.EmployeeCo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.EmployeeCo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.EmployeeCo.Location = new System.Drawing.Point(19, 146);
+            this.EmployeeCo.Location = new System.Drawing.Point(15, 141);
             this.EmployeeCo.Name = "EmployeeCo";
             this.EmployeeCo.Size = new System.Drawing.Size(167, 21);
             this.EmployeeCo.TabIndex = 51;
@@ -112,7 +119,7 @@
             // 
             this.Memo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Memo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Memo.Location = new System.Drawing.Point(20, 319);
+            this.Memo.Location = new System.Drawing.Point(15, 384);
             this.Memo.Name = "Memo";
             this.Memo.Size = new System.Drawing.Size(548, 21);
             this.Memo.TabIndex = 49;
@@ -123,7 +130,7 @@
             this.Memo_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Memo_label.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Memo_label.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Memo_label.Location = new System.Drawing.Point(3, 300);
+            this.Memo_label.Location = new System.Drawing.Point(-1, 364);
             this.Memo_label.Name = "Memo_label";
             this.Memo_label.Size = new System.Drawing.Size(63, 23);
             this.Memo_label.TabIndex = 50;
@@ -134,7 +141,7 @@
             // 
             this.MessengerId.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.MessengerId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MessengerId.Location = new System.Drawing.Point(401, 265);
+            this.MessengerId.Location = new System.Drawing.Point(396, 323);
             this.MessengerId.Name = "MessengerId";
             this.MessengerId.Size = new System.Drawing.Size(167, 21);
             this.MessengerId.TabIndex = 47;
@@ -145,7 +152,7 @@
             this.Messenger_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Messenger_label.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Messenger_label.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Messenger_label.Location = new System.Drawing.Point(399, 246);
+            this.Messenger_label.Location = new System.Drawing.Point(393, 304);
             this.Messenger_label.Name = "Messenger_label";
             this.Messenger_label.Size = new System.Drawing.Size(57, 23);
             this.Messenger_label.TabIndex = 48;
@@ -156,7 +163,7 @@
             // 
             this.Email.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Email.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Email.Location = new System.Drawing.Point(209, 265);
+            this.Email.Location = new System.Drawing.Point(206, 323);
             this.Email.Name = "Email";
             this.Email.Size = new System.Drawing.Size(167, 21);
             this.Email.TabIndex = 46;
@@ -167,7 +174,7 @@
             this.Email_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Email_label.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Email_label.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Email_label.Location = new System.Drawing.Point(201, 246);
+            this.Email_label.Location = new System.Drawing.Point(198, 304);
             this.Email_label.Name = "Email_label";
             this.Email_label.Size = new System.Drawing.Size(57, 23);
             this.Email_label.TabIndex = 45;
@@ -180,7 +187,7 @@
             this.PhoneNum_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.PhoneNum_label.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.PhoneNum_label.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.PhoneNum_label.Location = new System.Drawing.Point(18, 246);
+            this.PhoneNum_label.Location = new System.Drawing.Point(15, 304);
             this.PhoneNum_label.Name = "PhoneNum_label";
             this.PhoneNum_label.Size = new System.Drawing.Size(57, 23);
             this.PhoneNum_label.TabIndex = 44;
@@ -191,7 +198,7 @@
             // 
             this.Form_of_employment.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Form_of_employment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Form_of_employment.Location = new System.Drawing.Point(209, 202);
+            this.Form_of_employment.Location = new System.Drawing.Point(206, 260);
             this.Form_of_employment.Name = "Form_of_employment";
             this.Form_of_employment.Size = new System.Drawing.Size(167, 21);
             this.Form_of_employment.TabIndex = 43;
@@ -202,7 +209,7 @@
             this.Employment_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Employment_label.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Employment_label.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Employment_label.Location = new System.Drawing.Point(207, 183);
+            this.Employment_label.Location = new System.Drawing.Point(204, 241);
             this.Employment_label.Name = "Employment_label";
             this.Employment_label.Size = new System.Drawing.Size(57, 23);
             this.Employment_label.TabIndex = 42;
@@ -215,7 +222,7 @@
             this.Position_label.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Position_label.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Position_label.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Position_label.Location = new System.Drawing.Point(9, 183);
+            this.Position_label.Location = new System.Drawing.Point(6, 241);
             this.Position_label.Name = "Position_label";
             this.Position_label.Size = new System.Drawing.Size(49, 23);
             this.Position_label.TabIndex = 41;
@@ -226,7 +233,7 @@
             // 
             this.EmployeeName.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.EmployeeName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.EmployeeName.Location = new System.Drawing.Point(209, 146);
+            this.EmployeeName.Location = new System.Drawing.Point(205, 141);
             this.EmployeeName.Name = "EmployeeName";
             this.EmployeeName.Size = new System.Drawing.Size(167, 21);
             this.EmployeeName.TabIndex = 37;
@@ -237,7 +244,7 @@
             this.Employee.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Employee.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Employee.ForeColor = System.Drawing.Color.Red;
-            this.Employee.Location = new System.Drawing.Point(200, 127);
+            this.Employee.Location = new System.Drawing.Point(196, 122);
             this.Employee.Name = "Employee";
             this.Employee.Size = new System.Drawing.Size(57, 23);
             this.Employee.TabIndex = 36;
@@ -250,7 +257,7 @@
             this.EmployeeCode.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.EmployeeCode.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.EmployeeCode.ForeColor = System.Drawing.Color.Red;
-            this.EmployeeCode.Location = new System.Drawing.Point(16, 127);
+            this.EmployeeCode.Location = new System.Drawing.Point(12, 122);
             this.EmployeeCode.Name = "EmployeeCode";
             this.EmployeeCode.Size = new System.Drawing.Size(57, 23);
             this.EmployeeCode.TabIndex = 35;
@@ -261,7 +268,7 @@
             // 
             this.DepartName.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.DepartName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.DepartName.Location = new System.Drawing.Point(209, 93);
+            this.DepartName.Location = new System.Drawing.Point(205, 88);
             this.DepartName.Name = "DepartName";
             this.DepartName.ReadOnly = true;
             this.DepartName.Size = new System.Drawing.Size(167, 21);
@@ -271,7 +278,7 @@
             // 
             this.PartCode.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.PartCode.FormattingEnabled = true;
-            this.PartCode.Location = new System.Drawing.Point(19, 94);
+            this.PartCode.Location = new System.Drawing.Point(15, 89);
             this.PartCode.Name = "PartCode";
             this.PartCode.Size = new System.Drawing.Size(167, 20);
             this.PartCode.TabIndex = 33;
@@ -282,7 +289,7 @@
             this.DepartmentName.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.DepartmentName.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.DepartmentName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.DepartmentName.Location = new System.Drawing.Point(200, 74);
+            this.DepartmentName.Location = new System.Drawing.Point(196, 69);
             this.DepartmentName.Name = "DepartmentName";
             this.DepartmentName.Size = new System.Drawing.Size(57, 23);
             this.DepartmentName.TabIndex = 32;
@@ -295,7 +302,7 @@
             this.DepartmentCode.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.DepartmentCode.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.DepartmentCode.ForeColor = System.Drawing.Color.Red;
-            this.DepartmentCode.Location = new System.Drawing.Point(16, 74);
+            this.DepartmentCode.Location = new System.Drawing.Point(12, 69);
             this.DepartmentCode.Name = "DepartmentCode";
             this.DepartmentCode.Size = new System.Drawing.Size(57, 23);
             this.DepartmentCode.TabIndex = 31;
@@ -308,7 +315,7 @@
             this.Female.AutoSize = true;
             this.Female.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Female.ForeColor = System.Drawing.Color.Black;
-            this.Female.Location = new System.Drawing.Point(466, 206);
+            this.Female.Location = new System.Drawing.Point(467, 264);
             this.Female.Name = "Female";
             this.Female.Size = new System.Drawing.Size(48, 16);
             this.Female.TabIndex = 58;
@@ -321,7 +328,7 @@
             this.Male.AutoSize = true;
             this.Male.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Male.ForeColor = System.Drawing.Color.Black;
-            this.Male.Location = new System.Drawing.Point(401, 206);
+            this.Male.Location = new System.Drawing.Point(402, 264);
             this.Male.Name = "Male";
             this.Male.Size = new System.Drawing.Size(48, 16);
             this.Male.TabIndex = 57;
@@ -334,18 +341,90 @@
             this.Gender.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Gender.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Gender.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Gender.Location = new System.Drawing.Point(395, 183);
+            this.Gender.Location = new System.Drawing.Point(396, 241);
             this.Gender.Name = "Gender";
             this.Gender.Size = new System.Drawing.Size(35, 23);
             this.Gender.TabIndex = 59;
             this.Gender.Text = "성별";
             this.Gender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // changePhoto
+            // 
+            this.changePhoto.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.changePhoto.ForeColor = System.Drawing.Color.Black;
+            this.changePhoto.Location = new System.Drawing.Point(441, 224);
+            this.changePhoto.Name = "changePhoto";
+            this.changePhoto.Size = new System.Drawing.Size(75, 23);
+            this.changePhoto.TabIndex = 66;
+            this.changePhoto.Text = "이미지등록";
+            this.changePhoto.UseVisualStyleBackColor = true;
+            // 
+            // photo
+            // 
+            this.photo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.photo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.photo.Location = new System.Drawing.Point(394, 69);
+            this.photo.Name = "photo";
+            this.photo.Size = new System.Drawing.Size(167, 150);
+            this.photo.TabIndex = 65;
+            this.photo.TabStop = false;
+            // 
+            // ID
+            // 
+            this.ID.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ID.Location = new System.Drawing.Point(15, 198);
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Size = new System.Drawing.Size(167, 21);
+            this.ID.TabIndex = 70;
+            // 
+            // Pass
+            // 
+            this.Pass.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.Pass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Pass.Location = new System.Drawing.Point(205, 198);
+            this.Pass.Name = "Pass";
+            this.Pass.PasswordChar = '*';
+            this.Pass.ReadOnly = true;
+            this.Pass.Size = new System.Drawing.Size(167, 21);
+            this.Pass.TabIndex = 69;
+            // 
+            // Password
+            // 
+            this.Password.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.Password.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Password.ForeColor = System.Drawing.Color.Red;
+            this.Password.Location = new System.Drawing.Point(202, 179);
+            this.Password.Name = "Password";
+            this.Password.Size = new System.Drawing.Size(57, 23);
+            this.Password.TabIndex = 68;
+            this.Password.Text = "비밀번호";
+            this.Password.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LoginId
+            // 
+            this.LoginId.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LoginId.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.LoginId.ForeColor = System.Drawing.Color.Red;
+            this.LoginId.Location = new System.Drawing.Point(12, 179);
+            this.LoginId.Name = "LoginId";
+            this.LoginId.Size = new System.Drawing.Size(57, 23);
+            this.LoginId.TabIndex = 67;
+            this.LoginId.Text = "로그인ID";
+            this.LoginId.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // RosterEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 408);
+            this.ClientSize = new System.Drawing.Size(584, 467);
+            this.Controls.Add(this.ID);
+            this.Controls.Add(this.Pass);
+            this.Controls.Add(this.Password);
+            this.Controls.Add(this.LoginId);
+            this.Controls.Add(this.changePhoto);
+            this.Controls.Add(this.photo);
             this.Controls.Add(this.Female);
             this.Controls.Add(this.Male);
             this.Controls.Add(this.Exit);
@@ -372,7 +451,8 @@
             this.Controls.Add(this.DepartmentCode);
             this.Controls.Add(this.Gender);
             this.Name = "RosterEdit";
-            this.Text = "사원 수정";
+            this.Text = "사원수정";
+            ((System.ComponentModel.ISupportInitialize)(this.photo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -405,5 +485,11 @@
         private System.Windows.Forms.CheckBox Female;
         private System.Windows.Forms.CheckBox Male;
         private System.Windows.Forms.Label Gender;
+        private System.Windows.Forms.Button changePhoto;
+        private System.Windows.Forms.PictureBox photo;
+        private System.Windows.Forms.TextBox ID;
+        private System.Windows.Forms.TextBox Pass;
+        private System.Windows.Forms.Label Password;
+        private System.Windows.Forms.Label LoginId;
     }
 }
