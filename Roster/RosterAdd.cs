@@ -239,12 +239,12 @@ namespace Roster
                         EmployeeName = EmployeeName.Text,
                         ID = ID.Text,
                         Password = Pass.Text,
-                        Email = Email.Text,
-                        PhoneNum = PhoneNum.Text,
+                        Email = string.IsNullOrWhiteSpace(Email.Text) ? null : Email.Text,
+                        PhoneNum = string.IsNullOrWhiteSpace(PhoneNum.Text) ? null : PhoneNum.Text,
                         Position = Position.Text,
                         Employment = Employment.Text,
                         Gender = Male.Checked ? Gender.Male : (Female.Checked ? Gender.Female : (Gender?)null),
-                        MessengerID = MessengerId.Text,
+                        MessengerID = string.IsNullOrWhiteSpace(MessengerId.Text) ? null : MessengerId.Text,
                         Memo = Memo.Text,
                         PhotoPath = newPhotoPath
                     };

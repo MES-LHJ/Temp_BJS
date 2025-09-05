@@ -19,11 +19,11 @@ namespace Roster
 {
     public partial class RosterEdit : MetroForm
     {
-        private string originEmployeeCode;
+        private long EmployeeId;
         public RosterEdit(RosterWorkout model)
         {
             InitializeComponent();
-            originEmployeeCode = model.EmployeeCode;
+            EmployeeId = model.EmployeeId;
             this.Load += RosterEdit_Load;
             this.PartCode.SelectedIndexChanged += PartCode_SelectedIndexChanged;
             this.Male.CheckedChanged += Male_CheckedChanged_1;
@@ -171,8 +171,11 @@ namespace Roster
                 SavedModel = new RosterWorkout
                 {
                     DepartmentId = (int)PartCode.SelectedValue,
+                    EmployeeId = EmployeeId,
                     EmployeeCode = EmployeeCo.Text,
                     EmployeeName = EmployeeName.Text,
+                    ID = ID.Text,
+                    Password = Password.Text,
                     Position = Position.Text,
                     Employment = Form_of_employment.Text,
                     Email = Email.Text,
@@ -180,7 +183,7 @@ namespace Roster
                     Gender = Male.Checked ? RosterAdd.Gender.Male : RosterAdd.Gender.Female,
                     MessengerID = MessengerId.Text,
                     Memo = Memo.Text,
-                    PhotoPath = SavedModel?.PhotoPath
+                    PhotoPath = (SavedModel?.PhotoPath) ?? null
                 };
 
                 SqlRepository.UpdateEmployee(SavedModel);

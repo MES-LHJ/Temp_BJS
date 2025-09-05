@@ -17,6 +17,10 @@ namespace Roster
         {
             cmd.Parameters.AddWithValue(name, value ?? DBNull.Value);
         }
+        public static object DbNull(this string value)
+        {
+            return string.IsNullOrWhiteSpace(value) ? (object)DBNull.Value : value;
+        }
     }
     internal class SqlRepository
     {
@@ -199,26 +203,38 @@ namespace Roster
                 RAISERROR('이미 존재하는 ID입니다.', 16, 1);
                 RETURN;
             END
-            IF EXISTS (
-                SELECT 1 FROM dbo.Employee 
-                WHERE PhoneNum = @PhoneNum)
+
+            IF @PhoneNum IS NOT NULL
             BEGIN
-                RAISERROR('이미 존재하는 전화번호입니다.', 16, 1);
-                RETURN;
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Employee 
+                    WHERE PhoneNum = @PhoneNum)
+                BEGIN
+                    RAISERROR('이미 존재하는 전화번호입니다.', 16, 1);
+                    RETURN;
+                END
             END
-            IF EXISTS (
-                SELECT 1 FROM dbo.Employee 
-                WHERE Email = @Email)
+
+            IF @Email IS NOT NULL
             BEGIN
-                RAISERROR('이미 존재하는 이메일입니다.', 16, 1);
-                RETURN;
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Employee 
+                    WHERE Email = @Email)
+                BEGIN
+                    RAISERROR('이미 존재하는 이메일입니다.', 16, 1);
+                    RETURN;
+                END
             END
-            IF EXISTS (
-                SELECT 1 FROM dbo.Employee
-                WHERE MessengerID = @MessengerID)
+
+            IF @MessengerID IS NOT NULL
             BEGIN
-                RAISERROR('이미 존재하는 메신저ID입니다.', 16, 1);
-                RETURN;
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Employee
+                    WHERE MessengerID = @MessengerID)
+                BEGIN
+                    RAISERROR('이미 존재하는 메신저ID입니다.', 16, 1);
+                    RETURN;
+                END
             END
 
             INSERT INTO dbo.Employee
@@ -233,7 +249,6 @@ namespace Roster
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.AddValue($"@{nameof(RosterWorkout.DepartmentId)}", model.DepartmentId);
-                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeId)}", model.EmployeeId);
                 cmd.AddValue($"@{nameof(RosterWorkout.EmployeeCode)}", model.EmployeeCode);
                 cmd.AddValue($"@{nameof(RosterWorkout.EmployeeName)}", model.EmployeeName);
                 cmd.AddValue($"@{nameof(RosterWorkout.ID)}", model.ID);
@@ -259,7 +274,8 @@ namespace Roster
             const string sql = @"
             IF EXISTS (
                 SELECT 1 FROM dbo.Employee
-                WHERE EmployeeId = @EmployeeId
+                WHERE EmployeeCode = @EmployeeCode
+                AND EmployeeId <> @EmployeeId)
             BEGIN
                 RAISERROR('이미 존재하는 사원 코드입니다.', 16, 1);
                 RETURN;
@@ -268,8 +284,8 @@ namespace Roster
             IF EXISTS (
                 SELECT 1 FROM dbo.Employee 
                 WHERE Email = @Email
-                    AND EmployeeId <> @EmployeeId)
                     AND @Email IS NOT NULL
+                    AND EmployeeId <> @EmployeeId)
             BEGIN
                 RAISERROR('이미 존재하는 이메일입니다.', 16, 1);
                 RETURN;
@@ -278,8 +294,8 @@ namespace Roster
             IF EXISTS (
                 SELECT 1 FROM dbo.Employee 
                 WHERE PhoneNum = @PhoneNum
-                    AND EmployeeId <> @EmployeeId)
                     AND @PhoneNum IS NOT NULL
+                    AND EmployeeId <> @EmployeeId)
             BEGIN
                 RAISERROR('이미 존재하는 전화번호입니다.', 16, 1);
                 RETURN;
@@ -288,43 +304,47 @@ namespace Roster
             IF EXISTS (
                 SELECT 1 FROM dbo.Employee
                 WHERE MessengerID = @MessengerID
-                    AND EmployeeId <> @EmployeeId)
                     AND @MessengerID IS NOT NULL
+                    AND EmployeeId <> @EmployeeId)
             BEGIN
                 RAISERROR('이미 존재하는 메신저ID입니다.', 16, 1);
                 RETURN;
             END
 
-            UPDATE dbo.Employee
-            SET  DepartmentId = @DepartmentId,
-                 EmployeeCode = @EmployeeCode,
-                 EmployeeName = @EmployeeName,
-                 ID = @ID,
-                 Password = @Password,
-                 Position = @Position,
-                 Form_of_employment = @Employment,
-                 Gender = @Gender,
-                 PhoneNum = @PhoneNum,
-                 Email = @Email,
-                 MessengerID = @MessengerID,
-                 Memo = @Memo,
-                 PhotoPath = @PhotoPath
-             WHERE EmployeeId = @EmployeeId;";
-
+           UPDATE dbo.Employee
+              SET  DepartmentId = @DepartmentId,
+                      EmployeeCode = @EmployeeCode,
+                      EmployeeName = @EmployeeName,
+                      ID = @ID,
+                      Password = @Password,
+                      Position = @Position,
+                      Form_of_employment = @Employment,
+                      Gender = @Gender,
+                      PhoneNum = @PhoneNum,
+                      Email = @Email,
+                      MessengerID = @MessengerID,
+                      Memo = @Memo,
+                      PhotoPath = @PhotoPath
+                  WHERE EmployeeId = @EmployeeId;
+              ";
 
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeId)}", model.EmployeeId);
                 cmd.AddValue($"@{nameof(RosterWorkout.DepartmentId)}", model.DepartmentId);
                 cmd.AddValue($"@{nameof(RosterWorkout.EmployeeCode)}", model.EmployeeCode);
                 cmd.AddValue($"@{nameof(RosterWorkout.EmployeeName)}", model.EmployeeName);
+                cmd.AddValue($"@{nameof(RosterWorkout.ID)}", model.ID);
+                cmd.AddValue($"@{nameof(RosterWorkout.Password)}", model.Password);
                 cmd.AddValue($"@{nameof(RosterWorkout.Position)}", model.Position);
                 cmd.AddValue($"@{nameof(RosterWorkout.Employment)}", model.Employment);
                 cmd.AddValue($"@{nameof(RosterWorkout.Gender)}", model.Gender);
-                cmd.AddValue($"@{nameof(RosterWorkout.PhoneNum)}", model.PhoneNum);
-                cmd.AddValue($"@{nameof(RosterWorkout.Email)}", model.Email);
-                cmd.AddValue($"@{nameof(RosterWorkout.MessengerID)}", model.MessengerID);
+                cmd.AddValue($"@{nameof(RosterWorkout.PhoneNum)}", model.PhoneNum.DbNull());
+                cmd.AddValue($"@{nameof(RosterWorkout.Email)}", model.Email.DbNull());
+                cmd.AddValue($"@{nameof(RosterWorkout.MessengerID)}", model.MessengerID.DbNull());
                 cmd.AddValue($"@{nameof(RosterWorkout.Memo)}", model.Memo);
+                cmd.AddValue($"@{nameof(RosterWorkout.PhotoPath)}", model.PhotoPath);
 
                 conn.Open();
                 return cmd.ExecuteNonQuery();
