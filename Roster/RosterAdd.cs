@@ -36,7 +36,7 @@ namespace Roster
             this.insertPhoto.Click += InsertPhoto_Click;
         }
 
-        private string tempPhotoPath;
+        private string photoPath;
 
         public enum Gender
         {
@@ -55,7 +55,6 @@ namespace Roster
 
             // 부서코드 콤보박스에 파싱
             //PartCode.Items.AddRange(departments.ToArray());
-            PartCode.DataSource = null;
             PartCode.DataSource = departments;
             PartCode.DisplayMember = "DepartmentCode";
             PartCode.ValueMember = "DepartmentId";
@@ -151,10 +150,11 @@ namespace Roster
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    // 이미지 pictureBox 사이즈에 맞춰서 표시
                     photo.Image = Image.FromFile(dialog.FileName);
                     photo.SizeMode = PictureBoxSizeMode.StretchImage;
 
-                    tempPhotoPath = dialog.FileName;
+                    photoPath = dialog.FileName;
                 }
             }
         }
@@ -198,7 +198,7 @@ namespace Roster
                 return;
             }
 
-            // 이메일 형식 검증
+            // 이메일 형식 검증photoPath
             //if (!IsValidEmail(Email.Text))
             //{
             //    MessageBox.Show("올바른 이메일 형식이 아닙니다.");
@@ -216,54 +216,50 @@ namespace Roster
             //    return;
             //}
 
-            if (photo.Image != null && !string.IsNullOrEmpty(tempPhotoPath))
-            {
-                try
-                {
-                    // 저장 폴더 (exe 실행 경로\picture)
-                    string imagesFolder = Path.Combine(Application.StartupPath, "picture");
-                    if (!Directory.Exists(imagesFolder))
-                        Directory.CreateDirectory(imagesFolder);
-
-                    // 원본 파일명 그대로 유지
-                    string fileName = Path.GetFileName(tempPhotoPath);
-                    string newPhotoPath = Path.Combine(imagesFolder, fileName);
-
-                    // 폴더에 복사 (이미 있으면 덮어쓰기)
-                    File.Copy(tempPhotoPath, newPhotoPath, true);
-
-                    var newModel = new RosterWorkout
-                    {
-                        DepartmentId = (int)PartCode.SelectedValue,
-                        EmployeeCode = EmployeeCode.Text,
-                        EmployeeName = EmployeeName.Text,
-                        ID = ID.Text,
-                        Password = Pass.Text,
-                        Email = string.IsNullOrWhiteSpace(Email.Text) ? null : Email.Text,
-                        PhoneNum = string.IsNullOrWhiteSpace(PhoneNum.Text) ? null : PhoneNum.Text,
-                        Position = Position.Text,
-                        Employment = Employment.Text,
-                        Gender = Male.Checked ? Gender.Male : (Female.Checked ? Gender.Female : (Gender?)null),
-                        MessengerID = string.IsNullOrWhiteSpace(MessengerId.Text) ? null : MessengerId.Text,
-                        Memo = Memo.Text,
-                        PhotoPath = newPhotoPath
-                    };
-
-
-                    SavedModel = SqlRepository.InsertEmployee(newModel);
-
-                    this.DialogResult = DialogResult.OK;
-                    MessageBox.Show("사원이 추가되었습니다.");
-                    this.Close();
-                }
-                catch (SqlException ex)
-                {
-                    MessageBox.Show($"{ex.Message}");
-                }
-            }
-            else
+            if (photo.Image == null || string.IsNullOrEmpty(photoPath))
             {
                 MessageBox.Show("사진을 선택해주세요");
+                return;
+            }
+
+            try
+            {
+                // 저장 폴더 (exe 실행 경로\picture)
+                string imagesFolder = @"C:\work\Roster\picture";
+
+                // 원본 파일명 그대로 유지
+                string fileName = Path.GetFileName(photoPath);
+                string newPhotoPath = Path.Combine(imagesFolder, fileName);
+
+                // 폴더에 복사 (이미 있으면 덮어쓰기)
+                File.Copy(photoPath, newPhotoPath, true);
+
+                var newModel = new RosterWorkout
+                {
+                    DepartmentId = (int)PartCode.SelectedValue,
+                    EmployeeCode = EmployeeCode.Text,
+                    EmployeeName = EmployeeName.Text,
+                    ID = ID.Text,
+                    Password = Pass.Text,
+                    Email = string.IsNullOrWhiteSpace(Email.Text) ? null : Email.Text,
+                    PhoneNum = string.IsNullOrWhiteSpace(PhoneNum.Text) ? null : PhoneNum.Text,
+                    Position = Position.Text,
+                    Employment = Form_of_employment.Text,
+                    Gender = Male.Checked ? Gender.Male : (Female.Checked ? Gender.Female : (Gender?)null),
+                    MessengerID = string.IsNullOrWhiteSpace(MessengerId.Text) ? null : MessengerId.Text,
+                    Memo = Memo.Text,
+                    PhotoPath = newPhotoPath
+                };
+
+                SavedModel = SqlRepository.InsertEmployee(newModel);
+
+                this.DialogResult = DialogResult.OK;
+                MessageBox.Show("사원이 추가되었습니다.");
+                this.Close();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"{ex.Message}");
             }
         }
 

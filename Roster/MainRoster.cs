@@ -41,7 +41,7 @@ namespace Roster
         private void EmployeeDataGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             // Password 컬럼의 인덱스를 확인
-            if (employeeDataGrid.Columns[e.ColumnIndex].Name == "Password" && e.Value != null)
+            if (employeeDataGrid.Columns[e.ColumnIndex].Name == "password" && e.Value != null)
             {
                 string password = e.Value.ToString();
                 if (!string.IsNullOrEmpty(password))
@@ -58,16 +58,6 @@ namespace Roster
 
         private void RefreshGrid() // 그리드 초기화
         {
-            //employeeDataGrid.DataSource = new List<RosterWorkout>()
-            //{
-            //    new RosterWorkout()
-            //    {
-            //        EmployeeCode = "", EmployeeName = "", 
-            //    }
-            //}; // 기존 데이터 소스 초기화
-            //employeeDataGrid.Refresh();
-            
-            //List<RosterWorkout> dataTable = SqlRepository.GetEmployment();
             employeeDataGrid.AutoGenerateColumns = false;  // 자동 컬럼 생성
             var employees = SqlRepository.GetEmployment()
                                    .OrderBy(d => d.DepartmentCode)

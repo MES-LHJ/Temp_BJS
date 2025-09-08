@@ -53,40 +53,6 @@ namespace Roster
         //    public const string Memo = "@Memo";
         //}
 
-        // 부서 조회
-        public static DataTable LoadRoster()
-        {
-            const string sql = @"
-                                 SELECT 
-                                    d.DepartmentCode,
-                                    d.DepartmentName,
-                                    e.EmployeeCode,
-                                    e.EmployeeName,
-                                    e.ID,
-                                    e.Password,
-                                    e.Position,
-                                    e.Form_of_employment,
-                                    e.Gender,
-                                    e.PhoneNum,
-                                    e.Email,
-                                    e.MessengerID,
-                                    e.Memo
-                                 FROM dbo.Employee AS e " +
-                                "JOIN dbo.Department AS d " +
-                                "ON e.DepartmentId = d.DepartmentId ";
-
-            using (var conn = new SqlConnection(CS))
-            using (var cmd = new SqlCommand(sql, conn))
-            using (var da = new SqlDataAdapter(cmd))
-            {
-                //cmd.AddValue(SqlEmployeeConst.EmployeeId, model.EmployeeId);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                return dt;
-            }
-        }
-
-
         /// <summary>
         /// 부서 Insert
         /// </summary>
@@ -255,7 +221,7 @@ namespace Roster
                 cmd.AddValue($"@{nameof(RosterWorkout.Password)}", model.Password);
                 cmd.AddValue($"@{nameof(RosterWorkout.Position)}", model.Position);
                 cmd.AddValue($"@{nameof(RosterWorkout.Employment)}", model.Employment);
-                cmd.AddValue($"@{nameof(RosterWorkout.Gender)}", model.Gender);
+                cmd.AddValue($"@{nameof(RosterWorkout.Gender)}", model.Gender?.ToString());
                 cmd.AddValue($"@{nameof(RosterWorkout.PhoneNum)}", model.PhoneNum);
                 cmd.AddValue($"@{nameof(RosterWorkout.Email)}", model.Email);
                 cmd.AddValue($"@{nameof(RosterWorkout.MessengerID)}", model.MessengerID);

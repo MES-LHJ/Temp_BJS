@@ -58,8 +58,9 @@ namespace Roster
                 Password = row["Password"].ToString(),
                 Position = row["Position"].ToString(),
                 Employment = row["Employment"].ToString(),
-                Gender = row["Gender"] == DBNull.Value ? (RosterAdd.Gender?)null : row["Gender"].ToString() == "Male"
-                            ? RosterAdd.Gender.Male : RosterAdd.Gender.Female,
+                //Gender = row["Gender"] == DBNull.Value ? (RosterAdd.Gender?)null : row["Gender"].ToString() == "Male"
+                //            ? RosterAdd.Gender.Male : RosterAdd.Gender.Female ? DBNull,
+                Gender = row["Gender"].ToString() == "Male" ? RosterAdd.Gender.Male : row["Gender"].ToString() == "Female" ? RosterAdd.Gender.Female : (RosterAdd.Gender?)null,
                 PhoneNum = row["PhoneNum"].ToString(),
                 Email = row["Email"].ToString(),
                 MessengerID = row["MessengerID"].ToString(),

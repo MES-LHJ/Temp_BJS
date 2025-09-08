@@ -14,16 +14,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using Roster.Models;
+using System.IO;
 
 namespace Roster
 {
     public partial class RosterEdit : MetroForm
     {
         private long EmployeeId;
+        public RosterWorkout SavedModel { get; private set; }
+        public RosterWorkout Model;
+        private string currentPhotoPath;
         public RosterEdit(RosterWorkout model)
         {
             InitializeComponent();
             EmployeeId = model.EmployeeId;
+            Model = model;
             this.Load += RosterEdit_Load;
             this.PartCode.SelectedIndexChanged += PartCode_SelectedIndexChanged;
             this.Male.CheckedChanged += Male_CheckedChanged_1;
@@ -32,24 +37,42 @@ namespace Roster
             this.changePhoto.Click += ChangePhoto_Click;
             this.Save.Click += Save_Click;
             this.Exit.Click += Exit_Click_1;
+
+            EmployeeCo.DataBindings.Add("Text", model, nameof(model.EmployeeCode));
+            EmployeeName.DataBindings.Add("Text", model, nameof(model.EmployeeName));
+            ID.DataBindings.Add("Text", model, nameof(model.ID));
+            Pass.DataBindings.Add("Text", model, nameof(model.Password));
+            Position.DataBindings.Add("Text", model, nameof(model.Position));
+            Form_of_employment.DataBindings.Add("Text", model, nameof(model.Employment));
+            Email.DataBindings.Add("Text", model, nameof(model.Email));
+            PhoneNum.DataBindings.Add("Text", model, nameof(model.PhoneNum));
+            MessengerId.DataBindings.Add("Text", model, nameof(model.MessengerID));
+            Memo.DataBindings.Add("Text", model, nameof(model.Memo));
+
+            Male.Checked = (model.Gender == RosterAdd.Gender.Male);
+            Female.Checked = (model.Gender == RosterAdd.Gender.Female);
+
+            // 사진
+            if (!string.IsNullOrEmpty(model.PhotoPath) && File.Exists(model.PhotoPath))
+            {
+                photo.Image = Image.FromFile(model.PhotoPath);
+                photo.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
         }
-
-        //public RosterEdit(int model)
-        //{
-        //    this.model=model;
-        //}
-
 
         private void RosterEdit_Load(object sender, EventArgs e) // 폼 로드 시 콤보 박스 초기화 및 정렬
         {
             //PartCode.Items.Clear(); // 부서 코드 콤보박스 초기화
 
             var departments = SqlRepository.GetDepartments() // 부서코드 오름차순 정렬
-                .OrderBy(d => d.DepartmentCode);
+                .OrderBy(d => d.DepartmentCode).ToList();
 
             //PartCode.Items.AddRange(departments.ToArray()); // 부서코드 콤보박스에 파싱
+            PartCode.DataSource = departments;
             PartCode.DisplayMember = "DepartmentCode";
             PartCode.ValueMember = "DepartmentId";
+
+
         }
 
         private void PartCode_SelectedIndexChanged(object sender, EventArgs e) // 부서 코드
@@ -125,13 +148,10 @@ namespace Roster
                 {
                     photo.Image = Image.FromFile(dialog.FileName);
                     photo.SizeMode = PictureBoxSizeMode.StretchImage;
-
-                    SavedModel.PhotoPath = dialog.FileName;
+                    currentPhotoPath = dialog.FileName;
                 }
             }
         }
-
-        public RosterWorkout SavedModel { get; private set; }
 
         private void Save_Click(object sender, EventArgs e) // 저장 버튼
         {
@@ -157,17 +177,16 @@ namespace Roster
                 return;
             }
 
-            if (!RosterAdd.IsValidEmail(Email.Text))
-            {
-                MessageBox.Show("올바른 이메일 형식이 아닙니다.");
-                Email.Focus();
-                Email.SelectAll();
-                return;
-            }
+            //if (!RosterAdd.IsValidEmail(Email.Text))
+            //{
+            //    MessageBox.Show("올바른 이메일 형식이 아닙니다.");
+            //    Email.Focus();
+            //    Email.SelectAll();
+            //    return;
+            //}
 
             try
             {
-                
                 SavedModel = new RosterWorkout
                 {
                     DepartmentId = (int)PartCode.SelectedValue,
@@ -175,15 +194,15 @@ namespace Roster
                     EmployeeCode = EmployeeCo.Text,
                     EmployeeName = EmployeeName.Text,
                     ID = ID.Text,
-                    Password = Password.Text,
+                    Password = Pass.Text,
                     Position = Position.Text,
                     Employment = Form_of_employment.Text,
                     Email = Email.Text,
                     PhoneNum = PhoneNum.Text,
-                    Gender = Male.Checked ? RosterAdd.Gender.Male : RosterAdd.Gender.Female,
+                    Gender = Male.Checked ? RosterAdd.Gender.Male : (Female.Checked ? RosterAdd.Gender.Female : (RosterAdd.Gender?)null),
                     MessengerID = MessengerId.Text,
                     Memo = Memo.Text,
-                    PhotoPath = (SavedModel?.PhotoPath) ?? null
+                    PhotoPath = currentPhotoPath ?? Model.PhotoPath
                 };
 
                 SqlRepository.UpdateEmployee(SavedModel);
