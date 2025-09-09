@@ -11,12 +11,12 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Roster
 {
     public partial class DepartmentAddEdit : MetroForm
     {
+        public DepartmentWorkout SavedModel { get; private set; }
         private bool isEditMode = false;
         public DepartmentAddEdit()
         {
@@ -32,6 +32,7 @@ namespace Roster
             partCode.Text = model.DepartmentCode;
             departName.Text = model.DepartmentName;
             memo.Text = model.Memo;
+            SavedModel = model;
             partCode.Enabled = true;
         }
 
@@ -43,9 +44,7 @@ namespace Roster
                 Save.Text = "저장";
         }
 
-        //
 
-        public DepartmentWorkout SavedModel { get; private set; }
         private void Save_Click(object sender, EventArgs e) // 저장 버튼
         {
             if (string.IsNullOrWhiteSpace(partCode.Text))
@@ -61,23 +60,22 @@ namespace Roster
 
             try
             {
-                SavedModel = new DepartmentWorkout
-                {
-                    DepartmentCode = partCode.Text,
-                    DepartmentName = departName.Text,
-                    Memo = memo.Text
-                };
+                SavedModel.DepartmentCode = partCode.Text;
+                SavedModel.DepartmentName = departName.Text;
+                SavedModel.Memo = memo.Text;
 
                 if (isEditMode)
                 {
                     SqlRepository.UpdateDepartment(SavedModel);
                     MessageBox.Show("수정되었습니다.");
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
                 {
                     SqlRepository.InsertDepartment(SavedModel);
                     MessageBox.Show("부서가 추가되었습니다.");
+                    this.DialogResult= DialogResult.OK;
                     this.Close();
                 }
             }
@@ -86,6 +84,11 @@ namespace Roster
                 MessageBox.Show($"{ex.Message}");
                 return;
             }
+            //if (DialogResult== DialogResult.OK)
+            //{
+            //    var dept = new Department();
+            //    dept.RefreshDepartmentGrid();
+            //}
         }
 
         private void Exit_Click(object sender, EventArgs e)

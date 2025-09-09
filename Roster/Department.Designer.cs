@@ -37,6 +37,7 @@
             this.partCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.departName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.memo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chart = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DepartmentDataGrid)).BeginInit();
             this.SuspendLayout();
@@ -45,54 +46,56 @@
             // 
             this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Controls.Add(this.exit, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.add, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.delete, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.edit, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(236, 25);
+            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.exit, 4, 0);
+            this.tableLayoutPanel1.Controls.Add(this.delete, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.edit, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.add, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.chart, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(188, 25);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(249, 29);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(297, 29);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // exit
             // 
-            this.exit.Location = new System.Drawing.Point(189, 3);
+            this.exit.Location = new System.Drawing.Point(239, 3);
             this.exit.Name = "exit";
-            this.exit.Size = new System.Drawing.Size(57, 23);
+            this.exit.Size = new System.Drawing.Size(55, 23);
             this.exit.TabIndex = 6;
             this.exit.Text = "닫기";
             this.exit.UseVisualStyleBackColor = true;
             // 
             // add
             // 
-            this.add.Location = new System.Drawing.Point(3, 3);
+            this.add.Location = new System.Drawing.Point(62, 3);
             this.add.Name = "add";
-            this.add.Size = new System.Drawing.Size(56, 23);
+            this.add.Size = new System.Drawing.Size(53, 23);
             this.add.TabIndex = 2;
             this.add.Text = "추가";
             this.add.UseVisualStyleBackColor = true;
             // 
             // delete
             // 
-            this.delete.Location = new System.Drawing.Point(127, 3);
+            this.delete.Location = new System.Drawing.Point(180, 3);
             this.delete.Name = "delete";
-            this.delete.Size = new System.Drawing.Size(56, 23);
+            this.delete.Size = new System.Drawing.Size(53, 23);
             this.delete.TabIndex = 5;
             this.delete.Text = "삭제";
             this.delete.UseVisualStyleBackColor = true;
             // 
             // edit
             // 
-            this.edit.Location = new System.Drawing.Point(65, 3);
+            this.edit.Location = new System.Drawing.Point(121, 3);
             this.edit.Name = "edit";
-            this.edit.Size = new System.Drawing.Size(56, 23);
+            this.edit.Size = new System.Drawing.Size(53, 23);
             this.edit.TabIndex = 4;
             this.edit.Text = "수정";
             this.edit.UseVisualStyleBackColor = true;
@@ -130,6 +133,15 @@
             this.memo.HeaderText = "메모";
             this.memo.Name = "memo";
             // 
+            // chart
+            // 
+            this.chart.Location = new System.Drawing.Point(3, 3);
+            this.chart.Name = "chart";
+            this.chart.Size = new System.Drawing.Size(53, 23);
+            this.chart.TabIndex = 7;
+            this.chart.Text = "차트";
+            this.chart.UseVisualStyleBackColor = true;
+            // 
             // Department
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -157,5 +169,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn partCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn departName;
         private System.Windows.Forms.DataGridViewTextBoxColumn memo;
+        private System.Windows.Forms.Button chart;
     }
 }

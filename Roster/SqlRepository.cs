@@ -95,7 +95,11 @@ namespace Roster
             }
         }
 
-        // 부서 Update
+        /// <summary>
+        /// 부서 Update
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static int UpdateDepartment(DepartmentWorkout model)
         {
             const string sql = @"
@@ -136,7 +140,11 @@ namespace Roster
             }
         }
 
-        // 부서 Delete
+        /// <summary>
+        /// 부서 Delete
+        /// </summary>
+        /// <param name="departmentId"></param>
+        /// <returns></returns>
         public static int DeleteDepartment(string departmentId)
         {
             const string sql = @"DELETE FROM dbo.Department WHERE DepartmentId = @DepartmentId;";
@@ -149,7 +157,11 @@ namespace Roster
             }
         }
 
-        // 사원 Insert 
+        /// <summary>
+        /// 사원 Insert 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static RosterWorkout InsertEmployee(RosterWorkout model)
         {
             const string sql = @"
@@ -234,7 +246,11 @@ namespace Roster
             return model;
         }
 
-        // 사원 Update
+        /// <summary>
+        /// 사원 Update
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static int UpdateEmployee(RosterWorkout model)
         {
             const string sql = @"
@@ -305,7 +321,7 @@ namespace Roster
                 cmd.AddValue($"@{nameof(RosterWorkout.Password)}", model.Password);
                 cmd.AddValue($"@{nameof(RosterWorkout.Position)}", model.Position);
                 cmd.AddValue($"@{nameof(RosterWorkout.Employment)}", model.Employment);
-                cmd.AddValue($"@{nameof(RosterWorkout.Gender)}", model.Gender);
+                cmd.AddValue($"@{nameof(RosterWorkout.Gender)}", model.Gender?.ToString());
                 cmd.AddValue($"@{nameof(RosterWorkout.PhoneNum)}", model.PhoneNum.DbNull());
                 cmd.AddValue($"@{nameof(RosterWorkout.Email)}", model.Email.DbNull());
                 cmd.AddValue($"@{nameof(RosterWorkout.MessengerID)}", model.MessengerID.DbNull());
@@ -317,7 +333,11 @@ namespace Roster
             }
         }
 
-        // 사원 Delete
+        /// <summary>
+        /// 사원 Delete
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         public static int DeleteEmployee(long employeeId)
         {
             const string sql = @"DELETE FROM dbo.Employee WHERE EmployeeId = @EmployeeId;";
@@ -331,6 +351,11 @@ namespace Roster
                 return cmd.ExecuteNonQuery();
             }
         }
+
+        /// <summary>
+        /// 사원조회
+        /// </summary>
+        /// <returns></returns>
         public static List<RosterWorkout> GetEmployment()
         {
             const string sql = @"
@@ -366,6 +391,10 @@ namespace Roster
             }
         }
 
+        /// <summary>
+        /// 부서조회
+        /// </summary>
+        /// <returns></returns>
         public static List<DepartmentWorkout> GetDepartments()
         {
             const string sql = "SELECT DepartmentId, DepartmentCode, DepartmentName, Memo FROM dbo.Department";
@@ -380,10 +409,42 @@ namespace Roster
                     {
                         list.Add(new DepartmentWorkout
                         {
-                            DepartmentId = Convert.ToInt32(reader["DepartmentId"]),
-                            DepartmentCode = reader["DepartmentCode"].ToString(),
-                            DepartmentName = reader["DepartmentName"].ToString(),
-                            Memo = reader["Memo"].ToString()
+                            DepartmentId = Convert.ToInt32(reader[nameof(DepartmentWorkout.DepartmentId)]),
+                            DepartmentCode = reader[nameof(DepartmentWorkout.DepartmentCode)].ToString(),
+                            DepartmentName = reader[nameof(DepartmentWorkout.DepartmentName)].ToString(),
+                            Memo = reader[nameof(DepartmentWorkout.Memo)].ToString()
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 부서별 인원수 조회
+        /// </summary>
+        /// <returns></returns>
+        public static List<DepartmentCount> GetDepartmentCount()
+        {
+            var list = new List<DepartmentCount>();
+            const string sql = @"
+                        SELECT d.DepartmentName, COUNT(e.EmployeeId) AS EmployeeCount
+                        FROM Department d
+                        LEFT JOIN Employee e ON d.DepartmentId = e.DepartmentId
+                        GROUP BY d.DepartmentName
+                    ";
+            using (SqlConnection conn = new SqlConnection(CS))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new DepartmentCount
+                        {
+                            DepartmentName = reader[nameof(DepartmentCount.DepartmentName)].ToString(),
+                            EmployeeCount = Convert.ToInt32(reader[nameof(DepartmentCount.EmployeeCount)])
                         });
                     }
                 }

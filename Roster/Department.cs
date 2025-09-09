@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Roster.Models;
 using System.Collections.Generic;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Roster
 {
@@ -14,27 +15,32 @@ namespace Roster
         {
             InitializeComponent();
             this.Load += Department_Load;
+            this.chart.Click += chart_Click;
             this.add.Click += add_Click;
             this.edit.Click += edit_Click;
             this.delete.Click += delete_Click;
             this.exit.Click += exit_Click;
         }
-        private void RefreshDepartmentGrid() // 부서 데이터 정렬 및 갱신
+        public void RefreshDepartmentGrid() // 부서 데이터 정렬 및 갱신
         {
             DepartmentDataGrid.AutoGenerateColumns = false;
-            DepartmentDataGrid.DataSource = null; // 기존 데이터 소스 초기화
-
-            List<DepartmentWorkout> departments = SqlRepository.GetDepartments()
+            var departments = SqlRepository.GetDepartments()
                 .OrderBy(d => d.DepartmentCode).ToList(); // 부서코드 기준으로 오름차순 정렬
 
             DepartmentDataGrid.DataSource = departments;
-            DepartmentDataGrid.ClearSelection(); // 초기 선택 해제
-            DepartmentDataGrid.CurrentCell = null;
         }
 
         private void Department_Load(object sender, EventArgs e) // 그리드 양식
         {
             RefreshDepartmentGrid();
+        }
+        
+        private void chart_Click(object sender, EventArgs e) // 차트
+        {
+            using (var chartForm = new deptChart())
+            {
+                chartForm.ShowDialog();
+            }
         }
 
         private void add_Click(object sender, EventArgs e) // 추가

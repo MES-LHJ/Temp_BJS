@@ -22,4 +22,10 @@ namespace Roster.Models
             return DepartmentCode;
         }
     }
+
+    public class DepartmentCount
+    {
+        public string DepartmentName { get; set; }
+        public int EmployeeCount { get; set; }
+    }
 }

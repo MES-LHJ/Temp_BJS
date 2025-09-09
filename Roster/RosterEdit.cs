@@ -72,7 +72,7 @@ namespace Roster
             PartCode.DisplayMember = "DepartmentCode";
             PartCode.ValueMember = "DepartmentId";
 
-
+            PartCode.SelectedValue = (int)Model.DepartmentId;
         }
 
         private void PartCode_SelectedIndexChanged(object sender, EventArgs e) // 부서 코드
@@ -187,6 +187,34 @@ namespace Roster
 
             try
             {
+                // 저장 폴더
+                string imagesFolder = @"C:\work\Roster\picture";
+
+                // 원본 파일이 있다면 삭제
+                if (!string.IsNullOrEmpty(Model.PhotoPath) && File.Exists(Model.PhotoPath))
+                {
+                    if (photo.Image != null)
+                    {
+                        photo.Image.Dispose();
+                        photo.Image = null;
+                    }
+                    File.Delete(Model.PhotoPath);
+                }
+
+                // 변경할 이미지 경로를 기존 이미지 경로로 설정
+                string newPhotoPath = Model.PhotoPath;
+
+                if (!string.IsNullOrEmpty(currentPhotoPath))  //변경할 이미지가 있을 경우 실행
+                {
+                    string fileName = $"{Guid.NewGuid()}{Path.GetExtension(currentPhotoPath)}";  //중복 방지를 위해 GUID를 이용 -> 새로운 파일명 생성
+                    newPhotoPath = Path.Combine(imagesFolder, fileName);
+
+                    //if (!Directory.Exists(imagesFolder))
+                    //    Directory.CreateDirectory(imagesFolder); //로컬로 수동 작업하는 이상 불필요한 코드(사진 폴더가 존재하지 않으면 폴더 생성)
+
+                    File.Copy(currentPhotoPath, newPhotoPath);
+                }
+
                 SavedModel = new RosterWorkout
                 {
                     DepartmentId = (int)PartCode.SelectedValue,
@@ -202,7 +230,7 @@ namespace Roster
                     Gender = Male.Checked ? RosterAdd.Gender.Male : (Female.Checked ? RosterAdd.Gender.Female : (RosterAdd.Gender?)null),
                     MessengerID = MessengerId.Text,
                     Memo = Memo.Text,
-                    PhotoPath = currentPhotoPath ?? Model.PhotoPath
+                    PhotoPath = newPhotoPath
                 };
 
                 SqlRepository.UpdateEmployee(SavedModel);
