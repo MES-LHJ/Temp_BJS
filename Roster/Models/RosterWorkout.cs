@@ -48,24 +48,25 @@ namespace Roster
         {
             return new RosterWorkout
             {
-                EmployeeId = Convert.ToInt32(row["EmployeeId"]),
-                DepartmentId = Convert.ToInt32(row["DepartmentId"]),
-                DepartmentCode = row["DepartmentCode"].ToString(),
-                DepartmentName = row["DepartmentName"].ToString(),
-                EmployeeCode = row["EmployeeCode"].ToString(),
-                EmployeeName = row["EmployeeName"].ToString(),
-                ID = row["ID"].ToString(),
-                Password = row["Password"].ToString(),
-                Position = row["Position"].ToString(),
-                Employment = row["Employment"].ToString(),
-                //Gender = row["Gender"] == DBNull.Value ? (RosterAdd.Gender?)null : row["Gender"].ToString() == "Male"
-                //            ? RosterAdd.Gender.Male : RosterAdd.Gender.Female ? DBNull,
-                Gender = row["Gender"].ToString() == "Male" ? RosterAdd.Gender.Male : row["Gender"].ToString() == "Female" ? RosterAdd.Gender.Female : (RosterAdd.Gender?)null,
-                PhoneNum = row["PhoneNum"].ToString(),
-                Email = row["Email"].ToString(),
-                MessengerID = row["MessengerID"].ToString(),
-                Memo = row["Memo"].ToString(),
-                PhotoPath = row["PhotoPath"].ToString()
+                EmployeeId = Convert.ToInt32(row[nameof(RosterWorkout.EmployeeId)]),
+                DepartmentId = Convert.ToInt32(row[nameof(RosterWorkout.DepartmentId)]),
+                DepartmentCode = row[nameof(RosterWorkout.DepartmentCode)].ToString(),
+                DepartmentName = row[nameof(RosterWorkout.DepartmentName)].ToString(),
+                EmployeeCode = row[nameof(RosterWorkout.EmployeeCode)].ToString(),
+                EmployeeName = row[nameof(RosterWorkout.EmployeeName)].ToString(),
+                ID = row[nameof(RosterWorkout.ID)].ToString(),
+                Password = row[nameof(RosterWorkout.Password)].ToString(),
+                Position = row[nameof(RosterWorkout.Position)].ToString(),
+                Employment = row[nameof(RosterWorkout.Employment)].ToString(),
+                Gender = row[nameof(RosterWorkout.Gender)] == DBNull.Value ? 
+                                        (RosterAdd.Gender?)null : row[nameof(RosterWorkout.Gender)].ToString() == "Male" ? 
+                                        RosterAdd.Gender.Male : RosterAdd.Gender.Female,
+                //Gender = row[nameof(RosterWorkout.Gender)].ToString() == "Male" ? RosterAdd.Gender.Male : row[nameof(RosterWorkout.Gender)].ToString() == "Female" ? RosterAdd.Gender.Female : (RosterAdd.Gender?)null,
+                PhoneNum = row[nameof(RosterWorkout.PhoneNum)].ToString(),
+                Email = row[nameof(RosterWorkout.Email)].ToString(),
+                MessengerID = row[nameof(RosterWorkout.MessengerID)].ToString(),
+                Memo = row[nameof(RosterWorkout.Memo)].ToString(),
+                PhotoPath = row[nameof(RosterWorkout.PhotoPath)].ToString()
             };
         }
 

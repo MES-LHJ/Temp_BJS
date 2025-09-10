@@ -29,6 +29,7 @@ namespace Roster
             InitializeComponent();
             EmployeeId = model.EmployeeId;
             Model = model;
+
             this.Load += RosterEdit_Load;
             this.PartCode.SelectedIndexChanged += PartCode_SelectedIndexChanged;
             this.Male.CheckedChanged += Male_CheckedChanged_1;
@@ -52,12 +53,15 @@ namespace Roster
             Male.Checked = (model.Gender == RosterAdd.Gender.Male);
             Female.Checked = (model.Gender == RosterAdd.Gender.Female);
 
-            // 사진
+            // 이미지 로드
             if (!string.IsNullOrEmpty(model.PhotoPath) && File.Exists(model.PhotoPath))
             {
-                photo.Image = Image.FromFile(model.PhotoPath);
-                photo.SizeMode = PictureBoxSizeMode.StretchImage;
+                using (var fs = new FileStream(Model.PhotoPath, FileMode.Open, FileAccess.Read))
+                {
+                    photo.Image = Image.FromStream(fs);
+                }
             }
+            photo.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void RosterEdit_Load(object sender, EventArgs e) // 폼 로드 시 콤보 박스 초기화 및 정렬
@@ -137,6 +141,7 @@ namespace Roster
             }
         }
 
+        // 이미지 변경
         private void ChangePhoto_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
@@ -146,7 +151,10 @@ namespace Roster
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    photo.Image = Image.FromFile(dialog.FileName);
+                    using (var fs = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
+                    {
+                        photo.Image = Image.FromStream(fs);
+                    }
                     photo.SizeMode = PictureBoxSizeMode.StretchImage;
                     currentPhotoPath = dialog.FileName;
                 }
@@ -195,10 +203,10 @@ namespace Roster
                 {
                     if (photo.Image != null)
                     {
-                        photo.Image.Dispose();
-                        photo.Image = null;
+                        photo.Image.Dispose(); //pictureBox가 사용하고 있던 리소스 해제
+                        photo.Image = null;   //pictureBox에 있던 이미지 제거
                     }
-                    File.Delete(Model.PhotoPath);
+                    File.Delete(Model.PhotoPath); // 실제 파일 삭제
                 }
 
                 // 변경할 이미지 경로를 기존 이미지 경로로 설정

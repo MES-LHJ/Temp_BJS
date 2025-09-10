@@ -34,11 +34,10 @@
             this.EmployeeEdit = new System.Windows.Forms.Button();
             this.LoginInfo = new System.Windows.Forms.Button();
             this.Delete = new System.Windows.Forms.Button();
-            this.Document = new System.Windows.Forms.Button();
+            this.convert = new System.Windows.Forms.Button();
             this.Department = new System.Windows.Forms.Button();
             this.Exit = new System.Windows.Forms.Button();
             this.employeeDataGrid = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.partCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.departmentName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.employeeCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,9 +52,12 @@
             this.messengerId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.memo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.photo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBoxPreview = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.employeeDataGrid)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel3
@@ -76,7 +78,7 @@
             this.tableLayoutPanel3.Controls.Add(this.EmployeeEdit, 3, 0);
             this.tableLayoutPanel3.Controls.Add(this.LoginInfo, 4, 0);
             this.tableLayoutPanel3.Controls.Add(this.Delete, 5, 0);
-            this.tableLayoutPanel3.Controls.Add(this.Document, 6, 0);
+            this.tableLayoutPanel3.Controls.Add(this.convert, 6, 0);
             this.tableLayoutPanel3.Controls.Add(this.Department, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.Exit, 7, 0);
             this.tableLayoutPanel3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
@@ -138,15 +140,15 @@
             this.Delete.Text = "삭제";
             this.Delete.UseVisualStyleBackColor = true;
             // 
-            // Document
+            // convert
             // 
-            this.Document.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Document.Location = new System.Drawing.Point(489, 3);
-            this.Document.Name = "Document";
-            this.Document.Size = new System.Drawing.Size(72, 23);
-            this.Document.TabIndex = 40;
-            this.Document.Text = "자료변환";
-            this.Document.UseVisualStyleBackColor = true;
+            this.convert.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.convert.Location = new System.Drawing.Point(489, 3);
+            this.convert.Name = "convert";
+            this.convert.Size = new System.Drawing.Size(72, 23);
+            this.convert.TabIndex = 40;
+            this.convert.Text = "자료변환";
+            this.convert.UseVisualStyleBackColor = true;
             // 
             // Department
             // 
@@ -194,15 +196,6 @@
             this.employeeDataGrid.Size = new System.Drawing.Size(1443, 382);
             this.employeeDataGrid.TabIndex = 32;
             this.employeeDataGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.EmployeeDataGrid_CellFormatting);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.employeeDataGrid);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(20, 60);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1443, 382);
-            this.panel1.TabIndex = 33;
             // 
             // partCode
             // 
@@ -288,6 +281,26 @@
             this.photo.HeaderText = "사원이미지";
             this.photo.Name = "photo";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.pictureBoxPreview);
+            this.panel1.Controls.Add(this.employeeDataGrid);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(20, 60);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1443, 382);
+            this.panel1.TabIndex = 33;
+            // 
+            // pictureBoxPreview
+            // 
+            this.pictureBoxPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxPreview.Location = new System.Drawing.Point(1088, 56);
+            this.pictureBoxPreview.Name = "pictureBoxPreview";
+            this.pictureBoxPreview.Size = new System.Drawing.Size(230, 206);
+            this.pictureBoxPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxPreview.TabIndex = 33;
+            this.pictureBoxPreview.TabStop = false;
+            // 
             // MainRoster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -302,6 +315,7 @@
             this.tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.employeeDataGrid)).EndInit();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -312,7 +326,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button Department;
         private System.Windows.Forms.Button Exit;
-        private System.Windows.Forms.Button Document;
+        private System.Windows.Forms.Button convert;
         private System.Windows.Forms.Button Delete;
         private System.Windows.Forms.Button LoginInfo;
         private System.Windows.Forms.Button EmployeeEdit;
@@ -332,6 +346,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn messengerId;
         private System.Windows.Forms.DataGridViewTextBoxColumn memo;
         private System.Windows.Forms.DataGridViewTextBoxColumn photo;
+        private System.Windows.Forms.PictureBox pictureBoxPreview;
     }
 }
 
