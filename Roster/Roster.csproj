@@ -138,9 +138,7 @@
     <Compile Include="MainRoster.Designer.cs">
       <DependentUpon>MainRoster.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\DepartmentValue.cs" />
     <Compile Include="Models\DepartmentWorkout.cs" />
-    <Compile Include="Models\EmployeeValue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RosterAdd.cs">
