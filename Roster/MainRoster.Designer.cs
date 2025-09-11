@@ -283,8 +283,8 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.pictureBoxPreview);
             this.panel1.Controls.Add(this.employeeDataGrid);
+            this.panel1.Controls.Add(this.pictureBoxPreview);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(20, 60);
             this.panel1.Name = "panel1";

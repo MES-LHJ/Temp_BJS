@@ -34,8 +34,8 @@ namespace Roster
             this.LoginInfo.Click += LoginInfo_Click;
             this.convert.Click += convert_Click;
             this.Exit.Click += Exit_Click;
-            this.EmployeeDataGrid.CellMouseEnter += EmployeeDataGridEnter;
-            this.EmployeeDataGrid.CellMouseLeave += new DataGridViewCellMouseEventHandler(this.EmployeeDataGrid_CellMouseLeave);
+            this.employeeDataGrid.CellMouseMove += new DataGridViewCellMouseEventHandler(this.EmployeeDataGrid_CellMouseMove);
+            this.employeeDataGrid.CellMouseLeave += new DataGridViewCellEventHandler(this.EmployeeDataGrid_CellMouseLeave);
 
         }
 
@@ -73,26 +73,34 @@ namespace Roster
             employeeDataGrid.DataSource = employees;
         }
 
-        private void EmployeeDataGridEnter(object sender, DataGridViewCellMouseEventArgs e)
+        private void EmployeeDataGrid_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
-        employeeDataGrid.Columns[e.ColumnIndex].Name == "PhotoPath")
+                employeeDataGrid.Columns[e.ColumnIndex].DataPropertyName == "PhotoPath")
             {
                 string photoPath = employeeDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
 
                 if (!string.IsNullOrEmpty(photoPath) && File.Exists(photoPath))
                 {
-                    // 기존 PictureBox 제거
                     RemovePreview();
 
-                    // 새 PictureBox 생성
+                    var cursorPoint = this.PointToClient(Cursor.Position);
+                    int width = 150, height = 150, margin = 15;
+
+                    int x = cursorPoint.X + margin; //기본 오른쪽
+                    int y = cursorPoint.Y + margin;
+
+                    // 만약 오른쪽 공간이 부족해지면 위치 왼쪽으로 변경
+                    if (x + width > this.ClientSize.Width) x = cursorPoint.X - width - margin;
+                    // 아래 공간이 부족해지면 위로 변경
+                    if (y + height > this.ClientSize.Height) y = cursorPoint.Y - height - margin;
+
                     pictureBoxPreview = new PictureBox
                     {
                         Image = Image.FromFile(photoPath),
                         SizeMode = PictureBoxSizeMode.Zoom,
                         Size = new Size(150, 150),
-                        BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle,
-                        Location = this.PointToClient(Cursor.Position + new Size(15, 15)) // 마우스 근처
+                        Location = new Point(x, y)
                     };
 
                     this.Controls.Add(pictureBoxPreview);
@@ -101,7 +109,8 @@ namespace Roster
             }
         }
 
-        private void EmployeeDataGrid_CellMouseLeave(object sender, DataGridViewCellMouseEventArgs e)
+
+        private void EmployeeDataGrid_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             RemovePreview();
         }
@@ -223,7 +232,7 @@ namespace Roster
                     range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                     range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
 
-                    worksheet.Column(1).AdjustToContents();
+                    //worksheet.Column(1).AdjustToContents();
                     worksheet.Columns().AdjustToContents();
 
                     workbook.SaveAs(filePath);
