@@ -1,11 +1,15 @@
 ﻿using MaterialSkin;
 using MetroFramework.Forms;
+using Roster.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -29,35 +33,41 @@ namespace Roster
             this.PhoneNum.TextChanged += PhoneNum_TextChanged;
             this.Male.CheckedChanged += Male_CheckedChanged;
             this.Female.CheckedChanged += Female_CheckedChanged;
+            this.insertPhoto.Click += InsertPhoto_Click;
         }
+
+        private string photoPath;
 
         public enum Gender
         {
             Male,
-            Female
+            Female,
         }
 
-        private Dictionary<string, string> departmentMap = new Dictionary<string, string>();
         private void RosterAdd_Load(object sender, EventArgs e) // 폼 로드 시 콤보 박스 초기화 및 정렬
         {
-            PartCode.Items.Clear();
-            departmentMap.Clear();
+            // 부서 코드 콤보박스 초기화
+            //PartCode.Items.Clear();
+
+            // 부서코드 오름차순 정렬
             var departments = SqlRepository.GetDepartments()
-                .OrderBy(d => int.TryParse(d.Code, out var n) ? n : int.MaxValue)
-                .ThenBy(d => d.Code);
-            foreach (var dept in departments)
-            {
-                PartCode.Items.Add(dept.Code);
-                departmentMap[dept.Code] = dept.Name;
-            }
+                .OrderBy(d => d.DepartmentCode).ToList();
+
+            // 부서코드 콤보박스에 파싱
+            //PartCode.Items.AddRange(departments.ToArray());
+            PartCode.DataSource = departments;
+            PartCode.DisplayMember = "DepartmentCode";
+            PartCode.ValueMember = "DepartmentId";
+
+            PartCode.SelectedIndex = -1;
         }
 
         private void PartCode_SelectedIndexChanged(object sender, EventArgs e) // 부서 코드
         {
-            string code = PartCode.SelectedItem?.ToString();
-            if (code != null && departmentMap.ContainsKey(code))
+            DepartmentWorkout departmentWorkout = PartCode.SelectedItem as DepartmentWorkout;
+            if (departmentWorkout != null)
             {
-                DepartName.Text = departmentMap[code];
+                DepartName.Text = departmentWorkout.DepartmentName;
             }
             else
             {
@@ -65,11 +75,11 @@ namespace Roster
             }
         }
 
-        private bool IsValidPassword(string password) // 비밀번호 형식 검증
-        {
-            // 영문, 숫자 포함 8자리 이상
-            return Regex.IsMatch(password, @"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
-        }
+        //private bool IsValidPassword(string password) // 비밀번호 형식 검증
+        //{
+        //    // 영문, 숫자 포함 8자리 이상
+        //    return Regex.IsMatch(password, @"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+        //}
 
         private void Male_CheckedChanged(object sender, EventArgs e)
         {
@@ -91,18 +101,19 @@ namespace Roster
             }
         }
 
-        private void PhoneNum_TextChanged(object sender, EventArgs e) // 휴대전화 번호 포맷팅
-        {
-            // 현재 커서 위치 저장
-            int oldSelectionStart = PhoneNum.SelectionStart;
-            int oldLength = PhoneNum.Text.Length;
+        private bool isFormatting = false;
 
-            // 숫자만 추출 (최대 11자리로 제한)
+        private void PhoneNum_TextChanged(object sender, EventArgs e)
+        {
+            if (isFormatting) return;
+            isFormatting = true;
+
+            int oldSelectionStart = PhoneNum.SelectionStart;
+
             string digits = new string(PhoneNum.Text.Where(char.IsDigit).ToArray());
             if (digits.Length > 11)
                 digits = digits.Substring(0, 11);
 
-            // 010으로 시작하고 11자리 이하일 때만 포맷 적용
             string formatted = digits;
             if (digits.StartsWith("010"))
             {
@@ -111,27 +122,17 @@ namespace Roster
                 else if (digits.Length > 3)
                     formatted = $"{digits.Substring(0, 3)}-{digits.Substring(3)}";
             }
-            else
-            {
-                formatted = digits;
-            }
 
-            // 값이 다를 때만 갱신 (무한루프 방지)
             if (PhoneNum.Text != formatted)
             {
-                // 하이픈 개수 차이 계산
-                int oldHyphenCount = PhoneNum.Text.Take(oldSelectionStart).Count(c => c == '-');
-                int newHyphenCount = formatted.Take(oldSelectionStart).Count(c => c == '-');
-
                 PhoneNum.Text = formatted;
-
-                // 커서 위치 보정
-                int newSelectionStart = oldSelectionStart + (newHyphenCount - oldHyphenCount);
-                PhoneNum.SelectionStart = Math.Max(0, Math.Min(newSelectionStart, PhoneNum.Text.Length));
+                PhoneNum.SelectionStart = Math.Min(oldSelectionStart, PhoneNum.Text.Length);
             }
+
+            isFormatting = false;
         }
 
-        private bool IsValidEmail(string email) // 이메일 형식 검증
+        public static bool IsValidEmail(string email) // 이메일 형식 검증
         {
             if (string.IsNullOrWhiteSpace(email))
                 return false;
@@ -140,7 +141,25 @@ namespace Roster
             return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
         }
 
-        public event Action<RosterWorkout> OnSave;
+        private void InsertPhoto_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+                dialog.Title = "사원 이미지 선택";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    // 이미지 pictureBox 사이즈에 맞춰서 표시
+                    photo.Image = Image.FromFile(dialog.FileName);
+                    photo.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                    photoPath = dialog.FileName;
+                }
+            }
+        }
+
+        public RosterWorkout SavedModel { get; private set; }
         private void Save_Click(object sender, EventArgs e) // 저장 버튼
         {
             if (string.IsNullOrWhiteSpace(PartCode.Text))
@@ -179,106 +198,69 @@ namespace Roster
                 return;
             }
 
-            // 이메일 형식 검증
-            if (!IsValidEmail(Email.Text))
+            // 이메일 형식 검증photoPath
+            //if (!IsValidEmail(Email.Text))
+            //{
+            //    MessageBox.Show("올바른 이메일 형식이 아닙니다.");
+            //    Email.Focus();
+            //    Email.SelectAll();
+            //    return;
+            //}
+
+            //if (!IsValidPassword(Pass.Text))
+            //{
+            //    // 비밀번호 규칙 x
+            //    MessageBox.Show("비밀번호는 영문, 숫자를 포함하여 8자리 이상이어야 합니다.");
+            //    Pass.Focus();
+            //    Pass.SelectAll();
+            //    return;
+            //}
+
+            if (photo.Image == null || string.IsNullOrEmpty(photoPath))
             {
-                MessageBox.Show("올바른 이메일 형식이 아닙니다.");
-                Email.Focus();
-                Email.SelectAll();
+                MessageBox.Show("사진을 선택해주세요");
                 return;
             }
 
-            if (!IsValidPassword(Pass.Text))
+            try
             {
-                // 비밀번호 규칙 x
-                MessageBox.Show("비밀번호는 영문, 숫자를 포함하여 8자리 이상이어야 합니다.");
-                Pass.Focus();
-                Pass.SelectAll();
-                return;
+                // 저장 폴더 (exe 실행 경로\picture)
+                string imagesFolder = @"C:\work\Roster\picture";
+
+                // 원본 파일명 그대로 유지
+                string fileName = Path.GetFileName(photoPath);
+                string newPhotoPath = Path.Combine(imagesFolder, fileName);
+
+                // 폴더에 복사 (이미 있으면 덮어쓰기)
+                File.Copy(photoPath, newPhotoPath, true);
+
+                var newModel = new RosterWorkout
+                {
+                    DepartmentId = (int)PartCode.SelectedValue,
+                    EmployeeCode = EmployeeCode.Text,
+                    EmployeeName = EmployeeName.Text,
+                    ID = ID.Text,
+                    Password = Pass.Text,
+                    Email = string.IsNullOrWhiteSpace(Email.Text) ? null : Email.Text,
+                    PhoneNum = string.IsNullOrWhiteSpace(PhoneNum.Text) ? null : PhoneNum.Text,
+                    Position = Position.Text,
+                    Employment = Form_of_employment.Text,
+                    Gender = Male.Checked ? Gender.Male : (Female.Checked ? Gender.Female : (Gender?)null),
+                    MessengerID = string.IsNullOrWhiteSpace(MessengerId.Text) ? null : MessengerId.Text,
+                    Memo = Memo.Text,
+                    PhotoPath = newPhotoPath
+                };
+
+                SavedModel = SqlRepository.InsertEmployee(newModel);
+
+                this.DialogResult = DialogResult.OK;
+                MessageBox.Show("사원이 추가되었습니다.");
+                this.Close();
             }
-
-            Gender selectedGender;
-            if (Male.Checked) selectedGender = Gender.Male;
-            else if (Female.Checked) selectedGender = Gender.Female;
-            else
+            catch (SqlException ex)
             {
-                MessageBox.Show("성별을 선택해주세요.");
-                return;
+                MessageBox.Show($"{ex.Message}");
             }
-
-            //Gender selectedGender = Male.Checked ? Gender.Male : Gender.Female;
-
-            //OnSave += (departmentCode, departmentName, employeeCode, employeeName, id, password,
-            //                        position, employment, gender, phoneNum, email, messengerId, memo) =>
-            //    {
-            //        // 부서 Insert 
-            //        SqlRepository.InsertDepartment(departmentCode, departmentName, null);
-
-            //        // 사원 Insert 
-            //SqlRepository.InsertEmployee(
-            //    departmentCode, departmentName,
-            //    employeeCode, employeeName,
-            //    id, password,
-            //    position, employment, gender.ToString(),
-            //    phoneNum, email, messengerId, memo
-            //);
-
-            //        // 그리드 반영 
-            //        MainRoster.EmployeeDataGrid.Rows.Add(departmentCode, departmentName, employeeCode, employeeName, id,
-            //                                password, position, employment, gender.ToString(), phoneNum, email, messengerId, memo);
-            //    };
-
-            //OnSave?.Invoke(
-            //    PartCode.Text,
-            //    DepartName.Text,
-            //    EmployeeCode.Text,
-            //    EmployeeName.Text,
-            //    ID.Text,
-            //    Pass.Text,
-            //    Position.Text,
-            //    Form_of_employment.Text,
-            //    selectedGender,
-            //    PhoneNum.Text,
-            //    Email.Text,
-            //    MessengerId.Text,
-            //    Memo.Text
-            //);
-
-            var model = new RosterWorkout
-            {
-                DepartmentCode = int.TryParse(PartCode.Text, out var deptCode) ? deptCode : 0,
-                DepartmentName = DepartName.Text,
-                EmployeeCode = int.TryParse(EmployeeCode.Text, out var empCode) ? empCode : 0,
-                EmployeeName = EmployeeName.Text,
-                ID = ID.Text,
-                Password = Pass.Text,
-                Position = Position.Text,
-                Employment = Form_of_employment.Text,
-                Gender = selectedGender,
-                PhoneNum = PhoneNum.Text,
-                Email = Email.Text,
-                MessengerID = MessengerId.Text,
-                Memo = Memo.Text,
-            };
-
-            SqlRepository.InsertEmployee(
-                model.DepartmentCode,
-                model.DepartmentName,
-                model.EmployeeCode,
-                model.EmployeeName,
-                model.ID,
-                model.Password,
-                model.Position,
-                model.Employment,
-                model.Gender.ToString(),
-                model.PhoneNum,
-                model.Email,
-                model.MessengerID,
-                model.Memo
-            );
-            OnSave?.Invoke(model);
-            MessageBox.Show("사원이 추가되었습니다.");
-            this.Close(); // 폼 닫기
         }
 
         private void Exit_Click(object sender, EventArgs e) // 닫기

@@ -1,173 +1,404 @@
-﻿using System;
+﻿using Roster.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static Roster.RosterAdd;
 
 namespace Roster
 {
+    public static class Repetition
+    {
+        public static void AddValue(this SqlCommand cmd, string name, object value)
+        {
+            cmd.Parameters.AddWithValue(name, value ?? DBNull.Value);
+        }
+        public static object DbNull(this string value)
+        {
+            return string.IsNullOrWhiteSpace(value) ? (object)DBNull.Value : value;
+        }
+    }
     internal class SqlRepository
     {
         private const string CS = "Server=DESKTOP-6VSVCKC\\JSTESTSERVER;Database=WorkTestDB;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;";
 
-        // 부서 Insert (코드 기준)
-        public static int InsertDepartment(string partCode, string departmentName, string memo)
+        //public static class SqlDepartConst
+        //{
+        //    public const string DepartmentId = "@DepartmentId";
+        //    public const string DepartmentCode = "@DepartmentCode";
+        //    public const string DepartmentName = "@DepartmentName";
+        //    public const string Memo = "@Memo";
+        //}
+
+        //public static class SqlEmployeeConst
+        //{
+        //    public const string DepartmentId = "@DepartmentId";
+        //    public const string EmployeeId = "@EmployeeId";
+        //    public const string DepartmentCode = "@DepartmentCode";
+        //    public const string DepartmentName = "@DepartmentName";
+        //    public const string EmployeeCode = "@EmployeeCode";
+        //    public const string EmployeeName = "@EmployeeName";
+        //    public const string ID = "@ID";
+        //    public const string Password = "@Password";
+        //    public const string Position = "@Position";
+        //    public const string Employment = "@Employment";
+        //    public const string Gender = "@Gender";
+        //    public const string PhoneNum = "@PhoneNum";
+        //    public const string Email = "@Email";
+        //    public const string MessengerID = "@MessengerID";
+        //    public const string Memo = "@Memo";
+        //}
+
+        /// <summary>
+        /// 부서 Insert
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static int InsertDepartment(DepartmentWorkout model)
         {
+            // 부서 코드 및 부서명 중복 체크
             const string sql = @"
-            MERGE dbo.Department AS T
-            USING (SELECT @DepartmentCode AS DepartmentCode,
-                          @DepartmentName AS DepartmentName,
-                          @Memo AS Memo) AS S
-            ON (T.DepartmentCode = S.DepartmentCode)
-            WHEN MATCHED THEN
-              UPDATE SET T.DepartmentName = S.DepartmentName,
-                         T.Memo = S.Memo
-            WHEN NOT MATCHED THEN
-              INSERT (DepartmentCode, DepartmentName, Memo)
-              VALUES (S.DepartmentCode, S.DepartmentName, S.Memo);";
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Department 
+                    WHERE DepartmentCode = @DepartmentCode)
+                BEGIN
+                    RAISERROR('이미 존재하는 부서 코드입니다.', 16, 1);
+                    RETURN;
+                END
+
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Department 
+                    WHERE DepartmentName = @DepartmentName)
+                BEGIN
+                    RAISERROR('이미 존재하는 부서명입니다.', 16, 1);
+                    RETURN;
+                END
+
+               INSERT INTO dbo.Department (DepartmentCode, DepartmentName, Memo)
+                VALUES (@DepartmentCode, @DepartmentName, @Memo);
+            ";
 
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("@DepartmentCode", (object)partCode ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@DepartmentName", (object)departmentName ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Memo", (object)memo ?? DBNull.Value);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentId)}", model.DepartmentId);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentCode)}", model.DepartmentCode);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentName)}", model.DepartmentName);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.Memo)}", model.Memo);
+
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
         }
 
-        // 사원 Insert 
-        public static int InsertEmployee(
-            int partCode, string departmentName,
-            int employeeCode, string employeeName,
-            string id, string password,
-            string position, string employment, string gender,
-            string phoneNum, string email, string messengerId, string memo)
+        /// <summary>
+        /// 부서 Update
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static int UpdateDepartment(DepartmentWorkout model)
         {
             const string sql = @"
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Department 
+                    WHERE DepartmentCode = @DepartmentCode
+                        AND DepartmentId <> @DepartmentId)
+                BEGIN
+                    RAISERROR('이미 존재하는 부서 코드입니다.', 16, 1);
+                    RETURN;
+                END
+
+                IF EXISTS(
+                    SELECT 1 FROM dbo.Department 
+                    WHERE DepartmentName = @DepartmentName
+                        AND DepartmentId <> @DepartmentId)
+                BEGIN
+                    RAISERROR('이미 존재하는 부서명입니다.', 16, 1);
+                    RETURN;
+                END
+
+                UPDATE dbo.Department
+                SET DepartmentCode = @DepartmentCode,
+                    DepartmentName = @DepartmentName,
+                    Memo = @Memo
+                WHERE DepartmentId = @DepartmentId
+            ";
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentId)}", model.DepartmentId);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentCode)}", model.DepartmentCode);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentName)}", model.DepartmentName);
+                cmd.AddValue($"@{nameof(DepartmentWorkout.Memo)}", model.Memo);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>
+        /// 부서 Delete
+        /// </summary>
+        /// <param name="departmentId"></param>
+        /// <returns></returns>
+        public static int DeleteDepartment(string departmentId)
+        {
+            const string sql = @"DELETE FROM dbo.Department WHERE DepartmentId = @DepartmentId;";
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.AddValue($"@{nameof(DepartmentWorkout.DepartmentId)}", departmentId);
+                conn.Open();
+                return cmd.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>
+        /// 사원 Insert 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static RosterWorkout InsertEmployee(RosterWorkout model)
+        {
+            const string sql = @"
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee 
+                WHERE EmployeeCode = @EmployeeCode)
+
+            BEGIN
+                RAISERROR('이미 존재하는 사원 코드입니다.', 16, 1);
+                RETURN;
+            END
+
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee 
+                WHERE [ID] = @ID)
+            BEGIN
+                RAISERROR('이미 존재하는 ID입니다.', 16, 1);
+                RETURN;
+            END
+
+            IF @PhoneNum IS NOT NULL
+            BEGIN
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Employee 
+                    WHERE PhoneNum = @PhoneNum)
+                BEGIN
+                    RAISERROR('이미 존재하는 전화번호입니다.', 16, 1);
+                    RETURN;
+                END
+            END
+
+            IF @Email IS NOT NULL
+            BEGIN
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Employee 
+                    WHERE Email = @Email)
+                BEGIN
+                    RAISERROR('이미 존재하는 이메일입니다.', 16, 1);
+                    RETURN;
+                END
+            END
+
+            IF @MessengerID IS NOT NULL
+            BEGIN
+                IF EXISTS (
+                    SELECT 1 FROM dbo.Employee
+                    WHERE MessengerID = @MessengerID)
+                BEGIN
+                    RAISERROR('이미 존재하는 메신저ID입니다.', 16, 1);
+                    RETURN;
+                END
+            END
+
             INSERT INTO dbo.Employee
-            ( DepartmentId, DepartmentCode, DepartmentName, EmployeeCode, EmployeeName, [ID], [Password],
-              [Position], Form_of_employment, Gender, PhoneNum, Email, MessengerID, Memo )
-            SELECT
-              d.DepartmentId, @DepartmentCode, @DepartmentName,
-              @EmployeeCode, @EmployeeName, @ID, @Password,
-              @Position, @Employment, @Gender, @PhoneNum, @Email, @MessengerID, @Memo
-            FROM dbo.Department AS d
-            WHERE d.DepartmentCode = @DepartmentCode;";
+            ( DepartmentId, EmployeeCode, EmployeeName, [ID], [Password],
+              [Position], Form_of_employment, Gender, PhoneNum, Email, MessengerID, Memo, PhotoPath)
+            VALUES
+            (@DepartmentId, @EmployeeCode, @EmployeeName, @ID, @Password,
+            @Position, @Employment, @Gender, @PhoneNum, @Email, @MessengerID, @Memo, @PhotoPath)
+            ;";
 
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("@DepartmentCode", (object)partCode ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@DepartmentName", (object)departmentName ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@EmployeeCode", (object)employeeCode ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@EmployeeName", (object)employeeName ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ID", (object)id ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Password", (object)password ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Position", (object)position ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Employment", (object)employment ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Gender", (object)gender ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@PhoneNum", (object)phoneNum ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Email", (object)email ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@MessengerID", (object)messengerId ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Memo", (object)memo ?? DBNull.Value);
+                cmd.AddValue($"@{nameof(RosterWorkout.DepartmentId)}", model.DepartmentId);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeCode)}", model.EmployeeCode);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeName)}", model.EmployeeName);
+                cmd.AddValue($"@{nameof(RosterWorkout.ID)}", model.ID);
+                cmd.AddValue($"@{nameof(RosterWorkout.Password)}", model.Password);
+                cmd.AddValue($"@{nameof(RosterWorkout.Position)}", model.Position);
+                cmd.AddValue($"@{nameof(RosterWorkout.Employment)}", model.Employment);
+                cmd.AddValue($"@{nameof(RosterWorkout.Gender)}", model.Gender?.ToString());
+                cmd.AddValue($"@{nameof(RosterWorkout.PhoneNum)}", model.PhoneNum);
+                cmd.AddValue($"@{nameof(RosterWorkout.Email)}", model.Email);
+                cmd.AddValue($"@{nameof(RosterWorkout.MessengerID)}", model.MessengerID);
+                cmd.AddValue($"@{nameof(RosterWorkout.Memo)}", model.Memo);
+                cmd.AddValue($"@{nameof(RosterWorkout.PhotoPath)}", model.PhotoPath);
+
                 conn.Open();
-                return cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
             }
+            return model;
         }
 
-        // 사원 Update (사원코드 기준)
-        public static int UpdateEmployee(
-            string employeeCode, string departmentName,
-            string partCode, string employeeName,
-            string position, string employment, string gender,
-            string phoneNum, string email, string messengerId, string memo)
+        /// <summary>
+        /// 사원 Update
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static int UpdateEmployee(RosterWorkout model)
         {
             const string sql = @"
-            UPDATE e
-            SET e.DepartmentId = d.DepartmentId,
-                e.DepartmentCode = @DepartmentCode,
-                e.DepartmentName = @DepartmentName,
-                e.EmployeeCode = @EmployeeCode,
-                e.EmployeeName = @EmployeeName,
-                e.[Position] = @Position,
-                e.Form_of_employment = @Employment,
-                e.Gender = @Gender,
-                e.PhoneNum = @PhoneNum,
-                e.Email = @Email,
-                e.MessengerID = @MessengerID,
-                e.Memo = @Memo
-            FROM dbo.Employee AS e
-            JOIN dbo.Department AS d ON d.DepartmentCode = @DepartmentCode
-            WHERE e.EmployeeCode = @EmployeeCode;";
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee
+                WHERE EmployeeCode = @EmployeeCode
+                AND EmployeeId <> @EmployeeId)
+            BEGIN
+                RAISERROR('이미 존재하는 사원 코드입니다.', 16, 1);
+                RETURN;
+            END
+
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee 
+                WHERE Email = @Email
+                    AND @Email IS NOT NULL
+                    AND EmployeeId <> @EmployeeId)
+            BEGIN
+                RAISERROR('이미 존재하는 이메일입니다.', 16, 1);
+                RETURN;
+            END
+
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee 
+                WHERE PhoneNum = @PhoneNum
+                    AND @PhoneNum IS NOT NULL
+                    AND EmployeeId <> @EmployeeId)
+            BEGIN
+                RAISERROR('이미 존재하는 전화번호입니다.', 16, 1);
+                RETURN;
+            END
+
+            IF EXISTS (
+                SELECT 1 FROM dbo.Employee
+                WHERE MessengerID = @MessengerID
+                    AND @MessengerID IS NOT NULL
+                    AND EmployeeId <> @EmployeeId)
+            BEGIN
+                RAISERROR('이미 존재하는 메신저ID입니다.', 16, 1);
+                RETURN;
+            END
+
+           UPDATE dbo.Employee
+              SET  DepartmentId = @DepartmentId,
+                      EmployeeCode = @EmployeeCode,
+                      EmployeeName = @EmployeeName,
+                      ID = @ID,
+                      Password = @Password,
+                      Position = @Position,
+                      Form_of_employment = @Employment,
+                      Gender = @Gender,
+                      PhoneNum = @PhoneNum,
+                      Email = @Email,
+                      MessengerID = @MessengerID,
+                      Memo = @Memo,
+                      PhotoPath = @PhotoPath
+                  WHERE EmployeeId = @EmployeeId;
+              ";
 
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("@DepartmentCode", (object)partCode ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@DepartmentName", (object)departmentName ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@EmployeeCode", (object)employeeCode ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@EmployeeName", (object)employeeName ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Position", (object)position ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Employment", (object)employment ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Gender", (object)gender ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@PhoneNum", (object)phoneNum ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Email", (object)email ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@MessengerID", (object)messengerId ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Memo", (object)memo ?? DBNull.Value);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeId)}", model.EmployeeId);
+                cmd.AddValue($"@{nameof(RosterWorkout.DepartmentId)}", model.DepartmentId);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeCode)}", model.EmployeeCode);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeName)}", model.EmployeeName);
+                cmd.AddValue($"@{nameof(RosterWorkout.ID)}", model.ID);
+                cmd.AddValue($"@{nameof(RosterWorkout.Password)}", model.Password);
+                cmd.AddValue($"@{nameof(RosterWorkout.Position)}", model.Position);
+                cmd.AddValue($"@{nameof(RosterWorkout.Employment)}", model.Employment);
+                cmd.AddValue($"@{nameof(RosterWorkout.Gender)}", model.Gender?.ToString());
+                cmd.AddValue($"@{nameof(RosterWorkout.PhoneNum)}", model.PhoneNum.DbNull());
+                cmd.AddValue($"@{nameof(RosterWorkout.Email)}", model.Email.DbNull());
+                cmd.AddValue($"@{nameof(RosterWorkout.MessengerID)}", model.MessengerID.DbNull());
+                cmd.AddValue($"@{nameof(RosterWorkout.Memo)}", model.Memo);
+                cmd.AddValue($"@{nameof(RosterWorkout.PhotoPath)}", model.PhotoPath);
+
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
         }
 
-        // 사원 Delete (사원코드 기준)
-        public static int DeleteEmployeeByCode(string employeeCode)
+        /// <summary>
+        /// 사원 Delete
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
+        public static int DeleteEmployee(long employeeId)
         {
-            const string sql = @"DELETE FROM dbo.Employee WHERE EmployeeCode = @EmployeeCode;";
+            const string sql = @"DELETE FROM dbo.Employee WHERE EmployeeId = @EmployeeId;";
+
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("@EmployeeCode", (object)employeeCode ?? DBNull.Value);
+                cmd.AddValue($"@{nameof(RosterWorkout.EmployeeId)}", employeeId);
+
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
         }
-        public static DataTable GetEmployeeWithDepartment()
+
+        /// <summary>
+        /// 사원조회
+        /// </summary>
+        /// <returns></returns>
+        public static List<RosterWorkout> GetEmployment()
         {
             const string sql = @"
         SELECT 
+            e.DepartmentId,
             d.DepartmentCode,
             d.DepartmentName,
+            e.EmployeeId,
             e.EmployeeCode,
             e.EmployeeName,
             e.ID,
             e.Password,
             e.Position,
-            e.Form_of_employment,
+            e.Form_of_employment AS Employment,
             e.Gender,
             e.PhoneNum,
             e.Email,
             e.MessengerID,
-            e.Memo
+            e.Memo,
+            e.PhotoPath
         FROM dbo.Employee e
         JOIN dbo.Department d ON e.DepartmentId = d.DepartmentId";
 
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
-            using (var da = new SqlDataAdapter(cmd))
+            using (var adapter = new SqlDataAdapter(cmd))
             {
                 var dt = new DataTable();
-                da.Fill(dt);
-                return dt;
+                adapter.Fill(dt);
+                return dt.AsEnumerable()
+                         .Select(RosterWorkout.DataRow)
+                         .ToList();
             }
         }
-        public static List<(string Code, string Name)> GetDepartments()
+
+        /// <summary>
+        /// 부서조회
+        /// </summary>
+        /// <returns></returns>
+        public static List<DepartmentWorkout> GetDepartments()
         {
-            const string sql = "SELECT DepartmentCode, DepartmentName FROM dbo.Department";
-            var list = new List<(string, string)>();
+            const string sql = "SELECT DepartmentId, DepartmentCode, DepartmentName, Memo FROM dbo.Department";
+            var list = new List<DepartmentWorkout>();
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -176,7 +407,45 @@ namespace Roster
                 {
                     while (reader.Read())
                     {
-                        list.Add((reader["DepartmentCode"].ToString(), reader["DepartmentName"].ToString()));
+                        list.Add(new DepartmentWorkout
+                        {
+                            DepartmentId = Convert.ToInt32(reader[nameof(DepartmentWorkout.DepartmentId)]),
+                            DepartmentCode = reader[nameof(DepartmentWorkout.DepartmentCode)].ToString(),
+                            DepartmentName = reader[nameof(DepartmentWorkout.DepartmentName)].ToString(),
+                            Memo = reader[nameof(DepartmentWorkout.Memo)].ToString()
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 부서별 인원수 조회
+        /// </summary>
+        /// <returns></returns>
+        public static List<DepartmentCount> GetDepartmentCount()
+        {
+            var list = new List<DepartmentCount>();
+            const string sql = @"
+                        SELECT d.DepartmentName, COUNT(e.EmployeeId) AS EmployeeCount
+                        FROM Department d
+                        LEFT JOIN Employee e ON d.DepartmentId = e.DepartmentId
+                        GROUP BY d.DepartmentName
+                    ";
+            using (SqlConnection conn = new SqlConnection(CS))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new DepartmentCount
+                        {
+                            DepartmentName = reader[nameof(DepartmentCount.DepartmentName)].ToString(),
+                            EmployeeCount = Convert.ToInt32(reader[nameof(DepartmentCount.EmployeeCount)])
+                        });
                     }
                 }
             }

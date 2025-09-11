@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,11 +17,16 @@ namespace Roster
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             using (var loginForm = new Login())
             {
                 if (loginForm.ShowDialog() == DialogResult.OK)
                 {
                     Application.Run(new MainRoster());
+                }
+                else
+                {
+                    Application.Exit();
                 }
             }
             //Application.Run(new Login());

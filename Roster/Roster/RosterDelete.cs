@@ -1,8 +1,10 @@
 ﻿using MetroFramework.Forms;
+using Roster.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,50 +16,48 @@ namespace Roster
 {
     public partial class RosterDelete : MetroForm
     {
-        private MainRoster _parentForm;
-        public RosterDelete(MainRoster parentForm, string code, string name)
+        private readonly RosterWorkout roster;
+        public RosterDelete(RosterWorkout roster)
         {
             InitializeComponent();
-            _parentForm = parentForm;
+            this.Delete.Click += Delete_Click;
+            this.Cancel.Click += Cancel_Click;
+            this.roster = roster;
 
-            RosterCode.Text = code;
-            RosterName.Text = name;
+            RosterCode.Text = roster.EmployeeCode;
+            RosterName.Text = roster.EmployeeName;
         }
-        private void button1_Click(object sender, EventArgs e)
+
+
+
+        private void Delete_Click(object sender, EventArgs e)
         {
-            // DB 삭제
-            var codeToDelete = RosterCode.Text?.Trim();
-            if (!string.IsNullOrEmpty(codeToDelete))
+            try
             {
-                SqlRepository.DeleteEmployeeByCode(codeToDelete);
-            }
+                Console.WriteLine($"삭제 시도 EmployeeId = {roster.EmployeeId}");
+                var result = SqlRepository.DeleteEmployee(roster.EmployeeId);
+                Console.WriteLine($"삭제된 행 수 = {result}");
 
-            // 선택된 행 삭제
-            if (_parentForm.EmployeeDataGrid.SelectedCells.Count == 0)
-            {
-                MessageBox.Show("삭제할 행을 선택해주세요.");
-                return;
-            }
-
-            var rowIndexes = _parentForm.EmployeeDataGrid.SelectedCells
-                .Cast<DataGridViewCell>()
-                .Select(c => c.RowIndex)
-                .Distinct()
-                .OrderByDescending(i => i);
-
-            foreach (var rowIndex in rowIndexes)
-            {
-                if (rowIndex >= 0 &&
-                    rowIndex < _parentForm.EmployeeDataGrid.Rows.Count &&
-                    !_parentForm.EmployeeDataGrid.Rows[rowIndex].IsNewRow)
+                if (result > 0)
                 {
-                    _parentForm.EmployeeDataGrid.Rows.RemoveAt(rowIndex);
+                    MessageBox.Show("삭제되었습니다.");
                 }
+                else
+                {
+                    MessageBox.Show("삭제할 데이터가 없습니다. (조건 불일치)");
+                }
+
+                //SqlRepository.DeleteEmployee(roster.EmployeeId);
+                //MessageBox.Show("삭제되었습니다.");
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
-            MessageBox.Show("삭제되었습니다.");
-            this.Close();
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
-        private void button2_Click(object sender, EventArgs e)
+        private void Cancel_Click(object sender, EventArgs e)
         {
             this.Close(); // 폼 닫기
         }
