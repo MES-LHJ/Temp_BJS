@@ -33,16 +33,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Charts.v21.2.Core, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.Desktop.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.DataAccess.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.DataAccess.v21.2.UI, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.DataVisualization.v21.2.Core, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Office.v21.2.Core, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v21.2.Core, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.RichEdit.v21.2.Core, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Sparkline.v21.2.Core, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Spreadsheet.v21.2.Core, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v21.2.UI, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraBars.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v21.2.UI, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v21.2.Wizard, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGrid.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraNavBar.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraPrinting.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraRichEdit.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraSpreadsheet.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraTreeList.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraTreeMap.v21.2, Version=21.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -68,11 +84,65 @@
     <Compile Include="Auth\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dept\DeptAddEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dept\DeptAddEdit.Designer.cs">
+      <DependentUpon>DeptAddEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dept\DeptChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dept\DeptChart.Designer.cs">
+      <DependentUpon>DeptChart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dept\Department.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dept\Department.Designer.cs">
+      <DependentUpon>Department.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dept\DeptDelete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dept\DeptDelete.Designer.cs">
+      <DependentUpon>DeptDelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dept\Tree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dept\Tree.Designer.cs">
+      <DependentUpon>Tree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dept\UpperDept.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dept\UpperDept.Designer.cs">
+      <DependentUpon>UpperDept.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dept\UpperDeptAddEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dept\UpperDeptAddEdit.Designer.cs">
+      <DependentUpon>UpperDeptAddEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dept\UpperDeptDelete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dept\UpperDeptDelete.Designer.cs">
+      <DependentUpon>UpperDeptDelete.cs</DependentUpon>
+    </Compile>
     <Compile Include="Emp\EmpAdd.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emp\EmpAdd.Designer.cs">
       <DependentUpon>EmpAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Emp\EmpDelete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emp\EmpDelete.Designer.cs">
+      <DependentUpon>EmpDelete.cs</DependentUpon>
     </Compile>
     <Compile Include="Emp\EmpEdit.cs">
       <SubType>Form</SubType>
@@ -86,19 +156,58 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Empworkout.cs" />
+    <Compile Include="Dept\MultiAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dept\MultiAdd.Designer.cs">
+      <DependentUpon>MultiAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlReposit.cs" />
+    <Compile Include="UtilClass\Util.cs" />
     <EmbeddedResource Include="Auth\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dept\Department.resx">
+      <DependentUpon>Department.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dept\DeptAddEdit.resx">
+      <DependentUpon>DeptAddEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dept\DeptChart.resx">
+      <DependentUpon>DeptChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dept\DeptDelete.resx">
+      <DependentUpon>DeptDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dept\Tree.resx">
+      <DependentUpon>Tree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dept\UpperDept.resx">
+      <DependentUpon>UpperDept.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dept\UpperDeptAddEdit.resx">
+      <DependentUpon>UpperDeptAddEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dept\UpperDeptDelete.resx">
+      <DependentUpon>UpperDeptDelete.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emp\EmpAdd.resx">
       <DependentUpon>EmpAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Emp\EmpDelete.resx">
+      <DependentUpon>EmpDelete.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Emp\EmpEdit.resx">
       <DependentUpon>EmpEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dept\MultiAdd.resx">
+      <DependentUpon>MultiAdd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -123,5 +232,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

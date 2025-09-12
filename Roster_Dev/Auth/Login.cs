@@ -18,7 +18,7 @@ namespace Roster_Dev
             AddEvent();
         }
 
-        public void AddEvent()
+        private void AddEvent()
         {
             this.AcceptButton = this.loginBtn;
             this.loginBtn.Click += loginBtn_Click;
@@ -27,10 +27,15 @@ namespace Roster_Dev
 
         private void loginBtn_Click(object sender, EventArgs e)
         {
-            using (var Form = new Main())
-            {
-                Form.ShowDialog();
-            }
+            //using (var Form = new Main())
+            //{
+            //    Form.ShowDialog();
+            //    if (Form.DialogResult == DialogResult.OK)
+            //    {
+            //        this.Close();
+            //    }
+            //}
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 

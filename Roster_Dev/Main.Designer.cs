@@ -31,11 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.stackPanel1 = new DevExpress.Utils.Layout.StackPanel();
-            this.dptBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.deptBtn = new DevExpress.XtraEditors.SimpleButton();
             this.reference = new DevExpress.XtraEditors.SimpleButton();
             this.addBtn = new DevExpress.XtraEditors.SimpleButton();
             this.multiAddBtn = new DevExpress.XtraEditors.SimpleButton();
-            this.updateBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.editBtn = new DevExpress.XtraEditors.SimpleButton();
             this.loginInfoBtn = new DevExpress.XtraEditors.SimpleButton();
             this.deleteBtn = new DevExpress.XtraEditors.SimpleButton();
             this.convertBtn = new DevExpress.XtraEditors.SimpleButton();
@@ -88,11 +88,11 @@
             // stackPanel1
             // 
             this.stackPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.stackPanel1.Controls.Add(this.dptBtn);
+            this.stackPanel1.Controls.Add(this.deptBtn);
             this.stackPanel1.Controls.Add(this.reference);
             this.stackPanel1.Controls.Add(this.addBtn);
             this.stackPanel1.Controls.Add(this.multiAddBtn);
-            this.stackPanel1.Controls.Add(this.updateBtn);
+            this.stackPanel1.Controls.Add(this.editBtn);
             this.stackPanel1.Controls.Add(this.loginInfoBtn);
             this.stackPanel1.Controls.Add(this.deleteBtn);
             this.stackPanel1.Controls.Add(this.convertBtn);
@@ -102,25 +102,25 @@
             this.stackPanel1.Size = new System.Drawing.Size(552, 39);
             this.stackPanel1.TabIndex = 1;
             // 
-            // dptBtn
+            // deptBtn
             // 
-            this.dptBtn.Appearance.BackColor = System.Drawing.Color.Silver;
-            this.dptBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
-            this.dptBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dptBtn.Appearance.Options.UseBackColor = true;
-            this.dptBtn.Appearance.Options.UseBorderColor = true;
-            this.dptBtn.Appearance.Options.UseFont = true;
-            this.dptBtn.AppearanceDisabled.BorderColor = System.Drawing.Color.Transparent;
-            this.dptBtn.AppearanceDisabled.Options.UseBorderColor = true;
-            this.dptBtn.AppearanceHovered.BorderColor = System.Drawing.Color.Transparent;
-            this.dptBtn.AppearanceHovered.Options.UseBorderColor = true;
-            this.dptBtn.AppearancePressed.BorderColor = System.Drawing.Color.Transparent;
-            this.dptBtn.AppearancePressed.Options.UseBorderColor = true;
-            this.dptBtn.Location = new System.Drawing.Point(3, 1);
-            this.dptBtn.Name = "dptBtn";
-            this.dptBtn.Size = new System.Drawing.Size(51, 37);
-            this.dptBtn.TabIndex = 0;
-            this.dptBtn.Text = "부서";
+            this.deptBtn.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.deptBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
+            this.deptBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deptBtn.Appearance.Options.UseBackColor = true;
+            this.deptBtn.Appearance.Options.UseBorderColor = true;
+            this.deptBtn.Appearance.Options.UseFont = true;
+            this.deptBtn.AppearanceDisabled.BorderColor = System.Drawing.Color.Transparent;
+            this.deptBtn.AppearanceDisabled.Options.UseBorderColor = true;
+            this.deptBtn.AppearanceHovered.BorderColor = System.Drawing.Color.Transparent;
+            this.deptBtn.AppearanceHovered.Options.UseBorderColor = true;
+            this.deptBtn.AppearancePressed.BorderColor = System.Drawing.Color.Transparent;
+            this.deptBtn.AppearancePressed.Options.UseBorderColor = true;
+            this.deptBtn.Location = new System.Drawing.Point(3, 1);
+            this.deptBtn.Name = "deptBtn";
+            this.deptBtn.Size = new System.Drawing.Size(51, 37);
+            this.deptBtn.TabIndex = 0;
+            this.deptBtn.Text = "부서";
             // 
             // reference
             // 
@@ -182,25 +182,25 @@
             this.multiAddBtn.TabIndex = 3;
             this.multiAddBtn.Text = "다중추가";
             // 
-            // updateBtn
+            // editBtn
             // 
-            this.updateBtn.Appearance.BackColor = System.Drawing.Color.Silver;
-            this.updateBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
-            this.updateBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.updateBtn.Appearance.Options.UseBackColor = true;
-            this.updateBtn.Appearance.Options.UseBorderColor = true;
-            this.updateBtn.Appearance.Options.UseFont = true;
-            this.updateBtn.AppearanceDisabled.BorderColor = System.Drawing.Color.Transparent;
-            this.updateBtn.AppearanceDisabled.Options.UseBorderColor = true;
-            this.updateBtn.AppearanceHovered.BorderColor = System.Drawing.Color.Transparent;
-            this.updateBtn.AppearanceHovered.Options.UseBorderColor = true;
-            this.updateBtn.AppearancePressed.BorderColor = System.Drawing.Color.Transparent;
-            this.updateBtn.AppearancePressed.Options.UseBorderColor = true;
-            this.updateBtn.Location = new System.Drawing.Point(239, 1);
-            this.updateBtn.Name = "updateBtn";
-            this.updateBtn.Size = new System.Drawing.Size(51, 37);
-            this.updateBtn.TabIndex = 4;
-            this.updateBtn.Text = "수정";
+            this.editBtn.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.editBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
+            this.editBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editBtn.Appearance.Options.UseBackColor = true;
+            this.editBtn.Appearance.Options.UseBorderColor = true;
+            this.editBtn.Appearance.Options.UseFont = true;
+            this.editBtn.AppearanceDisabled.BorderColor = System.Drawing.Color.Transparent;
+            this.editBtn.AppearanceDisabled.Options.UseBorderColor = true;
+            this.editBtn.AppearanceHovered.BorderColor = System.Drawing.Color.Transparent;
+            this.editBtn.AppearanceHovered.Options.UseBorderColor = true;
+            this.editBtn.AppearancePressed.BorderColor = System.Drawing.Color.Transparent;
+            this.editBtn.AppearancePressed.Options.UseBorderColor = true;
+            this.editBtn.Location = new System.Drawing.Point(239, 1);
+            this.editBtn.Name = "editBtn";
+            this.editBtn.Size = new System.Drawing.Size(51, 37);
+            this.editBtn.TabIndex = 4;
+            this.editBtn.Text = "수정";
             // 
             // loginInfoBtn
             // 
@@ -551,8 +551,8 @@
         private DevExpress.XtraEditors.SimpleButton multiAddBtn;
         private DevExpress.XtraEditors.SimpleButton addBtn;
         private DevExpress.XtraEditors.SimpleButton reference;
-        private DevExpress.XtraEditors.SimpleButton dptBtn;
-        private DevExpress.XtraEditors.SimpleButton updateBtn;
+        private DevExpress.XtraEditors.SimpleButton deptBtn;
+        private DevExpress.XtraEditors.SimpleButton editBtn;
         private DevExpress.XtraEditors.SimpleButton loginInfoBtn;
         private DevExpress.XtraEditors.SimpleButton deleteBtn;
         private DevExpress.XtraEditors.SimpleButton convertBtn;

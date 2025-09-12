@@ -16,7 +16,20 @@ namespace Roster_Dev
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login());
+
+            using (var loginForm = new Login())
+            {
+                if(loginForm.ShowDialog() == DialogResult.OK)
+                {
+                    Application.Run(new Main());
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
+
+            //Application.Run(new Login());
         }
     }
 }
