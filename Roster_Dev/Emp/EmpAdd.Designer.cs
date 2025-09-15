@@ -28,65 +28,101 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.rosterAddLabel = new DevExpress.XtraEditors.LabelControl();
-            this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.cancel = new DevExpress.XtraEditors.SimpleButton();
-            this.saveBtn = new DevExpress.XtraEditors.SimpleButton();
-            this.female = new DevExpress.XtraEditors.CheckEdit();
-            this.male = new DevExpress.XtraEditors.CheckEdit();
-            this.memo = new DevExpress.XtraEditors.TextEdit();
-            this.messangerId = new DevExpress.XtraEditors.TextEdit();
-            this.email = new DevExpress.XtraEditors.TextEdit();
-            this.phoneNum = new DevExpress.XtraEditors.TextEdit();
-            this.employment = new DevExpress.XtraEditors.TextEdit();
-            this.position = new DevExpress.XtraEditors.TextEdit();
-            this.password = new DevExpress.XtraEditors.TextEdit();
-            this.loginId = new DevExpress.XtraEditors.TextEdit();
-            this.empName = new DevExpress.XtraEditors.TextEdit();
+            this.addEditBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.upperDeptCode = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.upperDeptName = new DevExpress.XtraEditors.TextEdit();
+            this.deptCode = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.deptName = new DevExpress.XtraEditors.TextEdit();
             this.empCode = new DevExpress.XtraEditors.TextEdit();
-            this.dptName = new DevExpress.XtraEditors.TextEdit();
-            this.upperDptName = new DevExpress.XtraEditors.TextEdit();
-            this.dptCode = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.upperDptCode = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.memoLabel = new DevExpress.XtraEditors.LabelControl();
-            this.messangerIdLabel = new DevExpress.XtraEditors.LabelControl();
-            this.emailLabel = new DevExpress.XtraEditors.LabelControl();
-            this.phoneNumLabel = new DevExpress.XtraEditors.LabelControl();
-            this.gender = new DevExpress.XtraEditors.LabelControl();
-            this.employmentLabel = new DevExpress.XtraEditors.LabelControl();
-            this.positionLabel = new DevExpress.XtraEditors.LabelControl();
-            this.passwordLabel = new DevExpress.XtraEditors.LabelControl();
-            this.loginIdLabel = new DevExpress.XtraEditors.LabelControl();
-            this.empNameLabel = new DevExpress.XtraEditors.LabelControl();
-            this.empCodeLabel = new DevExpress.XtraEditors.LabelControl();
-            this.dptNameLabel = new DevExpress.XtraEditors.LabelControl();
-            this.dptCodeLabel = new DevExpress.XtraEditors.LabelControl();
-            this.upperDptNameLabel = new DevExpress.XtraEditors.LabelControl();
-            this.upperDptCodeLabel = new DevExpress.XtraEditors.LabelControl();
+            this.empName = new DevExpress.XtraEditors.TextEdit();
+            this.loginId = new DevExpress.XtraEditors.TextEdit();
+            this.password = new DevExpress.XtraEditors.TextEdit();
+            this.position = new DevExpress.XtraEditors.TextEdit();
+            this.employment = new DevExpress.XtraEditors.TextEdit();
+            this.male = new DevExpress.XtraEditors.CheckEdit();
+            this.female = new DevExpress.XtraEditors.CheckEdit();
+            this.phoneNum = new DevExpress.XtraEditors.TextEdit();
+            this.email = new DevExpress.XtraEditors.TextEdit();
+            this.messengerId = new DevExpress.XtraEditors.TextEdit();
+            this.memo = new DevExpress.XtraEditors.TextEdit();
             this.photo = new DevExpress.XtraEditors.PictureEdit();
-            this.photoUpload = new DevExpress.XtraEditors.SimpleButton();
+            this.upload = new DevExpress.XtraEditors.ButtonEdit();
+            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.upperDeptCodeLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.deptCodeLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.empCodeLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.loginIdLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.positionLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.upperDeptNameLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.deptNameLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.empNameLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.passwordLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.employmentLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.messengerIdLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.emailLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.memoLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.phoneNumLayout = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.gender = new DevExpress.XtraLayout.SimpleLabelItem();
+            this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem18 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
+            this.layoutControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.empCode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.empName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.loginId.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.password.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.position.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.employment.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.male.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.female.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.phoneNum.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.email.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.messengerId.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memo.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.photo.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upload.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCodeLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptCodeLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.empCodeLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.loginIdLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.positionLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptNameLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptNameLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.empNameLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.passwordLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.employmentLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.messengerIdLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emailLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memoLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.phoneNumLayout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gender)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.female.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.male.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.memo.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.messangerId.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.email.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.phoneNum.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.employment.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.position.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.password.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.loginId.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.empName.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.empCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dptName.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.upperDptName.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dptCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.upperDptCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.photo.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -100,8 +136,8 @@
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(510, 39);
-            this.panelControl1.TabIndex = 2;
+            this.panelControl1.Size = new System.Drawing.Size(541, 39);
+            this.panelControl1.TabIndex = 3;
             // 
             // rosterAddLabel
             // 
@@ -114,48 +150,16 @@
             this.rosterAddLabel.TabIndex = 0;
             this.rosterAddLabel.Text = "사원추가";
             // 
-            // panelControl2
+            // flowLayoutPanel1
             // 
-            this.panelControl2.Controls.Add(this.photoUpload);
-            this.panelControl2.Controls.Add(this.cancel);
-            this.panelControl2.Controls.Add(this.saveBtn);
-            this.panelControl2.Controls.Add(this.female);
-            this.panelControl2.Controls.Add(this.male);
-            this.panelControl2.Controls.Add(this.memo);
-            this.panelControl2.Controls.Add(this.messangerId);
-            this.panelControl2.Controls.Add(this.email);
-            this.panelControl2.Controls.Add(this.phoneNum);
-            this.panelControl2.Controls.Add(this.employment);
-            this.panelControl2.Controls.Add(this.position);
-            this.panelControl2.Controls.Add(this.password);
-            this.panelControl2.Controls.Add(this.loginId);
-            this.panelControl2.Controls.Add(this.empName);
-            this.panelControl2.Controls.Add(this.empCode);
-            this.panelControl2.Controls.Add(this.dptName);
-            this.panelControl2.Controls.Add(this.upperDptName);
-            this.panelControl2.Controls.Add(this.dptCode);
-            this.panelControl2.Controls.Add(this.upperDptCode);
-            this.panelControl2.Controls.Add(this.memoLabel);
-            this.panelControl2.Controls.Add(this.messangerIdLabel);
-            this.panelControl2.Controls.Add(this.emailLabel);
-            this.panelControl2.Controls.Add(this.phoneNumLabel);
-            this.panelControl2.Controls.Add(this.gender);
-            this.panelControl2.Controls.Add(this.employmentLabel);
-            this.panelControl2.Controls.Add(this.positionLabel);
-            this.panelControl2.Controls.Add(this.passwordLabel);
-            this.panelControl2.Controls.Add(this.loginIdLabel);
-            this.panelControl2.Controls.Add(this.empNameLabel);
-            this.panelControl2.Controls.Add(this.empCodeLabel);
-            this.panelControl2.Controls.Add(this.dptNameLabel);
-            this.panelControl2.Controls.Add(this.dptCodeLabel);
-            this.panelControl2.Controls.Add(this.upperDptNameLabel);
-            this.panelControl2.Controls.Add(this.upperDptCodeLabel);
-            this.panelControl2.Controls.Add(this.photo);
-            this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 39);
-            this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(510, 489);
-            this.panelControl2.TabIndex = 3;
+            this.flowLayoutPanel1.Controls.Add(this.cancel);
+            this.flowLayoutPanel1.Controls.Add(this.addEditBtn);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 553);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(541, 47);
+            this.flowLayoutPanel1.TabIndex = 40;
             // 
             // cancel
             // 
@@ -163,403 +167,591 @@
             this.cancel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancel.Appearance.Options.UseBackColor = true;
             this.cancel.Appearance.Options.UseFont = true;
-            this.cancel.Location = new System.Drawing.Point(390, 435);
+            this.cancel.Location = new System.Drawing.Point(419, 7);
+            this.cancel.Margin = new System.Windows.Forms.Padding(3, 7, 7, 7);
             this.cancel.Name = "cancel";
-            this.cancel.Size = new System.Drawing.Size(102, 33);
-            this.cancel.TabIndex = 33;
+            this.cancel.Size = new System.Drawing.Size(115, 33);
+            this.cancel.TabIndex = 5;
             this.cancel.Text = "취소";
             // 
-            // saveBtn
+            // addEditBtn
             // 
-            this.saveBtn.Appearance.BackColor = System.Drawing.Color.SteelBlue;
-            this.saveBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.saveBtn.Appearance.Options.UseBackColor = true;
-            this.saveBtn.Appearance.Options.UseFont = true;
-            this.saveBtn.Location = new System.Drawing.Point(278, 435);
-            this.saveBtn.Name = "saveBtn";
-            this.saveBtn.Size = new System.Drawing.Size(102, 33);
-            this.saveBtn.TabIndex = 32;
-            this.saveBtn.Text = "저장";
+            this.addEditBtn.Appearance.BackColor = System.Drawing.Color.SteelBlue;
+            this.addEditBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.addEditBtn.Appearance.Options.UseBackColor = true;
+            this.addEditBtn.Appearance.Options.UseFont = true;
+            this.addEditBtn.Location = new System.Drawing.Point(298, 7);
+            this.addEditBtn.Margin = new System.Windows.Forms.Padding(7, 7, 3, 7);
+            this.addEditBtn.Name = "addEditBtn";
+            this.addEditBtn.Size = new System.Drawing.Size(115, 33);
+            this.addEditBtn.TabIndex = 4;
+            this.addEditBtn.Text = "저장";
             // 
-            // female
+            // layoutControl1
             // 
-            this.female.Location = new System.Drawing.Point(386, 284);
-            this.female.Name = "female";
-            this.female.Properties.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.female.Properties.Appearance.Options.UseFont = true;
-            this.female.Properties.Caption = "여";
-            this.female.Size = new System.Drawing.Size(39, 21);
-            this.female.TabIndex = 31;
+            this.layoutControl1.Controls.Add(this.upperDeptCode);
+            this.layoutControl1.Controls.Add(this.upperDeptName);
+            this.layoutControl1.Controls.Add(this.deptCode);
+            this.layoutControl1.Controls.Add(this.deptName);
+            this.layoutControl1.Controls.Add(this.empCode);
+            this.layoutControl1.Controls.Add(this.empName);
+            this.layoutControl1.Controls.Add(this.loginId);
+            this.layoutControl1.Controls.Add(this.password);
+            this.layoutControl1.Controls.Add(this.position);
+            this.layoutControl1.Controls.Add(this.employment);
+            this.layoutControl1.Controls.Add(this.male);
+            this.layoutControl1.Controls.Add(this.female);
+            this.layoutControl1.Controls.Add(this.phoneNum);
+            this.layoutControl1.Controls.Add(this.email);
+            this.layoutControl1.Controls.Add(this.messengerId);
+            this.layoutControl1.Controls.Add(this.memo);
+            this.layoutControl1.Controls.Add(this.photo);
+            this.layoutControl1.Controls.Add(this.upload);
+            this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutControl1.Location = new System.Drawing.Point(2, 2);
+            this.layoutControl1.Name = "layoutControl1";
+            this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(964, 291, 650, 400);
+            this.layoutControl1.Root = this.Root;
+            this.layoutControl1.Size = new System.Drawing.Size(537, 510);
+            this.layoutControl1.TabIndex = 41;
+            this.layoutControl1.Text = "layoutControl1";
             // 
-            // male
+            // upperDeptCode
             // 
-            this.male.Location = new System.Drawing.Point(342, 284);
-            this.male.Name = "male";
-            this.male.Properties.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.male.Properties.Appearance.Options.UseFont = true;
-            this.male.Properties.Caption = "남";
-            this.male.Size = new System.Drawing.Size(38, 21);
-            this.male.TabIndex = 30;
+            this.upperDeptCode.Location = new System.Drawing.Point(20, 45);
+            this.upperDeptCode.Name = "upperDeptCode";
+            this.upperDeptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.upperDeptCode.Size = new System.Drawing.Size(137, 20);
+            this.upperDeptCode.StyleController = this.layoutControl1;
+            this.upperDeptCode.TabIndex = 4;
             // 
-            // memo
+            // upperDeptName
             // 
-            this.memo.Location = new System.Drawing.Point(18, 399);
-            this.memo.Name = "memo";
-            this.memo.Size = new System.Drawing.Size(474, 20);
-            this.memo.TabIndex = 29;
+            this.upperDeptName.Location = new System.Drawing.Point(177, 45);
+            this.upperDeptName.Name = "upperDeptName";
+            this.upperDeptName.Size = new System.Drawing.Size(150, 20);
+            this.upperDeptName.StyleController = this.layoutControl1;
+            this.upperDeptName.TabIndex = 5;
             // 
-            // messangerId
+            // deptCode
             // 
-            this.messangerId.Location = new System.Drawing.Point(342, 344);
-            this.messangerId.Name = "messangerId";
-            this.messangerId.Size = new System.Drawing.Size(150, 20);
-            this.messangerId.TabIndex = 28;
+            this.deptCode.Location = new System.Drawing.Point(20, 115);
+            this.deptCode.Name = "deptCode";
+            this.deptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.deptCode.Size = new System.Drawing.Size(137, 20);
+            this.deptCode.StyleController = this.layoutControl1;
+            this.deptCode.TabIndex = 6;
             // 
-            // email
+            // deptName
             // 
-            this.email.Location = new System.Drawing.Point(178, 344);
-            this.email.Name = "email";
-            this.email.Size = new System.Drawing.Size(150, 20);
-            this.email.TabIndex = 27;
-            // 
-            // phoneNum
-            // 
-            this.phoneNum.Location = new System.Drawing.Point(18, 344);
-            this.phoneNum.Name = "phoneNum";
-            this.phoneNum.Size = new System.Drawing.Size(150, 20);
-            this.phoneNum.TabIndex = 26;
-            // 
-            // employment
-            // 
-            this.employment.Location = new System.Drawing.Point(178, 285);
-            this.employment.Name = "employment";
-            this.employment.Size = new System.Drawing.Size(150, 20);
-            this.employment.TabIndex = 25;
-            // 
-            // position
-            // 
-            this.position.Location = new System.Drawing.Point(18, 285);
-            this.position.Name = "position";
-            this.position.Size = new System.Drawing.Size(150, 20);
-            this.position.TabIndex = 24;
-            // 
-            // password
-            // 
-            this.password.Location = new System.Drawing.Point(178, 226);
-            this.password.Name = "password";
-            this.password.Size = new System.Drawing.Size(150, 20);
-            this.password.TabIndex = 23;
-            // 
-            // loginId
-            // 
-            this.loginId.Location = new System.Drawing.Point(18, 226);
-            this.loginId.Name = "loginId";
-            this.loginId.Size = new System.Drawing.Size(150, 20);
-            this.loginId.TabIndex = 22;
-            // 
-            // empName
-            // 
-            this.empName.Location = new System.Drawing.Point(178, 165);
-            this.empName.Name = "empName";
-            this.empName.Size = new System.Drawing.Size(150, 20);
-            this.empName.TabIndex = 21;
+            this.deptName.Location = new System.Drawing.Point(177, 115);
+            this.deptName.Name = "deptName";
+            this.deptName.Size = new System.Drawing.Size(150, 20);
+            this.deptName.StyleController = this.layoutControl1;
+            this.deptName.TabIndex = 7;
             // 
             // empCode
             // 
-            this.empCode.Location = new System.Drawing.Point(18, 165);
+            this.empCode.Location = new System.Drawing.Point(20, 185);
             this.empCode.Name = "empCode";
-            this.empCode.Size = new System.Drawing.Size(150, 20);
-            this.empCode.TabIndex = 20;
+            this.empCode.Size = new System.Drawing.Size(137, 20);
+            this.empCode.StyleController = this.layoutControl1;
+            this.empCode.TabIndex = 8;
             // 
-            // dptName
+            // empName
             // 
-            this.dptName.Location = new System.Drawing.Point(178, 108);
-            this.dptName.Name = "dptName";
-            this.dptName.Properties.ReadOnly = true;
-            this.dptName.Size = new System.Drawing.Size(150, 20);
-            this.dptName.TabIndex = 19;
+            this.empName.Location = new System.Drawing.Point(177, 185);
+            this.empName.Name = "empName";
+            this.empName.Size = new System.Drawing.Size(150, 20);
+            this.empName.StyleController = this.layoutControl1;
+            this.empName.TabIndex = 9;
             // 
-            // upperDptName
+            // loginId
             // 
-            this.upperDptName.Location = new System.Drawing.Point(178, 51);
-            this.upperDptName.Name = "upperDptName";
-            this.upperDptName.Properties.ReadOnly = true;
-            this.upperDptName.Size = new System.Drawing.Size(150, 20);
-            this.upperDptName.TabIndex = 18;
+            this.loginId.Location = new System.Drawing.Point(20, 255);
+            this.loginId.Name = "loginId";
+            this.loginId.Size = new System.Drawing.Size(137, 20);
+            this.loginId.StyleController = this.layoutControl1;
+            this.loginId.TabIndex = 10;
             // 
-            // dptCode
+            // password
             // 
-            this.dptCode.Location = new System.Drawing.Point(18, 108);
-            this.dptCode.Name = "dptCode";
-            this.dptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dptCode.Size = new System.Drawing.Size(150, 20);
-            this.dptCode.TabIndex = 17;
+            this.password.Location = new System.Drawing.Point(177, 255);
+            this.password.Name = "password";
+            this.password.Size = new System.Drawing.Size(150, 20);
+            this.password.StyleController = this.layoutControl1;
+            this.password.TabIndex = 11;
             // 
-            // upperDptCode
+            // position
             // 
-            this.upperDptCode.Location = new System.Drawing.Point(18, 51);
-            this.upperDptCode.Name = "upperDptCode";
-            this.upperDptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.upperDptCode.Size = new System.Drawing.Size(150, 20);
-            this.upperDptCode.TabIndex = 16;
+            this.position.Location = new System.Drawing.Point(20, 325);
+            this.position.Name = "position";
+            this.position.Size = new System.Drawing.Size(137, 20);
+            this.position.StyleController = this.layoutControl1;
+            this.position.TabIndex = 12;
             // 
-            // memoLabel
+            // employment
             // 
-            this.memoLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.memoLabel.Appearance.Options.UseFont = true;
-            this.memoLabel.Location = new System.Drawing.Point(18, 379);
-            this.memoLabel.Name = "memoLabel";
-            this.memoLabel.Size = new System.Drawing.Size(26, 17);
-            this.memoLabel.TabIndex = 15;
-            this.memoLabel.Text = "메모";
+            this.employment.Location = new System.Drawing.Point(177, 325);
+            this.employment.Name = "employment";
+            this.employment.Size = new System.Drawing.Size(150, 20);
+            this.employment.StyleController = this.layoutControl1;
+            this.employment.TabIndex = 13;
             // 
-            // messangerIdLabel
+            // male
             // 
-            this.messangerIdLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.messangerIdLabel.Appearance.Options.UseFont = true;
-            this.messangerIdLabel.Location = new System.Drawing.Point(342, 324);
-            this.messangerIdLabel.Name = "messangerIdLabel";
-            this.messangerIdLabel.Size = new System.Drawing.Size(52, 17);
-            this.messangerIdLabel.TabIndex = 14;
-            this.messangerIdLabel.Text = "메신저ID";
+            this.male.Location = new System.Drawing.Point(347, 327);
+            this.male.Name = "male";
+            this.male.Properties.Caption = "남";
+            this.male.Size = new System.Drawing.Size(78, 20);
+            this.male.StyleController = this.layoutControl1;
+            this.male.TabIndex = 14;
             // 
-            // emailLabel
+            // female
             // 
-            this.emailLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.emailLabel.Appearance.Options.UseFont = true;
-            this.emailLabel.Location = new System.Drawing.Point(185, 324);
-            this.emailLabel.Name = "emailLabel";
-            this.emailLabel.Size = new System.Drawing.Size(39, 17);
-            this.emailLabel.TabIndex = 13;
-            this.emailLabel.Text = "이메일";
+            this.female.Location = new System.Drawing.Point(445, 327);
+            this.female.Name = "female";
+            this.female.Properties.Caption = "여";
+            this.female.Size = new System.Drawing.Size(72, 20);
+            this.female.StyleController = this.layoutControl1;
+            this.female.TabIndex = 15;
             // 
-            // phoneNumLabel
+            // phoneNum
             // 
-            this.phoneNumLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phoneNumLabel.Appearance.Options.UseFont = true;
-            this.phoneNumLabel.Location = new System.Drawing.Point(18, 324);
-            this.phoneNumLabel.Name = "phoneNumLabel";
-            this.phoneNumLabel.Size = new System.Drawing.Size(52, 17);
-            this.phoneNumLabel.TabIndex = 12;
-            this.phoneNumLabel.Text = "휴대전화";
+            this.phoneNum.Location = new System.Drawing.Point(20, 395);
+            this.phoneNum.Name = "phoneNum";
+            this.phoneNum.Size = new System.Drawing.Size(137, 20);
+            this.phoneNum.StyleController = this.layoutControl1;
+            this.phoneNum.TabIndex = 16;
             // 
-            // gender
+            // email
             // 
-            this.gender.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gender.Appearance.Options.UseFont = true;
-            this.gender.Location = new System.Drawing.Point(342, 265);
-            this.gender.Name = "gender";
-            this.gender.Size = new System.Drawing.Size(26, 17);
-            this.gender.TabIndex = 11;
-            this.gender.Text = "성별";
+            this.email.Location = new System.Drawing.Point(177, 395);
+            this.email.Name = "email";
+            this.email.Size = new System.Drawing.Size(150, 20);
+            this.email.StyleController = this.layoutControl1;
+            this.email.TabIndex = 17;
             // 
-            // employmentLabel
+            // messengerId
             // 
-            this.employmentLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.employmentLabel.Appearance.Options.UseFont = true;
-            this.employmentLabel.Location = new System.Drawing.Point(178, 265);
-            this.employmentLabel.Name = "employmentLabel";
-            this.employmentLabel.Size = new System.Drawing.Size(52, 17);
-            this.employmentLabel.TabIndex = 10;
-            this.employmentLabel.Text = "고용형태";
+            this.messengerId.Location = new System.Drawing.Point(347, 395);
+            this.messengerId.Name = "messengerId";
+            this.messengerId.Size = new System.Drawing.Size(170, 20);
+            this.messengerId.StyleController = this.layoutControl1;
+            this.messengerId.TabIndex = 18;
             // 
-            // positionLabel
+            // memo
             // 
-            this.positionLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.positionLabel.Appearance.Options.UseFont = true;
-            this.positionLabel.Location = new System.Drawing.Point(18, 265);
-            this.positionLabel.Name = "positionLabel";
-            this.positionLabel.Size = new System.Drawing.Size(26, 17);
-            this.positionLabel.TabIndex = 9;
-            this.positionLabel.Text = "직위";
-            // 
-            // passwordLabel
-            // 
-            this.passwordLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.passwordLabel.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.passwordLabel.Appearance.Options.UseFont = true;
-            this.passwordLabel.Appearance.Options.UseForeColor = true;
-            this.passwordLabel.Location = new System.Drawing.Point(178, 206);
-            this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(52, 17);
-            this.passwordLabel.TabIndex = 8;
-            this.passwordLabel.Text = "비밀번호";
-            // 
-            // loginIdLabel
-            // 
-            this.loginIdLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.loginIdLabel.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.loginIdLabel.Appearance.Options.UseFont = true;
-            this.loginIdLabel.Appearance.Options.UseForeColor = true;
-            this.loginIdLabel.Location = new System.Drawing.Point(18, 206);
-            this.loginIdLabel.Name = "loginIdLabel";
-            this.loginIdLabel.Size = new System.Drawing.Size(52, 17);
-            this.loginIdLabel.TabIndex = 7;
-            this.loginIdLabel.Text = "로그인ID";
-            // 
-            // empNameLabel
-            // 
-            this.empNameLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.empNameLabel.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.empNameLabel.Appearance.Options.UseFont = true;
-            this.empNameLabel.Appearance.Options.UseForeColor = true;
-            this.empNameLabel.Location = new System.Drawing.Point(178, 145);
-            this.empNameLabel.Name = "empNameLabel";
-            this.empNameLabel.Size = new System.Drawing.Size(39, 17);
-            this.empNameLabel.TabIndex = 6;
-            this.empNameLabel.Text = "사원명";
-            // 
-            // empCodeLabel
-            // 
-            this.empCodeLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.empCodeLabel.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.empCodeLabel.Appearance.Options.UseFont = true;
-            this.empCodeLabel.Appearance.Options.UseForeColor = true;
-            this.empCodeLabel.Location = new System.Drawing.Point(18, 145);
-            this.empCodeLabel.Name = "empCodeLabel";
-            this.empCodeLabel.Size = new System.Drawing.Size(52, 17);
-            this.empCodeLabel.TabIndex = 5;
-            this.empCodeLabel.Text = "사원코드";
-            // 
-            // dptNameLabel
-            // 
-            this.dptNameLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dptNameLabel.Appearance.Options.UseFont = true;
-            this.dptNameLabel.Location = new System.Drawing.Point(178, 88);
-            this.dptNameLabel.Name = "dptNameLabel";
-            this.dptNameLabel.Size = new System.Drawing.Size(39, 17);
-            this.dptNameLabel.TabIndex = 4;
-            this.dptNameLabel.Text = "부서명";
-            // 
-            // dptCodeLabel
-            // 
-            this.dptCodeLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dptCodeLabel.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.dptCodeLabel.Appearance.Options.UseFont = true;
-            this.dptCodeLabel.Appearance.Options.UseForeColor = true;
-            this.dptCodeLabel.Location = new System.Drawing.Point(18, 88);
-            this.dptCodeLabel.Name = "dptCodeLabel";
-            this.dptCodeLabel.Size = new System.Drawing.Size(52, 17);
-            this.dptCodeLabel.TabIndex = 3;
-            this.dptCodeLabel.Text = "부서코드";
-            // 
-            // upperDptNameLabel
-            // 
-            this.upperDptNameLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.upperDptNameLabel.Appearance.Options.UseFont = true;
-            this.upperDptNameLabel.Location = new System.Drawing.Point(178, 30);
-            this.upperDptNameLabel.Name = "upperDptNameLabel";
-            this.upperDptNameLabel.Size = new System.Drawing.Size(65, 17);
-            this.upperDptNameLabel.TabIndex = 2;
-            this.upperDptNameLabel.Text = "상위부서명";
-            // 
-            // upperDptCodeLabel
-            // 
-            this.upperDptCodeLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.upperDptCodeLabel.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.upperDptCodeLabel.Appearance.Options.UseFont = true;
-            this.upperDptCodeLabel.Appearance.Options.UseForeColor = true;
-            this.upperDptCodeLabel.Location = new System.Drawing.Point(18, 30);
-            this.upperDptCodeLabel.Name = "upperDptCodeLabel";
-            this.upperDptCodeLabel.Size = new System.Drawing.Size(78, 17);
-            this.upperDptCodeLabel.TabIndex = 1;
-            this.upperDptCodeLabel.Text = "상위부서코드";
+            this.memo.Location = new System.Drawing.Point(20, 465);
+            this.memo.Name = "memo";
+            this.memo.Size = new System.Drawing.Size(497, 20);
+            this.memo.StyleController = this.layoutControl1;
+            this.memo.TabIndex = 19;
             // 
             // photo
             // 
-            this.photo.Location = new System.Drawing.Point(342, 33);
+            this.photo.Location = new System.Drawing.Point(339, 12);
+            this.photo.Margin = new System.Windows.Forms.Padding(0);
             this.photo.Name = "photo";
             this.photo.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
-            this.photo.Size = new System.Drawing.Size(150, 168);
-            this.photo.TabIndex = 0;
+            this.photo.Size = new System.Drawing.Size(186, 248);
+            this.photo.StyleController = this.layoutControl1;
+            this.photo.TabIndex = 20;
             // 
-            // photoUpload
+            // upload
             // 
-            this.photoUpload.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.photoUpload.Appearance.Options.UseFont = true;
-            this.photoUpload.Location = new System.Drawing.Point(380, 209);
-            this.photoUpload.Name = "photoUpload";
-            this.photoUpload.Size = new System.Drawing.Size(75, 23);
-            this.photoUpload.TabIndex = 34;
-            this.photoUpload.Text = "업로드";
+            this.upload.EditValue = "업로드";
+            this.upload.Location = new System.Drawing.Point(339, 264);
+            this.upload.Margin = new System.Windows.Forms.Padding(0);
+            this.upload.Name = "upload";
+            this.upload.Properties.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.upload.Properties.Appearance.Options.UseFont = true;
+            this.upload.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Ellipsis, "", 0, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
+            this.upload.Size = new System.Drawing.Size(186, 24);
+            this.upload.StyleController = this.layoutControl1;
+            this.upload.TabIndex = 21;
+            // 
+            // Root
+            // 
+            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
+            this.Root.GroupBordersVisible = false;
+            this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.upperDeptCodeLayout,
+            this.deptCodeLayout,
+            this.empCodeLayout,
+            this.loginIdLayout,
+            this.positionLayout,
+            this.upperDeptNameLayout,
+            this.deptNameLayout,
+            this.empNameLayout,
+            this.passwordLayout,
+            this.employmentLayout,
+            this.messengerIdLayout,
+            this.emailLayout,
+            this.memoLayout,
+            this.phoneNumLayout,
+            this.layoutControlItem11,
+            this.layoutControlItem12,
+            this.gender,
+            this.layoutControlItem17,
+            this.layoutControlItem18});
+            this.Root.Name = "Root";
+            this.Root.Size = new System.Drawing.Size(537, 510);
+            this.Root.TextVisible = false;
+            // 
+            // upperDeptCodeLayout
+            // 
+            this.upperDeptCodeLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.upperDeptCodeLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.upperDeptCodeLayout.Control = this.upperDeptCode;
+            this.upperDeptCodeLayout.Location = new System.Drawing.Point(0, 0);
+            this.upperDeptCodeLayout.Name = "upperDeptCodeLayout";
+            this.upperDeptCodeLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.upperDeptCodeLayout.Size = new System.Drawing.Size(157, 70);
+            this.upperDeptCodeLayout.Text = "상위부서코드";
+            this.upperDeptCodeLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.upperDeptCodeLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // deptCodeLayout
+            // 
+            this.deptCodeLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deptCodeLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.deptCodeLayout.Control = this.deptCode;
+            this.deptCodeLayout.Location = new System.Drawing.Point(0, 70);
+            this.deptCodeLayout.Name = "deptCodeLayout";
+            this.deptCodeLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.deptCodeLayout.Size = new System.Drawing.Size(157, 70);
+            this.deptCodeLayout.Text = "부서코드";
+            this.deptCodeLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.deptCodeLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // empCodeLayout
+            // 
+            this.empCodeLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.empCodeLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.empCodeLayout.Control = this.empCode;
+            this.empCodeLayout.Location = new System.Drawing.Point(0, 140);
+            this.empCodeLayout.Name = "empCodeLayout";
+            this.empCodeLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.empCodeLayout.Size = new System.Drawing.Size(157, 70);
+            this.empCodeLayout.Text = "사원코드";
+            this.empCodeLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.empCodeLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // loginIdLayout
+            // 
+            this.loginIdLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loginIdLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.loginIdLayout.Control = this.loginId;
+            this.loginIdLayout.Location = new System.Drawing.Point(0, 210);
+            this.loginIdLayout.Name = "loginIdLayout";
+            this.loginIdLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.loginIdLayout.Size = new System.Drawing.Size(157, 70);
+            this.loginIdLayout.Text = "로그인ID";
+            this.loginIdLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.loginIdLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // positionLayout
+            // 
+            this.positionLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.positionLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.positionLayout.Control = this.position;
+            this.positionLayout.Location = new System.Drawing.Point(0, 280);
+            this.positionLayout.Name = "positionLayout";
+            this.positionLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.positionLayout.Size = new System.Drawing.Size(157, 70);
+            this.positionLayout.Text = "직위";
+            this.positionLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.positionLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // upperDeptNameLayout
+            // 
+            this.upperDeptNameLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.upperDeptNameLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.upperDeptNameLayout.Control = this.upperDeptName;
+            this.upperDeptNameLayout.Location = new System.Drawing.Point(157, 0);
+            this.upperDeptNameLayout.Name = "upperDeptNameLayout";
+            this.upperDeptNameLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.upperDeptNameLayout.Size = new System.Drawing.Size(170, 70);
+            this.upperDeptNameLayout.Text = "상위부서명";
+            this.upperDeptNameLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.upperDeptNameLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // deptNameLayout
+            // 
+            this.deptNameLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deptNameLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.deptNameLayout.Control = this.deptName;
+            this.deptNameLayout.Location = new System.Drawing.Point(157, 70);
+            this.deptNameLayout.Name = "deptNameLayout";
+            this.deptNameLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.deptNameLayout.Size = new System.Drawing.Size(170, 70);
+            this.deptNameLayout.Text = "부서명";
+            this.deptNameLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.deptNameLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // empNameLayout
+            // 
+            this.empNameLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.empNameLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.empNameLayout.Control = this.empName;
+            this.empNameLayout.Location = new System.Drawing.Point(157, 140);
+            this.empNameLayout.Name = "empNameLayout";
+            this.empNameLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.empNameLayout.Size = new System.Drawing.Size(170, 70);
+            this.empNameLayout.Text = "사원명";
+            this.empNameLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.empNameLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // passwordLayout
+            // 
+            this.passwordLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.passwordLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.passwordLayout.Control = this.password;
+            this.passwordLayout.Location = new System.Drawing.Point(157, 210);
+            this.passwordLayout.Name = "passwordLayout";
+            this.passwordLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.passwordLayout.Size = new System.Drawing.Size(170, 70);
+            this.passwordLayout.Text = "비밀번호";
+            this.passwordLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.passwordLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // employmentLayout
+            // 
+            this.employmentLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.employmentLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.employmentLayout.Control = this.employment;
+            this.employmentLayout.Location = new System.Drawing.Point(157, 280);
+            this.employmentLayout.Name = "employmentLayout";
+            this.employmentLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.employmentLayout.Size = new System.Drawing.Size(170, 70);
+            this.employmentLayout.Text = "고용형태";
+            this.employmentLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.employmentLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // messengerIdLayout
+            // 
+            this.messengerIdLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.messengerIdLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.messengerIdLayout.Control = this.messengerId;
+            this.messengerIdLayout.Location = new System.Drawing.Point(327, 350);
+            this.messengerIdLayout.Name = "messengerIdLayout";
+            this.messengerIdLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.messengerIdLayout.Size = new System.Drawing.Size(190, 70);
+            this.messengerIdLayout.Text = "메신저ID";
+            this.messengerIdLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.messengerIdLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // emailLayout
+            // 
+            this.emailLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.emailLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.emailLayout.Control = this.email;
+            this.emailLayout.Location = new System.Drawing.Point(157, 350);
+            this.emailLayout.Name = "emailLayout";
+            this.emailLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.emailLayout.Size = new System.Drawing.Size(170, 70);
+            this.emailLayout.Text = "이메일";
+            this.emailLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.emailLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // memoLayout
+            // 
+            this.memoLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.memoLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.memoLayout.Control = this.memo;
+            this.memoLayout.Location = new System.Drawing.Point(0, 420);
+            this.memoLayout.Name = "memoLayout";
+            this.memoLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.memoLayout.Size = new System.Drawing.Size(517, 70);
+            this.memoLayout.Text = "메모";
+            this.memoLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.memoLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // phoneNumLayout
+            // 
+            this.phoneNumLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.phoneNumLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.phoneNumLayout.Control = this.phoneNum;
+            this.phoneNumLayout.Location = new System.Drawing.Point(0, 350);
+            this.phoneNumLayout.Name = "phoneNumLayout";
+            this.phoneNumLayout.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 15, 15);
+            this.phoneNumLayout.Size = new System.Drawing.Size(157, 70);
+            this.phoneNumLayout.Text = "휴대전화";
+            this.phoneNumLayout.TextLocation = DevExpress.Utils.Locations.Top;
+            this.phoneNumLayout.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // layoutControlItem11
+            // 
+            this.layoutControlItem11.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.layoutControlItem11.AppearanceItemCaption.Options.UseFont = true;
+            this.layoutControlItem11.Control = this.male;
+            this.layoutControlItem11.Location = new System.Drawing.Point(327, 307);
+            this.layoutControlItem11.Name = "layoutControlItem11";
+            this.layoutControlItem11.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 10, 10);
+            this.layoutControlItem11.Size = new System.Drawing.Size(98, 43);
+            this.layoutControlItem11.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem11.TextVisible = false;
+            // 
+            // layoutControlItem12
+            // 
+            this.layoutControlItem12.Control = this.female;
+            this.layoutControlItem12.Location = new System.Drawing.Point(425, 307);
+            this.layoutControlItem12.Name = "layoutControlItem12";
+            this.layoutControlItem12.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 10, 10);
+            this.layoutControlItem12.Size = new System.Drawing.Size(92, 43);
+            this.layoutControlItem12.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem12.TextVisible = false;
+            // 
+            // gender
+            // 
+            this.gender.AllowHotTrack = false;
+            this.gender.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gender.AppearanceItemCaption.Options.UseFont = true;
+            this.gender.Location = new System.Drawing.Point(327, 280);
+            this.gender.Name = "gender";
+            this.gender.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
+            this.gender.Size = new System.Drawing.Size(190, 27);
+            this.gender.Text = "성별";
+            this.gender.TextSize = new System.Drawing.Size(78, 17);
+            // 
+            // layoutControlItem17
+            // 
+            this.layoutControlItem17.Control = this.photo;
+            this.layoutControlItem17.Location = new System.Drawing.Point(327, 0);
+            this.layoutControlItem17.Name = "layoutControlItem17";
+            this.layoutControlItem17.Size = new System.Drawing.Size(190, 252);
+            this.layoutControlItem17.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem17.TextVisible = false;
+            // 
+            // layoutControlItem18
+            // 
+            this.layoutControlItem18.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.layoutControlItem18.AppearanceItemCaption.Options.UseFont = true;
+            this.layoutControlItem18.Control = this.upload;
+            this.layoutControlItem18.Location = new System.Drawing.Point(327, 252);
+            this.layoutControlItem18.Name = "layoutControlItem18";
+            this.layoutControlItem18.Size = new System.Drawing.Size(190, 28);
+            this.layoutControlItem18.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem18.TextVisible = false;
+            // 
+            // panelControl2
+            // 
+            this.panelControl2.Controls.Add(this.layoutControl1);
+            this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelControl2.Location = new System.Drawing.Point(0, 39);
+            this.panelControl2.Name = "panelControl2";
+            this.panelControl2.Size = new System.Drawing.Size(541, 514);
+            this.panelControl2.TabIndex = 42;
             // 
             // EmpAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(510, 528);
+            this.ClientSize = new System.Drawing.Size(541, 600);
             this.Controls.Add(this.panelControl2);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.panelControl1);
             this.Name = "EmpAdd";
-            this.Text = "EmpAdd";
+            this.Text = "EmpAdd2";
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
+            this.layoutControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.empCode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.empName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.loginId.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.password.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.position.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.employment.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.male.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.female.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.phoneNum.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.email.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.messengerId.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memo.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.photo.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upload.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCodeLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptCodeLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.empCodeLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.loginIdLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.positionLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptNameLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptNameLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.empNameLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.passwordLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.employmentLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.messengerIdLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emailLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memoLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.phoneNumLayout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gender)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
-            this.panelControl2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.female.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.male.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.memo.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.messangerId.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.email.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.phoneNum.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.employment.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.position.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.password.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.loginId.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.empName.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.empCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dptName.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.upperDptName.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dptCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.upperDptCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.photo.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.LabelControl rosterAddLabel;
-        private DevExpress.XtraEditors.PanelControl panelControl2;
-        private DevExpress.XtraEditors.PictureEdit photo;
-        private DevExpress.XtraEditors.LabelControl memoLabel;
-        private DevExpress.XtraEditors.LabelControl messangerIdLabel;
-        private DevExpress.XtraEditors.LabelControl emailLabel;
-        private DevExpress.XtraEditors.LabelControl phoneNumLabel;
-        private DevExpress.XtraEditors.LabelControl gender;
-        private DevExpress.XtraEditors.LabelControl employmentLabel;
-        private DevExpress.XtraEditors.LabelControl positionLabel;
-        private DevExpress.XtraEditors.LabelControl passwordLabel;
-        private DevExpress.XtraEditors.LabelControl loginIdLabel;
-        private DevExpress.XtraEditors.LabelControl empNameLabel;
-        private DevExpress.XtraEditors.LabelControl empCodeLabel;
-        private DevExpress.XtraEditors.LabelControl dptNameLabel;
-        private DevExpress.XtraEditors.LabelControl dptCodeLabel;
-        private DevExpress.XtraEditors.LabelControl upperDptNameLabel;
-        private DevExpress.XtraEditors.LabelControl upperDptCodeLabel;
-        private DevExpress.XtraEditors.TextEdit password;
-        private DevExpress.XtraEditors.TextEdit loginId;
-        private DevExpress.XtraEditors.TextEdit empName;
-        private DevExpress.XtraEditors.TextEdit empCode;
-        private DevExpress.XtraEditors.TextEdit dptName;
-        private DevExpress.XtraEditors.TextEdit upperDptName;
-        private DevExpress.XtraEditors.ComboBoxEdit dptCode;
-        private DevExpress.XtraEditors.ComboBoxEdit upperDptCode;
-        private DevExpress.XtraEditors.TextEdit memo;
-        private DevExpress.XtraEditors.TextEdit messangerId;
-        private DevExpress.XtraEditors.TextEdit email;
-        private DevExpress.XtraEditors.TextEdit phoneNum;
-        private DevExpress.XtraEditors.TextEdit employment;
-        private DevExpress.XtraEditors.TextEdit position;
-        private DevExpress.XtraEditors.CheckEdit female;
-        private DevExpress.XtraEditors.CheckEdit male;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private DevExpress.XtraEditors.SimpleButton cancel;
-        private DevExpress.XtraEditors.SimpleButton saveBtn;
-        private DevExpress.XtraEditors.SimpleButton photoUpload;
+        private DevExpress.XtraEditors.SimpleButton addEditBtn;
+        private DevExpress.XtraLayout.LayoutControl layoutControl1;
+        private DevExpress.XtraEditors.ComboBoxEdit upperDeptCode;
+        private DevExpress.XtraEditors.ComboBoxEdit deptCode;
+        private DevExpress.XtraEditors.TextEdit deptName;
+        private DevExpress.XtraEditors.TextEdit empCode;
+        private DevExpress.XtraEditors.TextEdit empName;
+        private DevExpress.XtraEditors.TextEdit loginId;
+        private DevExpress.XtraEditors.TextEdit password;
+        private DevExpress.XtraEditors.TextEdit position;
+        private DevExpress.XtraEditors.TextEdit employment;
+        private DevExpress.XtraEditors.CheckEdit male;
+        private DevExpress.XtraLayout.LayoutControlGroup Root;
+        private DevExpress.XtraLayout.LayoutControlItem upperDeptCodeLayout;
+        private DevExpress.XtraLayout.LayoutControlItem deptCodeLayout;
+        private DevExpress.XtraLayout.LayoutControlItem deptNameLayout;
+        private DevExpress.XtraLayout.LayoutControlItem empCodeLayout;
+        private DevExpress.XtraLayout.LayoutControlItem empNameLayout;
+        private DevExpress.XtraLayout.LayoutControlItem loginIdLayout;
+        private DevExpress.XtraLayout.LayoutControlItem passwordLayout;
+        private DevExpress.XtraLayout.LayoutControlItem positionLayout;
+        private DevExpress.XtraLayout.LayoutControlItem employmentLayout;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem11;
+        private DevExpress.XtraEditors.PanelControl panelControl2;
+        private DevExpress.XtraEditors.CheckEdit female;
+        private DevExpress.XtraEditors.TextEdit phoneNum;
+        private DevExpress.XtraEditors.TextEdit email;
+        private DevExpress.XtraEditors.TextEdit messengerId;
+        private DevExpress.XtraEditors.TextEdit memo;
+        private DevExpress.XtraLayout.LayoutControlItem phoneNumLayout;
+        private DevExpress.XtraLayout.LayoutControlItem memoLayout;
+        private DevExpress.XtraLayout.LayoutControlItem messengerIdLayout;
+        private DevExpress.XtraLayout.LayoutControlItem emailLayout;
+        private DevExpress.XtraEditors.ButtonEdit upload;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem18;
+        private DevExpress.XtraEditors.TextEdit upperDeptName;
+        private DevExpress.XtraLayout.LayoutControlItem upperDeptNameLayout;
+        private DevExpress.XtraEditors.PictureEdit photo;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem17;
+        private DevExpress.XtraLayout.SimpleLabelItem gender;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem12;
     }
 }

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,11 +19,10 @@ namespace Roster_Dev.Emp
             InitializeComponent();
             AddEvent();
         }
-
         private void AddEvent()
         {
             this.Load += Form_Load;
-            this.saveBtn.Click += Save_Click;
+            this.addEditBtn.Click += Save_Click;
             this.cancel.Click += Cancel_Click;
         }
 
@@ -34,22 +34,23 @@ namespace Roster_Dev.Emp
 
         private void SetTag()
         {
-            upperDptCode.Tag = upperDptCodeLabel.Text;
-            dptCode.Tag      = dptCodeLabel.Text;
-            empCode.Tag      = empCodeLabel.Text;
-            empName.Tag      = empNameLabel.Text;
-            loginId.Tag      = loginIdLabel.Text;
-            password.Tag     = passwordLabel.Text;
+            upperDeptCode.Tag = upperDeptCodeLayout.Text;
+            deptCode.Tag      = deptCodeLayout.Text;
+            empCode.Tag      = empCodeLayout.Text;
+            empName.Tag      = empNameLayout.Text;
+            loginId.Tag      = loginIdLayout.Text;
+            password.Tag     = passwordLayout.Text;
         }
 
         private void Form_Load(object sender, EventArgs e)
         {
             SetTag();
+            var departments = SqlReposit
         }
 
         private void Save_Click(object sender, EventArgs e)
         {
-            if (!Util.Instance.NullCheck(upperDptCode, dptCode, empCode, empName, loginId, password))
+            if (!Util.Instance.NullCheck(upperDeptCode, deptCode, empCode, empName, loginId, password))
             {
                 return;
             }

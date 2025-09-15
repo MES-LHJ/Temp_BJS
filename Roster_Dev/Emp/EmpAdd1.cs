@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Roster_Dev.UtilClass;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,26 +11,35 @@ using System.Windows.Forms;
 
 namespace Roster_Dev.Emp
 {
-    public partial class EmpEdit : Form
+    public partial class EmpAdd1 : Form
     {
-        public EmpEdit()
+        public EmpAdd1()
         {
             InitializeComponent();
             AddEvent();
         }
+
         private void AddEvent()
         {
             this.Load += Form_Load;
-            this.addEditBtn.Click += Save_Click;
+            this.saveBtn.Click += Save_Click;
             this.cancel.Click += Cancel_Click;
+        }
+
+        public enum Gender
+        {
+            Male,
+            Female
         }
 
         private void SetTag()
         {
-            upperDeptCode.Tag = upperDeptCodeLayout.Text;
-            deptCode.Tag = deptCodeLayout.Text;
-            empCode.Tag = empCodeLayout.Text;
-            empName.Tag = empNameLayout.Text;
+            upperDptCode.Tag = upperDptCodeLabel.Text;
+            dptCode.Tag      = dptCodeLabel.Text;
+            empCode.Tag      = empCodeLabel.Text;
+            empName.Tag      = empNameLabel.Text;
+            loginId.Tag      = loginIdLabel.Text;
+            password.Tag     = passwordLabel.Text;
         }
 
         private void Form_Load(object sender, EventArgs e)
@@ -39,7 +49,7 @@ namespace Roster_Dev.Emp
 
         private void Save_Click(object sender, EventArgs e)
         {
-            if (!UtilClass.Util.Instance.NullCheck(upperDeptCode, deptCode, empCode, empName))
+            if (!Util.Instance.NullCheck(upperDptCode, dptCode, empCode, empName, loginId, password))
             {
                 return;
             }

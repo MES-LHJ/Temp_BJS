@@ -28,16 +28,4 @@ namespace Roster_Dev.UtilClass
             return true;
         }
     }
-    public sealed class RefreshGridEvent
-    {
-        private static readonly RefreshGridEvent instance = new RefreshGridEvent();
-        public static RefreshGridEvent Instance { get { return instance; } }
-        private RefreshGridEvent() { }
-
-        public event Action RefreshEvent;
-        public void OnRefresh()
-        {
-            RefreshEvent?.Invoke();
-        }
-    }
 }

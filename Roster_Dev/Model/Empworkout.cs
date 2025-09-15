@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace Roster_Dev.Model
 {
-    public class Empworkout
+    public class EmpWorkout
     {
-        //public long upperDptCode {  get; set; }
-        public long dptCode { get; set; }
-        public string empCode { get; set; }
-        public string empName { get; set; }
-        public string logiId { get; set; }
-        public string password { get; set; }
-        public string position { get; set; }
-        public string employment { get; set; }
-        public Emp.EmpAdd.Gender? gender { get; set; }
-        public string phoneNum { get; set; }
-        public string email { get; set; }
-        public string messangerId { get; set; }
-        public string memo { get; set; }
-        public string photoPath {  get; set; }
+        public long DeptId { get; set; }
+        public long EmpId { get; set; }
+        public string EmpCode { get; set; }
+        public string EmpName { get; set; }
+        public string LoginId { get; set; }
+        public string Password { get; set; }
+        public string Position { get; set; }
+        public string Employment { get; set; }
+        public Emp.EmpAdd1.Gender? Gender { get; set; }
+        public string PhoneNum { get; set; }
+        public string Email { get; set; }
+        public string MessangerId { get; set; }
+        public string Memo { get; set; }
+        public string PhotoPath { get; set; }
     }
 }

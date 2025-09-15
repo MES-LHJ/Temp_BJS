@@ -30,7 +30,6 @@ namespace Roster_Dev
             this.deleteBtn.Click += Delete_Click;
             this.convertBtn.Click += Convert_Click;
             this.exitBtn.Click += Exit_Click;
-            RefeshGridEvent.Instance.RefreshEvent += RefreshEmpGrid;
         }
 
         private void Form_Load(object sender, EventArgs e)
