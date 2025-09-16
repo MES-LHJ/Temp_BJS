@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Roster_Dev.Model
 {
-    internal class UpperDeptWorkout
+    public class UpperDeptWorkout
     {
-        public string UpperDepartmentId { get; set; }
+        public long UpperDepartmentId { get; set; }
         public string UpperDepartmentCode { get; set; }
         public string UpperDepartmentName { get; set; }
         public string Memo { get; set; }

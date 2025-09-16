@@ -8,8 +8,8 @@ namespace Roster_Dev.Model
 {
     internal class DeptWorkout
     {
-        public string UpperDepartmentId { get; set; }
-        public string DepartmentId { get; set; }
+        public long UpperDepartmentId { get; set; }
+        public long DepartmentId { get; set; }
         public string DepartmentCode { get; set; }
         public string DepartmentName { get; set; }
         public string Memo { get; set; }

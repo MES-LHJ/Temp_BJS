@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Department));
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.deptLabel = new DevExpress.XtraEditors.LabelControl();
+            this.imageEdit1 = new DevExpress.XtraEditors.PictureEdit();
             this.stackPanel1 = new DevExpress.Utils.Layout.StackPanel();
             this.upperDeptBtn = new DevExpress.XtraEditors.SimpleButton();
             this.deptTreeBtn = new DevExpress.XtraEditors.SimpleButton();
@@ -37,14 +40,13 @@
             this.deptEditBtn = new DevExpress.XtraEditors.SimpleButton();
             this.deleteBtn = new DevExpress.XtraEditors.SimpleButton();
             this.exitBtn = new DevExpress.XtraEditors.SimpleButton();
-            this.rosterLabel = new DevExpress.XtraEditors.LabelControl();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
             this.upperDeptGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.upperDptCode = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.upperDptName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.upperDptmemo = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.upperDeptCode = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.upperDeptName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.upperDeptMemo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.deptGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.dptCode = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -52,6 +54,7 @@
             this.dptMemo = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stackPanel1)).BeginInit();
             this.stackPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
@@ -70,18 +73,45 @@
             // 
             // panelControl1
             // 
-            this.panelControl1.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.panelControl1.Appearance.BorderColor = System.Drawing.Color.CadetBlue;
             this.panelControl1.Appearance.Options.UseBackColor = true;
             this.panelControl1.Appearance.Options.UseBorderColor = true;
             this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl1.Controls.Add(this.deptLabel);
+            this.panelControl1.Controls.Add(this.imageEdit1);
             this.panelControl1.Controls.Add(this.stackPanel1);
-            this.panelControl1.Controls.Add(this.rosterLabel);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(1096, 39);
             this.panelControl1.TabIndex = 2;
+            // 
+            // deptLabel
+            // 
+            this.deptLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.deptLabel.Appearance.Options.UseFont = true;
+            this.deptLabel.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Horizontal;
+            this.deptLabel.Location = new System.Drawing.Point(30, 9);
+            this.deptLabel.Name = "deptLabel";
+            this.deptLabel.Size = new System.Drawing.Size(32, 21);
+            this.deptLabel.TabIndex = 3;
+            this.deptLabel.Text = "부서";
+            // 
+            // imageEdit1
+            // 
+            this.imageEdit1.EditValue = ((object)(resources.GetObject("imageEdit1.EditValue")));
+            this.imageEdit1.Location = new System.Drawing.Point(9, 10);
+            this.imageEdit1.Name = "imageEdit1";
+            this.imageEdit1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.imageEdit1.Properties.Appearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.imageEdit1.Properties.Appearance.Options.UseBackColor = true;
+            this.imageEdit1.Properties.Appearance.Options.UseBorderColor = true;
+            this.imageEdit1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.imageEdit1.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+            this.imageEdit1.Size = new System.Drawing.Size(20, 20);
+            this.imageEdit1.TabIndex = 4;
+            this.imageEdit1.TabStop = true;
             // 
             // stackPanel1
             // 
@@ -100,7 +130,7 @@
             // 
             // upperDeptBtn
             // 
-            this.upperDeptBtn.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.upperDeptBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.upperDeptBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
             this.upperDeptBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.upperDeptBtn.Appearance.Options.UseBackColor = true;
@@ -114,13 +144,14 @@
             this.upperDeptBtn.AppearancePressed.Options.UseBorderColor = true;
             this.upperDeptBtn.Location = new System.Drawing.Point(3, 1);
             this.upperDeptBtn.Name = "upperDeptBtn";
+            this.upperDeptBtn.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.upperDeptBtn.Size = new System.Drawing.Size(59, 37);
             this.upperDeptBtn.TabIndex = 3;
             this.upperDeptBtn.Text = "상위부서";
             // 
             // deptTreeBtn
             // 
-            this.deptTreeBtn.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.deptTreeBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.deptTreeBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
             this.deptTreeBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deptTreeBtn.Appearance.Options.UseBackColor = true;
@@ -134,13 +165,14 @@
             this.deptTreeBtn.AppearancePressed.Options.UseBorderColor = true;
             this.deptTreeBtn.Location = new System.Drawing.Point(68, 1);
             this.deptTreeBtn.Name = "deptTreeBtn";
+            this.deptTreeBtn.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.deptTreeBtn.Size = new System.Drawing.Size(51, 37);
             this.deptTreeBtn.TabIndex = 2;
             this.deptTreeBtn.Text = "트리";
             // 
             // deptChartBtn
             // 
-            this.deptChartBtn.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.deptChartBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.deptChartBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
             this.deptChartBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deptChartBtn.Appearance.Options.UseBackColor = true;
@@ -154,13 +186,14 @@
             this.deptChartBtn.AppearancePressed.Options.UseBorderColor = true;
             this.deptChartBtn.Location = new System.Drawing.Point(125, 1);
             this.deptChartBtn.Name = "deptChartBtn";
+            this.deptChartBtn.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.deptChartBtn.Size = new System.Drawing.Size(51, 37);
             this.deptChartBtn.TabIndex = 4;
             this.deptChartBtn.Text = "차트";
             // 
             // deptAddBtn
             // 
-            this.deptAddBtn.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.deptAddBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.deptAddBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
             this.deptAddBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deptAddBtn.Appearance.Options.UseBackColor = true;
@@ -174,13 +207,14 @@
             this.deptAddBtn.AppearancePressed.Options.UseBorderColor = true;
             this.deptAddBtn.Location = new System.Drawing.Point(182, 1);
             this.deptAddBtn.Name = "deptAddBtn";
+            this.deptAddBtn.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.deptAddBtn.Size = new System.Drawing.Size(51, 37);
             this.deptAddBtn.TabIndex = 5;
             this.deptAddBtn.Text = "추가";
             // 
             // deptEditBtn
             // 
-            this.deptEditBtn.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.deptEditBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.deptEditBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
             this.deptEditBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deptEditBtn.Appearance.Options.UseBackColor = true;
@@ -194,13 +228,14 @@
             this.deptEditBtn.AppearancePressed.Options.UseBorderColor = true;
             this.deptEditBtn.Location = new System.Drawing.Point(239, 1);
             this.deptEditBtn.Name = "deptEditBtn";
+            this.deptEditBtn.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.deptEditBtn.Size = new System.Drawing.Size(51, 37);
             this.deptEditBtn.TabIndex = 7;
             this.deptEditBtn.Text = "수정";
             // 
             // deleteBtn
             // 
-            this.deleteBtn.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.deleteBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.deleteBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
             this.deleteBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteBtn.Appearance.Options.UseBackColor = true;
@@ -214,13 +249,14 @@
             this.deleteBtn.AppearancePressed.Options.UseBorderColor = true;
             this.deleteBtn.Location = new System.Drawing.Point(296, 1);
             this.deleteBtn.Name = "deleteBtn";
+            this.deleteBtn.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.deleteBtn.Size = new System.Drawing.Size(51, 37);
             this.deleteBtn.TabIndex = 6;
             this.deleteBtn.Text = "삭제";
             // 
             // exitBtn
             // 
-            this.exitBtn.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.exitBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.exitBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
             this.exitBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exitBtn.Appearance.Options.UseBackColor = true;
@@ -234,20 +270,10 @@
             this.exitBtn.AppearancePressed.Options.UseBorderColor = true;
             this.exitBtn.Location = new System.Drawing.Point(353, 1);
             this.exitBtn.Name = "exitBtn";
+            this.exitBtn.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.exitBtn.Size = new System.Drawing.Size(51, 37);
             this.exitBtn.TabIndex = 8;
             this.exitBtn.Text = "닫기";
-            // 
-            // rosterLabel
-            // 
-            this.rosterLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.rosterLabel.Appearance.Options.UseFont = true;
-            this.rosterLabel.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Horizontal;
-            this.rosterLabel.Location = new System.Drawing.Point(12, 8);
-            this.rosterLabel.Name = "rosterLabel";
-            this.rosterLabel.Size = new System.Drawing.Size(64, 21);
-            this.rosterLabel.TabIndex = 0;
-            this.rosterLabel.Text = "부서사원";
             // 
             // panelControl2
             // 
@@ -291,38 +317,41 @@
             // gridView1
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.upperDptCode,
-            this.upperDptName,
-            this.upperDptmemo});
+            this.upperDeptCode,
+            this.upperDeptName,
+            this.upperDeptMemo});
             this.gridView1.GridControl = this.upperDeptGrid;
             this.gridView1.Name = "gridView1";
             // 
-            // upperDptCode
+            // upperDeptCode
             // 
-            this.upperDptCode.AppearanceHeader.Options.UseTextOptions = true;
-            this.upperDptCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.upperDptCode.Caption = "상위부서";
-            this.upperDptCode.Name = "upperDptCode";
-            this.upperDptCode.Visible = true;
-            this.upperDptCode.VisibleIndex = 0;
+            this.upperDeptCode.AppearanceHeader.Options.UseTextOptions = true;
+            this.upperDeptCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.upperDeptCode.Caption = "상위부서";
+            this.upperDeptCode.FieldName = "UpperDepartmentCode";
+            this.upperDeptCode.Name = "upperDeptCode";
+            this.upperDeptCode.Visible = true;
+            this.upperDeptCode.VisibleIndex = 0;
             // 
-            // upperDptName
+            // upperDeptName
             // 
-            this.upperDptName.AppearanceHeader.Options.UseTextOptions = true;
-            this.upperDptName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.upperDptName.Caption = "상위부서명";
-            this.upperDptName.Name = "upperDptName";
-            this.upperDptName.Visible = true;
-            this.upperDptName.VisibleIndex = 1;
+            this.upperDeptName.AppearanceHeader.Options.UseTextOptions = true;
+            this.upperDeptName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.upperDeptName.Caption = "상위부서명";
+            this.upperDeptName.FieldName = "UpperDepartmentName";
+            this.upperDeptName.Name = "upperDeptName";
+            this.upperDeptName.Visible = true;
+            this.upperDeptName.VisibleIndex = 1;
             // 
-            // upperDptmemo
+            // upperDeptMemo
             // 
-            this.upperDptmemo.AppearanceHeader.Options.UseTextOptions = true;
-            this.upperDptmemo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.upperDptmemo.Caption = "메모";
-            this.upperDptmemo.Name = "upperDptmemo";
-            this.upperDptmemo.Visible = true;
-            this.upperDptmemo.VisibleIndex = 2;
+            this.upperDeptMemo.AppearanceHeader.Options.UseTextOptions = true;
+            this.upperDeptMemo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.upperDeptMemo.Caption = "메모";
+            this.upperDeptMemo.FieldName = "Memo";
+            this.upperDeptMemo.Name = "upperDeptMemo";
+            this.upperDeptMemo.Visible = true;
+            this.upperDeptMemo.VisibleIndex = 2;
             // 
             // deptGrid
             // 
@@ -383,6 +412,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stackPanel1)).EndInit();
             this.stackPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
@@ -404,7 +434,6 @@
         #endregion
 
         private DevExpress.XtraEditors.PanelControl panelControl1;
-        private DevExpress.XtraEditors.LabelControl rosterLabel;
         private DevExpress.Utils.Layout.StackPanel stackPanel1;
         private DevExpress.XtraEditors.SimpleButton upperDeptBtn;
         private DevExpress.XtraEditors.SimpleButton deptTreeBtn;
@@ -419,11 +448,13 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraGrid.GridControl deptGrid;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
-        private DevExpress.XtraGrid.Columns.GridColumn upperDptCode;
-        private DevExpress.XtraGrid.Columns.GridColumn upperDptName;
-        private DevExpress.XtraGrid.Columns.GridColumn upperDptmemo;
+        private DevExpress.XtraGrid.Columns.GridColumn upperDeptCode;
+        private DevExpress.XtraGrid.Columns.GridColumn upperDeptName;
+        private DevExpress.XtraGrid.Columns.GridColumn upperDeptMemo;
         private DevExpress.XtraGrid.Columns.GridColumn dptCode;
         private DevExpress.XtraGrid.Columns.GridColumn dptName;
         private DevExpress.XtraGrid.Columns.GridColumn dptMemo;
+        private DevExpress.XtraEditors.LabelControl deptLabel;
+        private DevExpress.XtraEditors.PictureEdit imageEdit1;
     }
 }

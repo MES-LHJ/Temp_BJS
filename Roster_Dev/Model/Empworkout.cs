@@ -18,7 +18,7 @@ namespace Roster_Dev.Model
         public string Password { get; set; }
         public string Position { get; set; }
         public string Employment { get; set; }
-        public Emp.EmpAdd1.Gender? Gender { get; set; }
+        public Emp.EmpAdd.Gender? Gender { get; set; }
         public string PhoneNum { get; set; }
         public string Email { get; set; }
         public string MessangerId { get; set; }

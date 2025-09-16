@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
@@ -45,7 +46,21 @@ namespace Roster_Dev.Emp
         private void Form_Load(object sender, EventArgs e)
         {
             SetTag();
-            var departments = SqlReposit
+            // 상위부서코드
+            var upperDepartments = SqlReposit.GetUpperDepartments()
+                .OrderBy(u => u.UpperDepartmentCode)
+                .ToList();
+            upperDeptCode.Properties.DataSource = upperDepartments;
+            upperDeptCode.Properties.DisplayMember = "UpperDepartmentCode";
+            upperDeptCode.Properties.ValueMember = "UpperDepartmentId";
+
+            // 부서코드
+            var departments = SqlReposit.GetDepartments()
+                .OrderBy(d => d.DepartmentCode)
+                .ToList();
+            deptCode.Properties.DataSource = departments;
+            deptCode.Properties.DisplayMember = "DepartmentCode";
+            deptCode.Properties.ValueMember = "DepartmentId";
         }
 
         private void Save_Click(object sender, EventArgs e)

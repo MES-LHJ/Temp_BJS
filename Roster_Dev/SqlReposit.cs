@@ -1,4 +1,5 @@
-﻿using Roster_Dev.Model;
+﻿using Roster_Dev.Emp;
+using Roster_Dev.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -62,7 +63,7 @@ namespace Roster_Dev
         /// </summary>
         /// <param name="dpt"></param>
         /// <returns></returns>
-        public static int updateUpperDept(UpperDeptWorkout dpt)
+        public static int UpdateUpperDept(UpperDeptWorkout dpt)
         {
             const string sql = @"
                             IF EXISTS (SELECT 1 FROM dbo.UpperDepartment WHERE UpperDepartmentCode = @UpperDepartmentCode AND UpperDepartmentId != @UpperDepartmentId)
@@ -156,8 +157,8 @@ namespace Roster_Dev
                     {
                         return new DeptWorkout
                         {
-                            UpperDepartmentId = reader[nameof(DeptWorkout.UpperDepartmentId)].ToString(),
-                            DepartmentId = reader[nameof(DeptWorkout.DepartmentId)].ToString(),
+                            UpperDepartmentId = Convert.ToInt32(reader[nameof(DeptWorkout.UpperDepartmentId)]),
+                            DepartmentId = Convert.ToInt32(reader[nameof(DeptWorkout.DepartmentId)]),
                             DepartmentCode = reader[nameof(DeptWorkout.DepartmentCode)].ToString(),
                             DepartmentName = reader[nameof(DeptWorkout.DepartmentName)].ToString(),
                             Memo = reader[nameof(DeptWorkout.Memo)] as string
@@ -337,6 +338,104 @@ namespace Roster_Dev
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
+        }
+
+        public static List<UpperDeptWorkout> GetUpperDepartments()
+        {
+            const string sql = @"
+                            SELECT UpperDepartmentId, UpperDepartmentCode, UpperDepartmentName, Memo
+                            FROM dbo.UpperDepartment;
+            ";
+            var list = new List<UpperDeptWorkout>();
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                conn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new UpperDeptWorkout
+                        {
+                            UpperDepartmentId = Convert.ToInt32(reader[nameof(UpperDeptWorkout.UpperDepartmentId)]),
+                            UpperDepartmentCode = reader[nameof(UpperDeptWorkout.UpperDepartmentCode)].ToString(),
+                            UpperDepartmentName = reader[nameof(UpperDeptWorkout.UpperDepartmentName)].ToString(),
+                            Memo = reader[nameof(UpperDeptWorkout.Memo)] as string
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public static List<DeptWorkout> GetDepartments()
+        {
+            const string sql = @"
+                            SELECT UpperDepartmentId, DepartmentId, DepartmentCode, DepartmentName, Memo
+                            FROM dbo.Department;
+            ";
+            var list = new List<DeptWorkout>();
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                conn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new DeptWorkout
+                        {
+                            UpperDepartmentId = Convert.ToInt32(reader[nameof(DeptWorkout.UpperDepartmentId)]),
+                            DepartmentId = Convert.ToInt32(reader[nameof(DeptWorkout.DepartmentId)]),
+                            DepartmentCode = reader[nameof(DeptWorkout.DepartmentCode)].ToString(),
+                            DepartmentName = reader[nameof(DeptWorkout.DepartmentName)].ToString(),
+                            Memo = reader[nameof(DeptWorkout.Memo)] as string
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public static List<EmpWorkout> GetEmployees()
+        {
+            const string sql = @"
+                            SELECT e.DeptId, d.DeptCode,d.DeptName, e.EmpId, e.EmpCode, e.EmpName, e.LoginId, e.Password, e.Position, e.Employment,
+                                   e.Gender, e.PhoneNum, e.Email, e.MessangerId, e.Memo, e.PhotoPath FROM dbo.Employee e
+                            JOIN dbo.Department d ON e.DeptId = d.DepartmentId;
+            ";
+            var list = new List<EmpWorkout>();
+            using (var conn = new SqlConnection(CS))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                conn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new EmpWorkout
+                        {
+                            DeptId = Convert.ToInt32(reader[nameof(EmpWorkout.DeptId)]),
+                            EmpId = Convert.ToInt32(reader[nameof(EmpWorkout.EmpId)]),
+                            EmpCode = reader[nameof(EmpWorkout.EmpCode)].ToString(),
+                            EmpName = reader[nameof(EmpWorkout.EmpName)].ToString(),
+                            LoginId = reader[nameof(EmpWorkout.LoginId)].ToString(),
+                            Password = reader[nameof(EmpWorkout.Password)].ToString(),
+                            Position = reader[nameof(EmpWorkout.Position)].ToString(),
+                            Employment = reader[nameof(EmpWorkout.Employment)].ToString(),
+                            Gender = reader[nameof(EmpWorkout.Gender)] == DBNull.Value ? 
+                                    (EmpAdd.Gender?)null : reader[nameof(EmpWorkout.Gender)].ToString() == "Male" ? 
+                                    EmpAdd.Gender.Male : EmpAdd.Gender.Female,
+                            PhoneNum = reader[nameof(EmpWorkout.PhoneNum)].ToString(),
+                            Email = reader[nameof(EmpWorkout.Email)].ToString(),
+                            MessangerId = reader[nameof(EmpWorkout.MessangerId)].ToString(),
+                            Memo = reader[nameof(EmpWorkout.Memo)].ToString(),
+                            PhotoPath = reader[nameof(EmpWorkout.PhotoPath)].ToString()
+                        });
+                    }
+                }
+            }
+            return list;
         }
     }
 }

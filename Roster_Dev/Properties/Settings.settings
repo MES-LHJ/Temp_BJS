@@ -1,7 +1,15 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Roster_Dev.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="UpperDepartmentCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">upperDeptCode</Value>
+    </Setting>
+    <Setting Name="UpperDepartmentName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">upperDeptName</Value>
+    </Setting>
+    <Setting Name="Memo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">upperDeptMemo</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

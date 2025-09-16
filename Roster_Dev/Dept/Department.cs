@@ -1,4 +1,5 @@
 ﻿using Roster_Dev.Dept;
+using Roster_Dev.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,7 @@ namespace Roster_Dev.Dpt
         public void AddEvent()
         {
             this.Load += Form_Load;
+            this.upperDeptBtn.Click += UpperDept_Click;
             this.deptAddBtn.Click += Add_Click;
             this.deptEditBtn.Click += Edit_Click;
             this.deleteBtn.Click += Delete_Click;
@@ -30,21 +32,57 @@ namespace Roster_Dev.Dpt
 
         private void Form_Load(object sender, EventArgs e)
         {
+            var upperDepartments = SqlReposit.GetUpperDepartments()
+                .OrderBy(u => u.UpperDepartmentCode)
+                .ToList();
+
+            upperDeptGrid.DataSource = upperDepartments;
+
+            var departments = SqlReposit.GetDepartments()
+                .OrderBy(d => d.DepartmentCode)
+                .ToList();
+
+            deptGrid.DataSource = departments;
+        }
+
+        private void UpperDept_Click(object sender, EventArgs e)
+        {
+            using (var Form = new UpperDept())
+            {
+                Form.ShowDialog();
+            }
         }
 
         private void Add_Click(object sender, EventArgs e)
         {
             using (var Form = new DeptAddEdit())
             {
-                Form.ShowDialog();
+                if (Form.ShowDialog() == DialogResult.OK)
+                {
+                    Refresh();
+                }
             }
         }
 
         private void Edit_Click(object sender, EventArgs e)
         {
-            using (var Form = new DeptAddEdit())
+            var view = deptGrid.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
+            if (view == null) return;
+
+            var department = view.GetFocusedRow() as DeptWorkout;
+
+            if (department == null)
             {
-                Form.ShowDialog();
+                MessageBox.Show("수정할 부서를 선택하세요.");
+                return;
+            }
+
+            using (var Form = new DeptAddEdit(department))
+            {
+                if (Form.ShowDialog() == DialogResult.OK)
+                {
+                    Refresh();// Refresh the grid or perform any necessary actions after editing
+                }
             }
         }
 

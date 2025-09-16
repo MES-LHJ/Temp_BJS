@@ -39,9 +39,7 @@
             this.cancel = new DevExpress.XtraEditors.SimpleButton();
             this.addEditBtn = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
-            this.upperDeptCode = new DevExpress.XtraEditors.ComboBoxEdit();
             this.upperDeptName = new DevExpress.XtraEditors.TextEdit();
-            this.deptCode = new DevExpress.XtraEditors.ComboBoxEdit();
             this.deptName = new DevExpress.XtraEditors.TextEdit();
             this.empCode = new DevExpress.XtraEditors.TextEdit();
             this.empName = new DevExpress.XtraEditors.TextEdit();
@@ -78,14 +76,14 @@
             this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem18 = new DevExpress.XtraLayout.LayoutControlItem();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+            this.upperDeptCode = new DevExpress.XtraEditors.LookUpEdit();
+            this.deptCode = new DevExpress.XtraEditors.LookUpEdit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperDeptName.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.deptName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.empCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.empName.Properties)).BeginInit();
@@ -123,6 +121,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -189,9 +189,7 @@
             // 
             // layoutControl1
             // 
-            this.layoutControl1.Controls.Add(this.upperDeptCode);
             this.layoutControl1.Controls.Add(this.upperDeptName);
-            this.layoutControl1.Controls.Add(this.deptCode);
             this.layoutControl1.Controls.Add(this.deptName);
             this.layoutControl1.Controls.Add(this.empCode);
             this.layoutControl1.Controls.Add(this.empName);
@@ -207,6 +205,8 @@
             this.layoutControl1.Controls.Add(this.memo);
             this.layoutControl1.Controls.Add(this.photo);
             this.layoutControl1.Controls.Add(this.upload);
+            this.layoutControl1.Controls.Add(this.upperDeptCode);
+            this.layoutControl1.Controls.Add(this.deptCode);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl1.Location = new System.Drawing.Point(2, 2);
             this.layoutControl1.Name = "layoutControl1";
@@ -216,38 +216,20 @@
             this.layoutControl1.TabIndex = 41;
             this.layoutControl1.Text = "layoutControl1";
             // 
-            // upperDeptCode
-            // 
-            this.upperDeptCode.Location = new System.Drawing.Point(20, 45);
-            this.upperDeptCode.Name = "upperDeptCode";
-            this.upperDeptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.upperDeptCode.Size = new System.Drawing.Size(137, 20);
-            this.upperDeptCode.StyleController = this.layoutControl1;
-            this.upperDeptCode.TabIndex = 4;
-            // 
             // upperDeptName
             // 
             this.upperDeptName.Location = new System.Drawing.Point(177, 45);
             this.upperDeptName.Name = "upperDeptName";
+            this.upperDeptName.Properties.ReadOnly = true;
             this.upperDeptName.Size = new System.Drawing.Size(150, 20);
             this.upperDeptName.StyleController = this.layoutControl1;
             this.upperDeptName.TabIndex = 5;
-            // 
-            // deptCode
-            // 
-            this.deptCode.Location = new System.Drawing.Point(20, 115);
-            this.deptCode.Name = "deptCode";
-            this.deptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.deptCode.Size = new System.Drawing.Size(137, 20);
-            this.deptCode.StyleController = this.layoutControl1;
-            this.deptCode.TabIndex = 6;
             // 
             // deptName
             // 
             this.deptName.Location = new System.Drawing.Point(177, 115);
             this.deptName.Name = "deptName";
+            this.deptName.Properties.ReadOnly = true;
             this.deptName.Size = new System.Drawing.Size(150, 20);
             this.deptName.StyleController = this.layoutControl1;
             this.deptName.TabIndex = 7;
@@ -647,6 +629,30 @@
             this.panelControl2.Size = new System.Drawing.Size(541, 514);
             this.panelControl2.TabIndex = 42;
             // 
+            // upperDeptCode
+            // 
+            this.upperDeptCode.Location = new System.Drawing.Point(20, 45);
+            this.upperDeptCode.Name = "upperDeptCode";
+            this.upperDeptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.upperDeptCode.Properties.NullText = "";
+            this.upperDeptCode.Properties.PopupSizeable = false;
+            this.upperDeptCode.Size = new System.Drawing.Size(137, 20);
+            this.upperDeptCode.StyleController = this.layoutControl1;
+            this.upperDeptCode.TabIndex = 4;
+            // 
+            // deptCode
+            // 
+            this.deptCode.Location = new System.Drawing.Point(20, 115);
+            this.deptCode.Name = "deptCode";
+            this.deptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.deptCode.Properties.NullText = "";
+            this.deptCode.Properties.PopupSizeable = false;
+            this.deptCode.Size = new System.Drawing.Size(137, 20);
+            this.deptCode.StyleController = this.layoutControl1;
+            this.deptCode.TabIndex = 6;
+            // 
             // EmpAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -663,9 +669,7 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperDeptName.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.deptName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.empCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.empName.Properties)).EndInit();
@@ -703,6 +707,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -714,8 +720,6 @@
         private DevExpress.XtraEditors.SimpleButton cancel;
         private DevExpress.XtraEditors.SimpleButton addEditBtn;
         private DevExpress.XtraLayout.LayoutControl layoutControl1;
-        private DevExpress.XtraEditors.ComboBoxEdit upperDeptCode;
-        private DevExpress.XtraEditors.ComboBoxEdit deptCode;
         private DevExpress.XtraEditors.TextEdit deptName;
         private DevExpress.XtraEditors.TextEdit empCode;
         private DevExpress.XtraEditors.TextEdit empName;
@@ -753,5 +757,7 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem17;
         private DevExpress.XtraLayout.SimpleLabelItem gender;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem12;
+        private DevExpress.XtraEditors.LookUpEdit upperDeptCode;
+        private DevExpress.XtraEditors.LookUpEdit deptCode;
     }
 }
