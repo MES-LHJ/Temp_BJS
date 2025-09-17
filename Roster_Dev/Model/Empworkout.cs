@@ -21,7 +21,7 @@ namespace Roster_Dev.Model
         public Emp.EmpAdd.Gender? Gender { get; set; }
         public string PhoneNum { get; set; }
         public string Email { get; set; }
-        public string MessangerId { get; set; }
+        public string MessengerId { get; set; }
         public string Memo { get; set; }
         public string PhotoPath { get; set; }
     }

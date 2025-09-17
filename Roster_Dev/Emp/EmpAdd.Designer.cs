@@ -28,11 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.rosterAddLabel = new DevExpress.XtraEditors.LabelControl();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -54,7 +49,6 @@
             this.messengerId = new DevExpress.XtraEditors.TextEdit();
             this.memo = new DevExpress.XtraEditors.TextEdit();
             this.photo = new DevExpress.XtraEditors.PictureEdit();
-            this.upload = new DevExpress.XtraEditors.ButtonEdit();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.upperDeptCodeLayout = new DevExpress.XtraLayout.LayoutControlItem();
             this.deptCodeLayout = new DevExpress.XtraLayout.LayoutControlItem();
@@ -74,10 +68,10 @@
             this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
             this.gender = new DevExpress.XtraLayout.SimpleLabelItem();
             this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem18 = new DevExpress.XtraLayout.LayoutControlItem();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
-            this.upperDeptCode = new DevExpress.XtraEditors.LookUpEdit();
-            this.deptCode = new DevExpress.XtraEditors.LookUpEdit();
+            this.upperDeptCode = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.deptCode = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -98,7 +92,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.messengerId.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.memo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.photo.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.upload.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperDeptCodeLayout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.deptCodeLayout)).BeginInit();
@@ -118,11 +111,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gender)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -204,7 +197,6 @@
             this.layoutControl1.Controls.Add(this.messengerId);
             this.layoutControl1.Controls.Add(this.memo);
             this.layoutControl1.Controls.Add(this.photo);
-            this.layoutControl1.Controls.Add(this.upload);
             this.layoutControl1.Controls.Add(this.upperDeptCode);
             this.layoutControl1.Controls.Add(this.deptCode);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -287,16 +279,16 @@
             this.male.Location = new System.Drawing.Point(347, 327);
             this.male.Name = "male";
             this.male.Properties.Caption = "남";
-            this.male.Size = new System.Drawing.Size(78, 20);
+            this.male.Size = new System.Drawing.Size(77, 20);
             this.male.StyleController = this.layoutControl1;
             this.male.TabIndex = 14;
             // 
             // female
             // 
-            this.female.Location = new System.Drawing.Point(445, 327);
+            this.female.Location = new System.Drawing.Point(444, 327);
             this.female.Name = "female";
             this.female.Properties.Caption = "여";
-            this.female.Size = new System.Drawing.Size(72, 20);
+            this.female.Size = new System.Drawing.Size(73, 20);
             this.female.StyleController = this.layoutControl1;
             this.female.TabIndex = 15;
             // 
@@ -338,23 +330,9 @@
             this.photo.Margin = new System.Windows.Forms.Padding(0);
             this.photo.Name = "photo";
             this.photo.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
-            this.photo.Size = new System.Drawing.Size(186, 248);
+            this.photo.Size = new System.Drawing.Size(186, 236);
             this.photo.StyleController = this.layoutControl1;
             this.photo.TabIndex = 20;
-            // 
-            // upload
-            // 
-            this.upload.EditValue = "업로드";
-            this.upload.Location = new System.Drawing.Point(339, 264);
-            this.upload.Margin = new System.Windows.Forms.Padding(0);
-            this.upload.Name = "upload";
-            this.upload.Properties.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.upload.Properties.Appearance.Options.UseFont = true;
-            this.upload.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Ellipsis, "", 0, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
-            this.upload.Size = new System.Drawing.Size(186, 24);
-            this.upload.StyleController = this.layoutControl1;
-            this.upload.TabIndex = 21;
             // 
             // Root
             // 
@@ -379,7 +357,7 @@
             this.layoutControlItem12,
             this.gender,
             this.layoutControlItem17,
-            this.layoutControlItem18});
+            this.emptySpaceItem1});
             this.Root.Name = "Root";
             this.Root.Size = new System.Drawing.Size(537, 510);
             this.Root.TextVisible = false;
@@ -574,17 +552,17 @@
             this.layoutControlItem11.Location = new System.Drawing.Point(327, 307);
             this.layoutControlItem11.Name = "layoutControlItem11";
             this.layoutControlItem11.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 10, 10);
-            this.layoutControlItem11.Size = new System.Drawing.Size(98, 43);
+            this.layoutControlItem11.Size = new System.Drawing.Size(97, 43);
             this.layoutControlItem11.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem11.TextVisible = false;
             // 
             // layoutControlItem12
             // 
             this.layoutControlItem12.Control = this.female;
-            this.layoutControlItem12.Location = new System.Drawing.Point(425, 307);
+            this.layoutControlItem12.Location = new System.Drawing.Point(424, 307);
             this.layoutControlItem12.Name = "layoutControlItem12";
             this.layoutControlItem12.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 10, 10);
-            this.layoutControlItem12.Size = new System.Drawing.Size(92, 43);
+            this.layoutControlItem12.Size = new System.Drawing.Size(93, 43);
             this.layoutControlItem12.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem12.TextVisible = false;
             // 
@@ -605,20 +583,9 @@
             this.layoutControlItem17.Control = this.photo;
             this.layoutControlItem17.Location = new System.Drawing.Point(327, 0);
             this.layoutControlItem17.Name = "layoutControlItem17";
-            this.layoutControlItem17.Size = new System.Drawing.Size(190, 252);
+            this.layoutControlItem17.Size = new System.Drawing.Size(190, 240);
             this.layoutControlItem17.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem17.TextVisible = false;
-            // 
-            // layoutControlItem18
-            // 
-            this.layoutControlItem18.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.layoutControlItem18.AppearanceItemCaption.Options.UseFont = true;
-            this.layoutControlItem18.Control = this.upload;
-            this.layoutControlItem18.Location = new System.Drawing.Point(327, 252);
-            this.layoutControlItem18.Name = "layoutControlItem18";
-            this.layoutControlItem18.Size = new System.Drawing.Size(190, 28);
-            this.layoutControlItem18.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem18.TextVisible = false;
             // 
             // panelControl2
             // 
@@ -635,8 +602,6 @@
             this.upperDeptCode.Name = "upperDeptCode";
             this.upperDeptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.upperDeptCode.Properties.NullText = "";
-            this.upperDeptCode.Properties.PopupSizeable = false;
             this.upperDeptCode.Size = new System.Drawing.Size(137, 20);
             this.upperDeptCode.StyleController = this.layoutControl1;
             this.upperDeptCode.TabIndex = 4;
@@ -647,11 +612,17 @@
             this.deptCode.Name = "deptCode";
             this.deptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.deptCode.Properties.NullText = "";
-            this.deptCode.Properties.PopupSizeable = false;
             this.deptCode.Size = new System.Drawing.Size(137, 20);
             this.deptCode.StyleController = this.layoutControl1;
             this.deptCode.TabIndex = 6;
+            // 
+            // emptySpaceItem1
+            // 
+            this.emptySpaceItem1.AllowHotTrack = false;
+            this.emptySpaceItem1.Location = new System.Drawing.Point(327, 240);
+            this.emptySpaceItem1.Name = "emptySpaceItem1";
+            this.emptySpaceItem1.Size = new System.Drawing.Size(190, 40);
+            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // EmpAdd
             // 
@@ -684,7 +655,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.messengerId.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.memo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.photo.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.upload.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperDeptCodeLayout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.deptCodeLayout)).EndInit();
@@ -704,11 +674,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gender)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -749,15 +719,14 @@
         private DevExpress.XtraLayout.LayoutControlItem memoLayout;
         private DevExpress.XtraLayout.LayoutControlItem messengerIdLayout;
         private DevExpress.XtraLayout.LayoutControlItem emailLayout;
-        private DevExpress.XtraEditors.ButtonEdit upload;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem18;
         private DevExpress.XtraEditors.TextEdit upperDeptName;
         private DevExpress.XtraLayout.LayoutControlItem upperDeptNameLayout;
         private DevExpress.XtraEditors.PictureEdit photo;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem17;
         private DevExpress.XtraLayout.SimpleLabelItem gender;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem12;
-        private DevExpress.XtraEditors.LookUpEdit upperDeptCode;
-        private DevExpress.XtraEditors.LookUpEdit deptCode;
+        private DevExpress.XtraEditors.ComboBoxEdit upperDeptCode;
+        private DevExpress.XtraEditors.ComboBoxEdit deptCode;
+        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
     }
 }

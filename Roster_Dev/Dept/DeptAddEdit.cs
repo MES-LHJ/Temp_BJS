@@ -61,13 +61,29 @@ namespace Roster_Dev.Dept
 
         private void UpperDeptCode_EditValueChanged(object sender, EventArgs e)
         {
-            if(upperDeptCode.EditValue is UpperDeptWorkout upperDept)
+            if (isEditMode)
             {
-                upperDeptName.Text = upperDept.UpperDepartmentName;
+                if(upperDeptCode.EditValue is UpperDeptWorkout upperDept)
+                {
+                    upperDeptName.Text = upperDept.UpperDepartmentName;
+                }
+                else
+                {
+                    upperDeptName.Text = string.Empty;
+                }
             }
             else
             {
-                upperDeptName.Text = string.Empty;
+                // 선택된 상위부서코드에 해당하는 상위부서명 매핑
+                UpperDeptWorkout upperDept = upperDeptCode.GetSelectedDataRow() as UpperDeptWorkout;
+                if (upperDept != null)
+                {
+                    upperDeptName.Text = upperDept.UpperDepartmentName;
+                }
+                else
+                {
+                    upperDeptName.Text = string.Empty;
+                }
             }
         }
 

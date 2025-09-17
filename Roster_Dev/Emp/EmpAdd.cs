@@ -1,4 +1,5 @@
-﻿using Roster_Dev.UtilClass;
+﻿using Roster_Dev.Model;
+using Roster_Dev.UtilClass;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,15 +16,22 @@ namespace Roster_Dev.Emp
 {
     public partial class EmpAdd : Form
     {
-        public EmpAdd()
+        private DeptWorkout _deptWorkout;
+        public EmpAdd(DeptWorkout deptWorkout)
         {
             InitializeComponent();
             AddEvent();
+            _deptWorkout = deptWorkout;
         }
         private void AddEvent()
         {
             this.Load += Form_Load;
+            this.male.CheckedChanged += Male_CheckedChanged;
+            this.female.CheckedChanged += Female_CheckedChanged;
+            this.upperDeptCode.EditValueChanged += UpperDeptCode_EditValueChanged;
+            this.deptCode.EditValueChanged += DeptCode_EditValueChanged;
             this.addEditBtn.Click += Save_Click;
+            this.photo.Click += Photo_Click;
             this.cancel.Click += Cancel_Click;
         }
 
@@ -43,6 +51,60 @@ namespace Roster_Dev.Emp
             password.Tag     = passwordLayout.Text;
         }
 
+        private void UpperDeptCode_EditValueChanged(object sender, EventArgs e)
+        {
+            //UpperDeptWorkout upperDept = upperDeptCode.EditValue as UpperDeptWorkout;
+            //if (upperDept != null)
+            //{
+            //    upperDeptName.Text = upperDept.UpperDepartmentName;
+            //}
+            //else
+            //{
+            //    upperDeptName.Text = string.Empty;
+            //}
+            deptCode.Properties.Items.Clear();
+            deptCode.Text = string.Empty;
+            deptName.Text = string.Empty;
+
+            if (upperDeptCode.SelectedItem is UpperDeptWorkout selectedUpper)
+            {
+                upperDeptName.Text = selectedUpper.UpperDepartmentName;
+
+                // 하위부서 바인딩
+                var departments = SqlReposit.GetDepartments()
+                    .Where(d => d.UpperDepartmentId == selectedUpper.UpperDepartmentId)
+                    .OrderBy(d => d.DepartmentCode)
+                    .ToList();
+
+                deptCode.Properties.Items.Clear();
+                foreach (var dept in departments)
+                {
+                    deptCode.Properties.Items.Add(dept);
+                }
+            }
+        }
+
+        private void DeptCode_EditValueChanged(object sender, EventArgs e)
+        {
+            if (deptCode.SelectedItem is DeptWorkout selectedDept)
+            {
+                deptName.Text = selectedDept.DepartmentName;
+            }
+            else
+            {
+                deptName.Text = string.Empty;
+            }
+        }
+
+        private void Male_CheckedChanged(object sender, EventArgs e)
+        {
+            if (male.Checked) female.Checked = false;
+        }
+        private void Female_CheckedChanged(object sender, EventArgs e)
+        {
+            if (female.Checked) male.Checked = false;
+        }
+
         private void Form_Load(object sender, EventArgs e)
         {
             SetTag();
@@ -50,17 +112,35 @@ namespace Roster_Dev.Emp
             var upperDepartments = SqlReposit.GetUpperDepartments()
                 .OrderBy(u => u.UpperDepartmentCode)
                 .ToList();
-            upperDeptCode.Properties.DataSource = upperDepartments;
-            upperDeptCode.Properties.DisplayMember = "UpperDepartmentCode";
-            upperDeptCode.Properties.ValueMember = "UpperDepartmentId";
 
-            // 부서코드
+            upperDeptCode.Properties.Items.Clear();
+            foreach (var upperDept in upperDepartments)
+            {
+                upperDeptCode.Properties.Items.Add(upperDept);
+            }
+
+            deptCode.Properties.Items.Clear();
+
             var departments = SqlReposit.GetDepartments()
-                .OrderBy(d => d.DepartmentCode)
-                .ToList();
-            deptCode.Properties.DataSource = departments;
-            deptCode.Properties.DisplayMember = "DepartmentCode";
-            deptCode.Properties.ValueMember = "DepartmentId";
+                    .Where(d => d.UpperDepartmentId == _deptWorkout.UpperDepartmentId)
+                    .OrderBy(d => d.DepartmentCode)
+                    .ToList();
+
+            deptCode.Properties.Items.Clear();
+            foreach (var dept in departments)
+            {
+                deptCode.Properties.Items.Add(dept);
+            }
+
+            // 하위부서 선택
+            foreach (DeptWorkout item in deptCode.Properties.Items)
+            {
+                if (item.DepartmentId == _deptWorkout.DepartmentId)
+                {
+                    deptCode.SelectedItem = item;
+                    break;
+                }
+            }
         }
 
         private void Save_Click(object sender, EventArgs e)
@@ -69,9 +149,59 @@ namespace Roster_Dev.Emp
             {
                 return;
             }
-            // Save logic here
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            try
+            {
+                var selectedDept = deptCode.SelectedItem as DeptWorkout;
+                var emp = new EmpWorkout
+                {
+                    DeptId = selectedDept.DepartmentId,
+                    EmpCode = empCode.Text,
+                    EmpName = empName.Text,
+                    LoginId = loginId.Text,
+                    Password = password.Text,
+                    Email = string.IsNullOrWhiteSpace(email.Text) ? null : email.Text,
+                    PhoneNum = string.IsNullOrWhiteSpace(phoneNum.Text) ? null : phoneNum.Text,
+                    Position = string.IsNullOrWhiteSpace(position.Text) ? null : position.Text,
+                    Employment = string.IsNullOrWhiteSpace(employment.Text) ? null : employment.Text,
+                    Gender = male.Checked ? Gender.Male : (female.Checked ? Gender.Female : (Gender?)null),
+                    MessengerId = string.IsNullOrWhiteSpace(messengerId.Text) ? null : messengerId.Text,
+                    Memo = string.IsNullOrWhiteSpace(memo.Text) ? null : memo.Text,
+                    PhotoPath = photo.Image != null ? Convert.ToBase64String((byte[])(new ImageConverter()).ConvertTo(photo.Image, typeof(byte[]))) : null
+                };
+
+                var result = SqlReposit.InsertEmp(emp);
+                if (result > 0)
+                {
+                    MessageBox.Show("부서가 추가되었습니다.");
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Photo_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "사진 선택";
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        Image selectedImage = Image.FromFile(openFileDialog.FileName);
+                        photo.Image = selectedImage;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("이미지를 불러오는 중 오류가 발생했습니다: " + ex.Message);
+                    }
+                }
+            }
         }
 
         private void Cancel_Click(object sender, EventArgs e)

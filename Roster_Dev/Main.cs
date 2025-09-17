@@ -1,4 +1,5 @@
 ﻿using Roster_Dev.Dpt;
+using Roster_Dev.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,7 +48,8 @@ namespace Roster_Dev
 
         private void Add_Click(object sender, EventArgs e)
         {
-            using (var Form = new Emp.EmpAdd())
+            var dept = new DeptWorkout();
+            using (var Form = new Emp.EmpAdd(dept))
             {
                 Form.ShowDialog();
             }

@@ -235,6 +235,11 @@ namespace Roster_Dev
             }
         }
 
+        /// <summary>
+        /// 사원추가
+        /// </summary>
+        /// <param name="emp"></param>
+        /// <returns></returns>
         public static int InsertEmp(EmpWorkout emp)
         {
             const string sql = @"
@@ -249,9 +254,9 @@ namespace Roster_Dev
                                 RETURN;
                             END
                             INSERT INTO dbo.Employee (DeptId, EmpCode, EmpName, LoginId, Password, Position, Employment,
-                                Gender, PhoneNum, Email, MessangerId, Memo, PhotoPath)
+                                Gender, PhoneNum, Email, MessengerId, Memo, PhotoPath)
                             VALUES (@DeptId, @EmpCode, @EmpName, @LoginId, @Password, @Position, @Employment,
-                                @Gender, @PhoneNum, @Email, @MessangerId, @Memo, @PhotoPath);
+                                @Gender, @PhoneNum, @Email, @MessengerId, @Memo, @PhotoPath);
             ";
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
@@ -266,7 +271,7 @@ namespace Roster_Dev
                 cmd.AddValue($"@{nameof(EmpWorkout.Gender)}", emp.Gender.ToString());
                 cmd.AddValue($"@{nameof(EmpWorkout.PhoneNum)}", emp.PhoneNum.DbNull());
                 cmd.AddValue($"@{nameof(EmpWorkout.Email)}", emp.Email.DbNull());
-                cmd.AddValue($"@{nameof(EmpWorkout.MessangerId)}", emp.MessangerId.DbNull());
+                cmd.AddValue($"@{nameof(EmpWorkout.MessengerId)}", emp.MessengerId.DbNull());
                 cmd.AddValue($"@{nameof(EmpWorkout.Memo)}", emp.Memo.DbNull());
                 cmd.AddValue($"@{nameof(EmpWorkout.PhotoPath)}", emp.PhotoPath.DbNull());
                 conn.Open();
@@ -274,6 +279,11 @@ namespace Roster_Dev
             }
         }
 
+        /// <summary>
+        /// 사원수정
+        /// </summary>
+        /// <param name="emp"></param>
+        /// <returns></returns>
         public static int UpdateEmp(EmpWorkout emp)
         {
             const string sql = @"
@@ -298,7 +308,7 @@ namespace Roster_Dev
                                 Gender = @Gender,
                                 PhoneNum = @PhoneNum,
                                 Email = @Email,
-                                MessangerId = @MessangerId,
+                                MessengerId = @MessengerId,
                                 Memo = @Memo,
                                 PhotoPath = @PhotoPath
                             WHERE EmpId = @EmpId;
@@ -317,7 +327,7 @@ namespace Roster_Dev
                 cmd.AddValue($"@{nameof(EmpWorkout.Gender)}", emp.Gender.ToString());
                 cmd.AddValue($"@{nameof(EmpWorkout.PhoneNum)}", emp.PhoneNum.DbNull());
                 cmd.AddValue($"@{nameof(EmpWorkout.Email)}", emp.Email.DbNull());
-                cmd.AddValue($"@{nameof(EmpWorkout.MessangerId)}", emp.MessangerId.DbNull());
+                cmd.AddValue($"@{nameof(EmpWorkout.MessengerId)}", emp.MessengerId.DbNull());
                 cmd.AddValue($"@{nameof(EmpWorkout.Memo)}", emp.Memo.DbNull());
                 cmd.AddValue($"@{nameof(EmpWorkout.PhotoPath)}", emp.PhotoPath.DbNull());
                 conn.Open();
@@ -325,6 +335,11 @@ namespace Roster_Dev
             }
         }
 
+        /// <summary>
+        /// 사원삭제
+        /// </summary>
+        /// <param name="empId"></param>
+        /// <returns></returns>
         public static int DeleteEmp(long empId)
         {
             const string sql = @"
@@ -340,6 +355,10 @@ namespace Roster_Dev
             }
         }
 
+        /// <summary>
+        /// 상위부서조회
+        /// </summary>
+        /// <returns></returns>
         public static List<UpperDeptWorkout> GetUpperDepartments()
         {
             const string sql = @"
@@ -368,6 +387,10 @@ namespace Roster_Dev
             return list;
         }
 
+        /// <summary>
+        /// 부서조회
+        /// </summary>
+        /// <returns></returns>
         public static List<DeptWorkout> GetDepartments()
         {
             const string sql = @"
@@ -397,11 +420,15 @@ namespace Roster_Dev
             return list;
         }
 
+        /// <summary>
+        /// 사원조회
+        /// </summary>
+        /// <returns></returns>
         public static List<EmpWorkout> GetEmployees()
         {
             const string sql = @"
                             SELECT e.DeptId, d.DeptCode,d.DeptName, e.EmpId, e.EmpCode, e.EmpName, e.LoginId, e.Password, e.Position, e.Employment,
-                                   e.Gender, e.PhoneNum, e.Email, e.MessangerId, e.Memo, e.PhotoPath FROM dbo.Employee e
+                                   e.Gender, e.PhoneNum, e.Email, e.MessengerId, e.Memo, e.PhotoPath FROM dbo.Employee e
                             JOIN dbo.Department d ON e.DeptId = d.DepartmentId;
             ";
             var list = new List<EmpWorkout>();
@@ -428,7 +455,7 @@ namespace Roster_Dev
                                     EmpAdd.Gender.Male : EmpAdd.Gender.Female,
                             PhoneNum = reader[nameof(EmpWorkout.PhoneNum)].ToString(),
                             Email = reader[nameof(EmpWorkout.Email)].ToString(),
-                            MessangerId = reader[nameof(EmpWorkout.MessangerId)].ToString(),
+                            MessengerId = reader[nameof(EmpWorkout.MessengerId)].ToString(),
                             Memo = reader[nameof(EmpWorkout.Memo)].ToString(),
                             PhotoPath = reader[nameof(EmpWorkout.PhotoPath)].ToString()
                         });

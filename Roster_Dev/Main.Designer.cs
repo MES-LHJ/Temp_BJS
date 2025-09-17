@@ -42,6 +42,7 @@
             this.convertBtn = new DevExpress.XtraEditors.SimpleButton();
             this.exitBtn = new DevExpress.XtraEditors.SimpleButton();
             this.rosterLabel = new DevExpress.XtraEditors.LabelControl();
+            this.imageEdit1 = new DevExpress.XtraEditors.PictureEdit();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.empGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -60,17 +61,16 @@
             this.memo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.image = new DevExpress.XtraGrid.Columns.GridColumn();
             this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
-            this.imageEdit1 = new DevExpress.XtraEditors.PictureEdit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.empBtns)).BeginInit();
             this.empBtns.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.empGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageEdit1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -316,6 +316,21 @@
             this.rosterLabel.TabIndex = 0;
             this.rosterLabel.Text = "부서사원";
             // 
+            // imageEdit1
+            // 
+            this.imageEdit1.EditValue = ((object)(resources.GetObject("imageEdit1.EditValue")));
+            this.imageEdit1.Location = new System.Drawing.Point(9, 10);
+            this.imageEdit1.Name = "imageEdit1";
+            this.imageEdit1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.imageEdit1.Properties.Appearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.imageEdit1.Properties.Appearance.Options.UseBackColor = true;
+            this.imageEdit1.Properties.Appearance.Options.UseBorderColor = true;
+            this.imageEdit1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.imageEdit1.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+            this.imageEdit1.Size = new System.Drawing.Size(20, 20);
+            this.imageEdit1.TabIndex = 2;
+            this.imageEdit1.TabStop = true;
+            // 
             // panelControl2
             // 
             this.panelControl2.Controls.Add(this.empGrid);
@@ -367,6 +382,7 @@
             this.departmentCode.AppearanceHeader.Options.UseTextOptions = true;
             this.departmentCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.departmentCode.Caption = "부서코드";
+            this.departmentCode.FieldName = "DepartmentCode";
             this.departmentCode.Name = "departmentCode";
             this.departmentCode.OptionsFilter.AllowFilter = false;
             this.departmentCode.Visible = true;
@@ -380,6 +396,7 @@
             this.departmentName.AppearanceHeader.Options.UseTextOptions = true;
             this.departmentName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.departmentName.Caption = "부서명";
+            this.departmentName.FieldName = "DepartmentName";
             this.departmentName.Name = "departmentName";
             this.departmentName.Visible = true;
             this.departmentName.VisibleIndex = 1;
@@ -392,6 +409,7 @@
             this.employeeCode.AppearanceHeader.Options.UseTextOptions = true;
             this.employeeCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.employeeCode.Caption = "사원코드";
+            this.employeeCode.FieldName = "EmpCode";
             this.employeeCode.Name = "employeeCode";
             this.employeeCode.Visible = true;
             this.employeeCode.VisibleIndex = 2;
@@ -404,6 +422,7 @@
             this.employeeName.AppearanceHeader.Options.UseTextOptions = true;
             this.employeeName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.employeeName.Caption = "사원명";
+            this.employeeName.FieldName = "EmpName";
             this.employeeName.Name = "employeeName";
             this.employeeName.Visible = true;
             this.employeeName.VisibleIndex = 3;
@@ -416,6 +435,7 @@
             this.loginId.AppearanceHeader.Options.UseTextOptions = true;
             this.loginId.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.loginId.Caption = "로그인ID";
+            this.loginId.FieldName = "LoginId";
             this.loginId.Name = "loginId";
             this.loginId.Visible = true;
             this.loginId.VisibleIndex = 4;
@@ -428,6 +448,7 @@
             this.password.AppearanceHeader.Options.UseTextOptions = true;
             this.password.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.password.Caption = "비밀번호";
+            this.password.FieldName = "Password";
             this.password.Name = "password";
             this.password.Visible = true;
             this.password.VisibleIndex = 5;
@@ -440,6 +461,7 @@
             this.position.AppearanceHeader.Options.UseTextOptions = true;
             this.position.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.position.Caption = "직위";
+            this.position.FieldName = "Position";
             this.position.Name = "position";
             this.position.Visible = true;
             this.position.VisibleIndex = 6;
@@ -452,6 +474,7 @@
             this.employment.AppearanceHeader.Options.UseTextOptions = true;
             this.employment.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.employment.Caption = "고용형태";
+            this.employment.FieldName = "Employment";
             this.employment.Name = "employment";
             this.employment.Visible = true;
             this.employment.VisibleIndex = 7;
@@ -464,6 +487,7 @@
             this.gender.AppearanceHeader.Options.UseTextOptions = true;
             this.gender.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gender.Caption = "성별";
+            this.gender.FieldName = "Gender";
             this.gender.Name = "gender";
             this.gender.Visible = true;
             this.gender.VisibleIndex = 8;
@@ -476,6 +500,7 @@
             this.phoneNum.AppearanceHeader.Options.UseTextOptions = true;
             this.phoneNum.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.phoneNum.Caption = "휴대전화";
+            this.phoneNum.FieldName = "PhoneNum";
             this.phoneNum.Name = "phoneNum";
             this.phoneNum.Visible = true;
             this.phoneNum.VisibleIndex = 9;
@@ -488,6 +513,7 @@
             this.email.AppearanceHeader.Options.UseTextOptions = true;
             this.email.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.email.Caption = "이메일";
+            this.email.FieldName = "Email";
             this.email.Name = "email";
             this.email.Visible = true;
             this.email.VisibleIndex = 10;
@@ -500,6 +526,7 @@
             this.messengerId.AppearanceHeader.Options.UseTextOptions = true;
             this.messengerId.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.messengerId.Caption = "메신저ID";
+            this.messengerId.FieldName = "MessengerId";
             this.messengerId.Name = "messengerId";
             this.messengerId.Visible = true;
             this.messengerId.VisibleIndex = 11;
@@ -512,6 +539,7 @@
             this.memo.AppearanceHeader.Options.UseTextOptions = true;
             this.memo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.memo.Caption = "메모";
+            this.memo.FieldName = "Memo";
             this.memo.Name = "memo";
             this.memo.Visible = true;
             this.memo.VisibleIndex = 12;
@@ -524,24 +552,10 @@
             this.image.AppearanceHeader.Options.UseTextOptions = true;
             this.image.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.image.Caption = "이미지";
+            this.image.FieldName = "Photo";
             this.image.Name = "image";
             this.image.Visible = true;
             this.image.VisibleIndex = 13;
-            // 
-            // imageEdit1
-            // 
-            this.imageEdit1.EditValue = ((object)(resources.GetObject("imageEdit1.EditValue")));
-            this.imageEdit1.Location = new System.Drawing.Point(9, 10);
-            this.imageEdit1.Name = "imageEdit1";
-            this.imageEdit1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            this.imageEdit1.Properties.Appearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            this.imageEdit1.Properties.Appearance.Options.UseBackColor = true;
-            this.imageEdit1.Properties.Appearance.Options.UseBorderColor = true;
-            this.imageEdit1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.imageEdit1.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
-            this.imageEdit1.Size = new System.Drawing.Size(20, 20);
-            this.imageEdit1.TabIndex = 2;
-            this.imageEdit1.TabStop = true;
             // 
             // Main
             // 
@@ -557,12 +571,12 @@
             this.panelControl1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.empBtns)).EndInit();
             this.empBtns.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imageEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.empGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageEdit1.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

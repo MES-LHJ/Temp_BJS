@@ -49,9 +49,9 @@
             this.upperDeptMemo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.deptGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.dptCode = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.dptName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.dptMemo = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.deptCode = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.deptName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.deptMemo = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageEdit1.Properties)).BeginInit();
@@ -367,38 +367,41 @@
             // gridView2
             // 
             this.gridView2.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.dptCode,
-            this.dptName,
-            this.dptMemo});
+            this.deptCode,
+            this.deptName,
+            this.deptMemo});
             this.gridView2.GridControl = this.deptGrid;
             this.gridView2.Name = "gridView2";
             // 
-            // dptCode
+            // deptCode
             // 
-            this.dptCode.AppearanceHeader.Options.UseTextOptions = true;
-            this.dptCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.dptCode.Caption = "부서코드";
-            this.dptCode.Name = "dptCode";
-            this.dptCode.Visible = true;
-            this.dptCode.VisibleIndex = 0;
+            this.deptCode.AppearanceHeader.Options.UseTextOptions = true;
+            this.deptCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.deptCode.Caption = "부서코드";
+            this.deptCode.FieldName = "DepartmentCode";
+            this.deptCode.Name = "deptCode";
+            this.deptCode.Visible = true;
+            this.deptCode.VisibleIndex = 0;
             // 
-            // dptName
+            // deptName
             // 
-            this.dptName.AppearanceHeader.Options.UseTextOptions = true;
-            this.dptName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.dptName.Caption = "부서명";
-            this.dptName.Name = "dptName";
-            this.dptName.Visible = true;
-            this.dptName.VisibleIndex = 1;
+            this.deptName.AppearanceHeader.Options.UseTextOptions = true;
+            this.deptName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.deptName.Caption = "부서명";
+            this.deptName.FieldName = "DepartmentName";
+            this.deptName.Name = "deptName";
+            this.deptName.Visible = true;
+            this.deptName.VisibleIndex = 1;
             // 
-            // dptMemo
+            // deptMemo
             // 
-            this.dptMemo.AppearanceHeader.Options.UseTextOptions = true;
-            this.dptMemo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.dptMemo.Caption = "메모";
-            this.dptMemo.Name = "dptMemo";
-            this.dptMemo.Visible = true;
-            this.dptMemo.VisibleIndex = 2;
+            this.deptMemo.AppearanceHeader.Options.UseTextOptions = true;
+            this.deptMemo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.deptMemo.Caption = "메모";
+            this.deptMemo.FieldName = "Memo";
+            this.deptMemo.Name = "deptMemo";
+            this.deptMemo.Visible = true;
+            this.deptMemo.VisibleIndex = 2;
             // 
             // Department
             // 
@@ -451,9 +454,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn upperDeptCode;
         private DevExpress.XtraGrid.Columns.GridColumn upperDeptName;
         private DevExpress.XtraGrid.Columns.GridColumn upperDeptMemo;
-        private DevExpress.XtraGrid.Columns.GridColumn dptCode;
-        private DevExpress.XtraGrid.Columns.GridColumn dptName;
-        private DevExpress.XtraGrid.Columns.GridColumn dptMemo;
+        private DevExpress.XtraGrid.Columns.GridColumn deptCode;
+        private DevExpress.XtraGrid.Columns.GridColumn deptName;
+        private DevExpress.XtraGrid.Columns.GridColumn deptMemo;
         private DevExpress.XtraEditors.LabelControl deptLabel;
         private DevExpress.XtraEditors.PictureEdit imageEdit1;
     }

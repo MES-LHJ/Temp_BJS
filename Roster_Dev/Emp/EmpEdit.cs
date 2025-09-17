@@ -21,6 +21,7 @@ namespace Roster_Dev.Emp
         {
             this.Load += Form_Load;
             this.addEditBtn.Click += Save_Click;
+            this.photo.Click += Photo_Click;
             this.cancel.Click += Cancel_Click;
         }
 
@@ -35,6 +36,19 @@ namespace Roster_Dev.Emp
         private void Form_Load(object sender, EventArgs e)
         {
             SetTag();
+
+            //if (_deptWorkout != null)
+            //{
+            //    foreach (UpperDeptWorkout item in upperDeptCode.Properties.Items)
+            //    {
+            //        if(item.UpperDepartmentId == _deptWorkout.UpperDepartmentId)
+            //        {
+            //            upperDeptCode.EditValue = item;
+            //            upperDeptName.Text = item.UpperDepartmentName;
+            //            break;
+            //        }
+            //    }
+            //}
         }
 
         private void Save_Click(object sender, EventArgs e)
@@ -46,6 +60,27 @@ namespace Roster_Dev.Emp
             // Save logic here
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void Photo_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "사진 선택";
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        Image selectedImage = Image.FromFile(openFileDialog.FileName);
+                        photo.Image = selectedImage;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("이미지를 불러오는 중 오류가 발생했습니다: " + ex.Message);
+                    }
+                }
+            }
         }
 
         private void Cancel_Click(object sender, EventArgs e)
