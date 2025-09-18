@@ -35,12 +35,6 @@ namespace Roster_Dev.Emp
             this.cancel.Click += Cancel_Click;
         }
 
-        public enum Gender
-        {
-            Male,
-            Female
-        }
-
         private void SetTag()
         {
             upperDeptCode.Tag = upperDeptCodeLayout.Text;
@@ -154,16 +148,16 @@ namespace Roster_Dev.Emp
                 var selectedDept = deptCode.SelectedItem as DeptWorkout;
                 var emp = new EmpWorkout
                 {
-                    DeptId = selectedDept.DepartmentId,
-                    EmpCode = empCode.Text,
-                    EmpName = empName.Text,
+                    DepartmentId = selectedDept.DepartmentId,
+                    EmployeeCode = empCode.Text,
+                    EmployeeName = empName.Text,
                     LoginId = loginId.Text,
                     Password = password.Text,
                     Email = string.IsNullOrWhiteSpace(email.Text) ? null : email.Text,
                     PhoneNum = string.IsNullOrWhiteSpace(phoneNum.Text) ? null : phoneNum.Text,
                     Position = string.IsNullOrWhiteSpace(position.Text) ? null : position.Text,
                     Employment = string.IsNullOrWhiteSpace(employment.Text) ? null : employment.Text,
-                    Gender = male.Checked ? Gender.Male : (female.Checked ? Gender.Female : (Gender?)null),
+                    Gender = male.Checked ? Util.Gender.Male : (female.Checked ? Util.Gender.Female : (Util.Gender?)null),
                     MessengerId = string.IsNullOrWhiteSpace(messengerId.Text) ? null : messengerId.Text,
                     Memo = string.IsNullOrWhiteSpace(memo.Text) ? null : memo.Text,
                     PhotoPath = photo.Image != null ? Convert.ToBase64String((byte[])(new ImageConverter()).ConvertTo(photo.Image, typeof(byte[]))) : null

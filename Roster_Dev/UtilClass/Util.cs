@@ -27,5 +27,11 @@ namespace Roster_Dev.UtilClass
             }
             return true;
         }
+
+        public enum Gender
+        {
+            Male,
+            Female
+        }
     }
 }

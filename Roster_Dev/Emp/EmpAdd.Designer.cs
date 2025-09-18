@@ -49,6 +49,8 @@
             this.messengerId = new DevExpress.XtraEditors.TextEdit();
             this.memo = new DevExpress.XtraEditors.TextEdit();
             this.photo = new DevExpress.XtraEditors.PictureEdit();
+            this.upperDeptCode = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.deptCode = new DevExpress.XtraEditors.ComboBoxEdit();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.upperDeptCodeLayout = new DevExpress.XtraLayout.LayoutControlItem();
             this.deptCodeLayout = new DevExpress.XtraLayout.LayoutControlItem();
@@ -68,10 +70,8 @@
             this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
             this.gender = new DevExpress.XtraLayout.SimpleLabelItem();
             this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
-            this.upperDeptCode = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.deptCode = new DevExpress.XtraEditors.ComboBoxEdit();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -92,6 +92,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.messengerId.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.memo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.photo.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperDeptCodeLayout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.deptCodeLayout)).BeginInit();
@@ -111,11 +113,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gender)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -156,7 +156,7 @@
             // 
             // cancel
             // 
-            this.cancel.Appearance.BackColor = System.Drawing.Color.Red;
+            this.cancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.cancel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancel.Appearance.Options.UseBackColor = true;
             this.cancel.Appearance.Options.UseFont = true;
@@ -334,6 +334,26 @@
             this.photo.StyleController = this.layoutControl1;
             this.photo.TabIndex = 20;
             // 
+            // upperDeptCode
+            // 
+            this.upperDeptCode.Location = new System.Drawing.Point(20, 45);
+            this.upperDeptCode.Name = "upperDeptCode";
+            this.upperDeptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.upperDeptCode.Size = new System.Drawing.Size(137, 20);
+            this.upperDeptCode.StyleController = this.layoutControl1;
+            this.upperDeptCode.TabIndex = 4;
+            // 
+            // deptCode
+            // 
+            this.deptCode.Location = new System.Drawing.Point(20, 115);
+            this.deptCode.Name = "deptCode";
+            this.deptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.deptCode.Size = new System.Drawing.Size(137, 20);
+            this.deptCode.StyleController = this.layoutControl1;
+            this.deptCode.TabIndex = 6;
+            // 
             // Root
             // 
             this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
@@ -365,7 +385,9 @@
             // upperDeptCodeLayout
             // 
             this.upperDeptCodeLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.upperDeptCodeLayout.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.upperDeptCodeLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.upperDeptCodeLayout.AppearanceItemCaption.Options.UseForeColor = true;
             this.upperDeptCodeLayout.Control = this.upperDeptCode;
             this.upperDeptCodeLayout.Location = new System.Drawing.Point(0, 0);
             this.upperDeptCodeLayout.Name = "upperDeptCodeLayout";
@@ -378,7 +400,9 @@
             // deptCodeLayout
             // 
             this.deptCodeLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deptCodeLayout.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.deptCodeLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.deptCodeLayout.AppearanceItemCaption.Options.UseForeColor = true;
             this.deptCodeLayout.Control = this.deptCode;
             this.deptCodeLayout.Location = new System.Drawing.Point(0, 70);
             this.deptCodeLayout.Name = "deptCodeLayout";
@@ -391,7 +415,9 @@
             // empCodeLayout
             // 
             this.empCodeLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.empCodeLayout.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.empCodeLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.empCodeLayout.AppearanceItemCaption.Options.UseForeColor = true;
             this.empCodeLayout.Control = this.empCode;
             this.empCodeLayout.Location = new System.Drawing.Point(0, 140);
             this.empCodeLayout.Name = "empCodeLayout";
@@ -404,7 +430,9 @@
             // loginIdLayout
             // 
             this.loginIdLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loginIdLayout.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.loginIdLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.loginIdLayout.AppearanceItemCaption.Options.UseForeColor = true;
             this.loginIdLayout.Control = this.loginId;
             this.loginIdLayout.Location = new System.Drawing.Point(0, 210);
             this.loginIdLayout.Name = "loginIdLayout";
@@ -456,7 +484,9 @@
             // empNameLayout
             // 
             this.empNameLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.empNameLayout.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.empNameLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.empNameLayout.AppearanceItemCaption.Options.UseForeColor = true;
             this.empNameLayout.Control = this.empName;
             this.empNameLayout.Location = new System.Drawing.Point(157, 140);
             this.empNameLayout.Name = "empNameLayout";
@@ -469,7 +499,9 @@
             // passwordLayout
             // 
             this.passwordLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.passwordLayout.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.passwordLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.passwordLayout.AppearanceItemCaption.Options.UseForeColor = true;
             this.passwordLayout.Control = this.password;
             this.passwordLayout.Location = new System.Drawing.Point(157, 210);
             this.passwordLayout.Name = "passwordLayout";
@@ -587,6 +619,14 @@
             this.layoutControlItem17.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem17.TextVisible = false;
             // 
+            // emptySpaceItem1
+            // 
+            this.emptySpaceItem1.AllowHotTrack = false;
+            this.emptySpaceItem1.Location = new System.Drawing.Point(327, 240);
+            this.emptySpaceItem1.Name = "emptySpaceItem1";
+            this.emptySpaceItem1.Size = new System.Drawing.Size(190, 40);
+            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
+            // 
             // panelControl2
             // 
             this.panelControl2.Controls.Add(this.layoutControl1);
@@ -595,34 +635,6 @@
             this.panelControl2.Name = "panelControl2";
             this.panelControl2.Size = new System.Drawing.Size(541, 514);
             this.panelControl2.TabIndex = 42;
-            // 
-            // upperDeptCode
-            // 
-            this.upperDeptCode.Location = new System.Drawing.Point(20, 45);
-            this.upperDeptCode.Name = "upperDeptCode";
-            this.upperDeptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.upperDeptCode.Size = new System.Drawing.Size(137, 20);
-            this.upperDeptCode.StyleController = this.layoutControl1;
-            this.upperDeptCode.TabIndex = 4;
-            // 
-            // deptCode
-            // 
-            this.deptCode.Location = new System.Drawing.Point(20, 115);
-            this.deptCode.Name = "deptCode";
-            this.deptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.deptCode.Size = new System.Drawing.Size(137, 20);
-            this.deptCode.StyleController = this.layoutControl1;
-            this.deptCode.TabIndex = 6;
-            // 
-            // emptySpaceItem1
-            // 
-            this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(327, 240);
-            this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(190, 40);
-            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // EmpAdd
             // 
@@ -655,6 +667,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.messengerId.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.memo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.photo.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upperDeptCodeLayout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.deptCodeLayout)).EndInit();
@@ -674,11 +688,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gender)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.upperDeptCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.deptCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             this.ResumeLayout(false);
 
         }

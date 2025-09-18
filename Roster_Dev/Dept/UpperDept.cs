@@ -25,6 +25,16 @@ namespace Roster_Dev.Dept
             this.deleteBtn.Click += Delete_Click;
             this.exitBtn.Click += Exit_Click;
         }
+
+        private void RefreshGrid()
+        {
+            var upperDepartments = SqlReposit.GetUpperDepartments()
+                .OrderBy(u => u.UpperDepartmentCode)
+                .ToList();
+            upperDeptGrid.DataSource = upperDepartments;
+            upperDeptGrid.Refresh();
+        }
+
         private void Form_Load(object sender, EventArgs e)
         {
             var upperDepartments = SqlReposit.GetUpperDepartments()
@@ -32,6 +42,7 @@ namespace Roster_Dev.Dept
                 .ToList();
 
             upperDeptGrid.DataSource = upperDepartments;
+            RefreshGrid();
         }
         private void Add_Click(object sender, EventArgs e)
         {
@@ -39,7 +50,7 @@ namespace Roster_Dev.Dept
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
-                    Refresh();
+                    RefreshGrid();
                 }
             }
         }

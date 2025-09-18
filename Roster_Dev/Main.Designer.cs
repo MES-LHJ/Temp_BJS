@@ -33,7 +33,7 @@
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.empBtns = new DevExpress.Utils.Layout.StackPanel();
             this.deptBtn = new DevExpress.XtraEditors.SimpleButton();
-            this.reference = new DevExpress.XtraEditors.SimpleButton();
+            this.referenceBtn = new DevExpress.XtraEditors.SimpleButton();
             this.addBtn = new DevExpress.XtraEditors.SimpleButton();
             this.multiAddBtn = new DevExpress.XtraEditors.SimpleButton();
             this.editBtn = new DevExpress.XtraEditors.SimpleButton();
@@ -93,7 +93,7 @@
             // 
             this.empBtns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.empBtns.Controls.Add(this.deptBtn);
-            this.empBtns.Controls.Add(this.reference);
+            this.empBtns.Controls.Add(this.referenceBtn);
             this.empBtns.Controls.Add(this.addBtn);
             this.empBtns.Controls.Add(this.multiAddBtn);
             this.empBtns.Controls.Add(this.editBtn);
@@ -134,26 +134,26 @@
             this.deptBtn.TabIndex = 0;
             this.deptBtn.Text = "부서";
             // 
-            // reference
+            // referenceBtn
             // 
-            this.reference.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            this.reference.Appearance.BorderColor = System.Drawing.Color.Transparent;
-            this.reference.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.reference.Appearance.Options.UseBackColor = true;
-            this.reference.Appearance.Options.UseBorderColor = true;
-            this.reference.Appearance.Options.UseFont = true;
-            this.reference.AppearanceDisabled.BorderColor = System.Drawing.Color.Transparent;
-            this.reference.AppearanceDisabled.Options.UseBorderColor = true;
-            this.reference.AppearanceHovered.BorderColor = System.Drawing.Color.Transparent;
-            this.reference.AppearanceHovered.Options.UseBorderColor = true;
-            this.reference.AppearancePressed.BorderColor = System.Drawing.Color.Transparent;
-            this.reference.AppearancePressed.Options.UseBorderColor = true;
-            this.reference.Location = new System.Drawing.Point(60, 1);
-            this.reference.Name = "reference";
-            this.reference.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
-            this.reference.Size = new System.Drawing.Size(51, 37);
-            this.reference.TabIndex = 1;
-            this.reference.Text = "조회";
+            this.referenceBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.referenceBtn.Appearance.BorderColor = System.Drawing.Color.Transparent;
+            this.referenceBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.referenceBtn.Appearance.Options.UseBackColor = true;
+            this.referenceBtn.Appearance.Options.UseBorderColor = true;
+            this.referenceBtn.Appearance.Options.UseFont = true;
+            this.referenceBtn.AppearanceDisabled.BorderColor = System.Drawing.Color.Transparent;
+            this.referenceBtn.AppearanceDisabled.Options.UseBorderColor = true;
+            this.referenceBtn.AppearanceHovered.BorderColor = System.Drawing.Color.Transparent;
+            this.referenceBtn.AppearanceHovered.Options.UseBorderColor = true;
+            this.referenceBtn.AppearancePressed.BorderColor = System.Drawing.Color.Transparent;
+            this.referenceBtn.AppearancePressed.Options.UseBorderColor = true;
+            this.referenceBtn.Location = new System.Drawing.Point(60, 1);
+            this.referenceBtn.Name = "referenceBtn";
+            this.referenceBtn.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
+            this.referenceBtn.Size = new System.Drawing.Size(51, 37);
+            this.referenceBtn.TabIndex = 1;
+            this.referenceBtn.Text = "조회";
             // 
             // addBtn
             // 
@@ -409,7 +409,7 @@
             this.employeeCode.AppearanceHeader.Options.UseTextOptions = true;
             this.employeeCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.employeeCode.Caption = "사원코드";
-            this.employeeCode.FieldName = "EmpCode";
+            this.employeeCode.FieldName = "EmployeeCode";
             this.employeeCode.Name = "employeeCode";
             this.employeeCode.Visible = true;
             this.employeeCode.VisibleIndex = 2;
@@ -422,7 +422,7 @@
             this.employeeName.AppearanceHeader.Options.UseTextOptions = true;
             this.employeeName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.employeeName.Caption = "사원명";
-            this.employeeName.FieldName = "EmpName";
+            this.employeeName.FieldName = "EmployeeName";
             this.employeeName.Name = "employeeName";
             this.employeeName.Visible = true;
             this.employeeName.VisibleIndex = 3;
@@ -605,7 +605,7 @@
         private DevExpress.Utils.Layout.StackPanel empBtns;
         private DevExpress.XtraEditors.SimpleButton multiAddBtn;
         private DevExpress.XtraEditors.SimpleButton addBtn;
-        private DevExpress.XtraEditors.SimpleButton reference;
+        private DevExpress.XtraEditors.SimpleButton referenceBtn;
         private DevExpress.XtraEditors.SimpleButton deptBtn;
         private DevExpress.XtraEditors.SimpleButton editBtn;
         private DevExpress.XtraEditors.SimpleButton loginInfoBtn;

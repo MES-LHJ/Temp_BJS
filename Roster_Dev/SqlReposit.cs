@@ -1,5 +1,6 @@
 ﻿using Roster_Dev.Emp;
 using Roster_Dev.Model;
+using Roster_Dev.UtilClass;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -218,7 +219,7 @@ namespace Roster_Dev
         public static int DeleteDept(string departmentId)
         {
             const string sql = @"
-                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE DeptId = @DepartmentId)
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE DepartmentId = @DepartmentId)
                             BEGIN
                                 RAISERROR('해당 부서에 소속된 사원이 존재하여 삭제할 수 없습니다.', 16, 1);
                                 RETURN;
@@ -243,7 +244,7 @@ namespace Roster_Dev
         public static int InsertEmp(EmpWorkout emp)
         {
             const string sql = @"
-                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE EmpCode = @EmpCode)
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE EmployeeCode = @EmployeeCode)
                             BEGIN
                                 RAISERROR('이미 존재하는 사원코드입니다.', 16, 1);
                                 RETURN;
@@ -253,17 +254,17 @@ namespace Roster_Dev
                                 RAISERROR('이미 존재하는 로그인ID입니다.', 16, 1);
                                 RETURN;
                             END
-                            INSERT INTO dbo.Employee (DeptId, EmpCode, EmpName, LoginId, Password, Position, Employment,
+                            INSERT INTO dbo.Employee (DepartmentId, EmployeeCode, EmployeeName, LoginId, Password, Position, Employment,
                                 Gender, PhoneNum, Email, MessengerId, Memo, PhotoPath)
-                            VALUES (@DeptId, @EmpCode, @EmpName, @LoginId, @Password, @Position, @Employment,
+                            VALUES (@DepartmentId, @EmployeeCode, @EmployeeName, @LoginId, @Password, @Position, @Employment,
                                 @Gender, @PhoneNum, @Email, @MessengerId, @Memo, @PhotoPath);
             ";
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.AddValue($"@{nameof(EmpWorkout.DeptId)}", emp.DeptId);
-                cmd.AddValue($"@{nameof(EmpWorkout.EmpCode)}", emp.EmpCode);
-                cmd.AddValue($"@{nameof(EmpWorkout.EmpName)}", emp.EmpName);
+                cmd.AddValue($"@{nameof(EmpWorkout.DepartmentId)}", emp.DepartmentId);
+                cmd.AddValue($"@{nameof(EmpWorkout.EmployeeCode)}", emp.EmployeeCode);
+                cmd.AddValue($"@{nameof(EmpWorkout.EmployeeName)}", emp.EmployeeName);
                 cmd.AddValue($"@{nameof(EmpWorkout.LoginId)}", emp.LoginId);
                 cmd.AddValue($"@{nameof(EmpWorkout.Password)}", emp.Password);
                 cmd.AddValue($"@{nameof(EmpWorkout.Position)}", emp.Position);
@@ -287,20 +288,20 @@ namespace Roster_Dev
         public static int UpdateEmp(EmpWorkout emp)
         {
             const string sql = @"
-                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE EmpCode = @EmpCode AND EmpId != @EmpId)
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE EmployeeCode = @EmployeeCode AND EmpId != @EmpId)
                             BEGIN
                                 RAISERROR('이미 존재하는 사원코드입니다.', 16, 1);
                                 RETURN;
                             END
-                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE LoginId = @LoginId AND EmpId != @EmpId)
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE LoginId = @LoginId AND EmployeeId != @EmployeeId)
                             BEGIN
                                 RAISERROR('이미 존재하는 로그인ID입니다.', 16, 1);
                                 RETURN;
                             END
                             UPDATE dbo.Employee
-                            SET DeptId = @DeptId,
-                                EmpCode = @EmpCode,
-                                EmpName = @EmpName,
+                            SET DepartmentId = @DepartmentId,
+                                EmployeeCode = @EmployeeCode,
+                                EmployeeName = @EmployeeName,
                                 LoginId = @LoginId,
                                 Password = @Password,
                                 Position = @Position,
@@ -311,15 +312,15 @@ namespace Roster_Dev
                                 MessengerId = @MessengerId,
                                 Memo = @Memo,
                                 PhotoPath = @PhotoPath
-                            WHERE EmpId = @EmpId;
+                            WHERE EmployeeId = @EmployeeId;
             ";
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.AddValue($"@{nameof(EmpWorkout.DeptId)}", emp.DeptId);
-                cmd.AddValue($"@{nameof(EmpWorkout.EmpId)}", emp.EmpId);
-                cmd.AddValue($"@{nameof(EmpWorkout.EmpCode)}", emp.EmpCode);
-                cmd.AddValue($"@{nameof(EmpWorkout.EmpName)}", emp.EmpName);
+                cmd.AddValue($"@{nameof(EmpWorkout.DepartmentId)}", emp.DepartmentId);
+                cmd.AddValue($"@{nameof(EmpWorkout.EmployeeId)}", emp.EmployeeId);
+                cmd.AddValue($"@{nameof(EmpWorkout.EmployeeCode)}", emp.EmployeeCode);
+                cmd.AddValue($"@{nameof(EmpWorkout.EmployeeName)}", emp.EmployeeName);
                 cmd.AddValue($"@{nameof(EmpWorkout.LoginId)}", emp.LoginId);
                 cmd.AddValue($"@{nameof(EmpWorkout.Password)}", emp.Password);
                 cmd.AddValue($"@{nameof(EmpWorkout.Position)}", emp.Position);
@@ -338,18 +339,18 @@ namespace Roster_Dev
         /// <summary>
         /// 사원삭제
         /// </summary>
-        /// <param name="empId"></param>
+        /// <param name="EmployeeId"></param>
         /// <returns></returns>
-        public static int DeleteEmp(long empId)
+        public static int DeleteEmp(long EmployeeId)
         {
             const string sql = @"
                             DELETE FROM dbo.Employee
-                            WHERE EmpId = @EmpId;
+                            WHERE EmployeeId = @EmployeeId;
             ";
             using (var conn = new SqlConnection(CS))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                cmd.AddValue($"@{nameof(EmpWorkout.EmpId)}", empId);
+                cmd.AddValue($"@{nameof(EmpWorkout.EmployeeId)}", EmployeeId);
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
@@ -427,9 +428,9 @@ namespace Roster_Dev
         public static List<EmpWorkout> GetEmployees()
         {
             const string sql = @"
-                            SELECT e.DeptId, d.DeptCode,d.DeptName, e.EmpId, e.EmpCode, e.EmpName, e.LoginId, e.Password, e.Position, e.Employment,
+                            SELECT e.DepartmentId, d.DepartmentCode,d.DepartmentName, e.EmployeeId, e.EmployeeCode, e.EmployeeName, e.LoginId, e.Password, e.Position, e.Employment,
                                    e.Gender, e.PhoneNum, e.Email, e.MessengerId, e.Memo, e.PhotoPath FROM dbo.Employee e
-                            JOIN dbo.Department d ON e.DeptId = d.DepartmentId;
+                            JOIN dbo.Department d ON e.DepartmentId = d.DepartmentId LEFT JOIN dbo.UpperDepartment u ON d.UpperDepartmentId = u.UpperDepartmentId
             ";
             var list = new List<EmpWorkout>();
             using (var conn = new SqlConnection(CS))
@@ -442,17 +443,20 @@ namespace Roster_Dev
                     {
                         list.Add(new EmpWorkout
                         {
-                            DeptId = Convert.ToInt32(reader[nameof(EmpWorkout.DeptId)]),
-                            EmpId = Convert.ToInt32(reader[nameof(EmpWorkout.EmpId)]),
-                            EmpCode = reader[nameof(EmpWorkout.EmpCode)].ToString(),
-                            EmpName = reader[nameof(EmpWorkout.EmpName)].ToString(),
+                            UpperDeppartmentId = Convert.ToInt32(reader[nameof(DeptWorkout.DepartmentId)]),
+                            DepartmentId = Convert.ToInt32(reader[nameof(EmpWorkout.DepartmentId)]),
+                            EmployeeId = Convert.ToInt32(reader[nameof(EmpWorkout.EmployeeId)]),
+                            DepartmentCode = reader[nameof(DeptWorkout.DepartmentCode)].ToString(),
+                            DepartmentName = reader[nameof(DeptWorkout.DepartmentName)].ToString(),
+                            EmployeeCode = reader[nameof(EmpWorkout.EmployeeCode)].ToString(),
+                            EmployeeName = reader[nameof(EmpWorkout.EmployeeName)].ToString(),
                             LoginId = reader[nameof(EmpWorkout.LoginId)].ToString(),
                             Password = reader[nameof(EmpWorkout.Password)].ToString(),
                             Position = reader[nameof(EmpWorkout.Position)].ToString(),
                             Employment = reader[nameof(EmpWorkout.Employment)].ToString(),
                             Gender = reader[nameof(EmpWorkout.Gender)] == DBNull.Value ? 
-                                    (EmpAdd.Gender?)null : reader[nameof(EmpWorkout.Gender)].ToString() == "Male" ? 
-                                    EmpAdd.Gender.Male : EmpAdd.Gender.Female,
+                                    (Util.Gender?)null : reader[nameof(EmpWorkout.Gender)].ToString() == "Male" ? 
+                                    Util.Gender.Male : Util.Gender.Female,
                             PhoneNum = reader[nameof(EmpWorkout.PhoneNum)].ToString(),
                             Email = reader[nameof(EmpWorkout.Email)].ToString(),
                             MessengerId = reader[nameof(EmpWorkout.MessengerId)].ToString(),

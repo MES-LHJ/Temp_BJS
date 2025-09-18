@@ -65,12 +65,12 @@
             this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
             this.gender = new DevExpress.XtraLayout.SimpleLabelItem();
             this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.cancel = new DevExpress.XtraEditors.SimpleButton();
-            this.addEditBtn = new DevExpress.XtraEditors.SimpleButton();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem3 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.cancel = new DevExpress.XtraEditors.SimpleButton();
+            this.addEditBtn = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
@@ -111,10 +111,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gender)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem3)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -201,6 +201,7 @@
             // 
             this.upperDeptName.Location = new System.Drawing.Point(176, 45);
             this.upperDeptName.Name = "upperDeptName";
+            this.upperDeptName.Properties.ReadOnly = true;
             this.upperDeptName.Size = new System.Drawing.Size(146, 20);
             this.upperDeptName.StyleController = this.layoutControl1;
             this.upperDeptName.TabIndex = 5;
@@ -219,6 +220,7 @@
             // 
             this.deptName.Location = new System.Drawing.Point(176, 115);
             this.deptName.Name = "deptName";
+            this.deptName.Properties.ReadOnly = true;
             this.deptName.Size = new System.Drawing.Size(146, 20);
             this.deptName.StyleController = this.layoutControl1;
             this.deptName.TabIndex = 7;
@@ -346,7 +348,9 @@
             // upperDeptCodeLayout
             // 
             this.upperDeptCodeLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.upperDeptCodeLayout.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.upperDeptCodeLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.upperDeptCodeLayout.AppearanceItemCaption.Options.UseForeColor = true;
             this.upperDeptCodeLayout.Control = this.upperDeptCode;
             this.upperDeptCodeLayout.Location = new System.Drawing.Point(0, 0);
             this.upperDeptCodeLayout.Name = "upperDeptCodeLayout";
@@ -359,7 +363,9 @@
             // deptCodeLayout
             // 
             this.deptCodeLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deptCodeLayout.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.deptCodeLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.deptCodeLayout.AppearanceItemCaption.Options.UseForeColor = true;
             this.deptCodeLayout.Control = this.deptCode;
             this.deptCodeLayout.Location = new System.Drawing.Point(0, 70);
             this.deptCodeLayout.Name = "deptCodeLayout";
@@ -372,7 +378,9 @@
             // empCodeLayout
             // 
             this.empCodeLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.empCodeLayout.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.empCodeLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.empCodeLayout.AppearanceItemCaption.Options.UseForeColor = true;
             this.empCodeLayout.Control = this.empCode;
             this.empCodeLayout.Location = new System.Drawing.Point(0, 140);
             this.empCodeLayout.Name = "empCodeLayout";
@@ -424,7 +432,9 @@
             // empNameLayout
             // 
             this.empNameLayout.AppearanceItemCaption.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.empNameLayout.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
             this.empNameLayout.AppearanceItemCaption.Options.UseFont = true;
+            this.empNameLayout.AppearanceItemCaption.Options.UseForeColor = true;
             this.empNameLayout.Control = this.empName;
             this.empNameLayout.Location = new System.Drawing.Point(156, 140);
             this.empNameLayout.Name = "empNameLayout";
@@ -542,43 +552,6 @@
             this.layoutControlItem17.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem17.TextVisible = false;
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.cancel);
-            this.flowLayoutPanel1.Controls.Add(this.addEditBtn);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(2, 516);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(537, 47);
-            this.flowLayoutPanel1.TabIndex = 43;
-            // 
-            // cancel
-            // 
-            this.cancel.Appearance.BackColor = System.Drawing.Color.Red;
-            this.cancel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cancel.Appearance.Options.UseBackColor = true;
-            this.cancel.Appearance.Options.UseFont = true;
-            this.cancel.Location = new System.Drawing.Point(415, 7);
-            this.cancel.Margin = new System.Windows.Forms.Padding(3, 7, 7, 7);
-            this.cancel.Name = "cancel";
-            this.cancel.Size = new System.Drawing.Size(115, 33);
-            this.cancel.TabIndex = 5;
-            this.cancel.Text = "취소";
-            // 
-            // addEditBtn
-            // 
-            this.addEditBtn.Appearance.BackColor = System.Drawing.Color.SteelBlue;
-            this.addEditBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.addEditBtn.Appearance.Options.UseBackColor = true;
-            this.addEditBtn.Appearance.Options.UseFont = true;
-            this.addEditBtn.Location = new System.Drawing.Point(294, 7);
-            this.addEditBtn.Margin = new System.Windows.Forms.Padding(7, 7, 3, 7);
-            this.addEditBtn.Name = "addEditBtn";
-            this.addEditBtn.Size = new System.Drawing.Size(115, 33);
-            this.addEditBtn.TabIndex = 4;
-            this.addEditBtn.Text = "저장";
-            // 
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
@@ -602,6 +575,43 @@
             this.emptySpaceItem3.Name = "emptySpaceItem3";
             this.emptySpaceItem3.Size = new System.Drawing.Size(156, 70);
             this.emptySpaceItem3.TextSize = new System.Drawing.Size(0, 0);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.cancel);
+            this.flowLayoutPanel1.Controls.Add(this.addEditBtn);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(2, 516);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(537, 47);
+            this.flowLayoutPanel1.TabIndex = 43;
+            // 
+            // cancel
+            // 
+            this.cancel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(80)))), ((int)(((byte)(59)))));
+            this.cancel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cancel.Appearance.Options.UseBackColor = true;
+            this.cancel.Appearance.Options.UseFont = true;
+            this.cancel.Location = new System.Drawing.Point(415, 7);
+            this.cancel.Margin = new System.Windows.Forms.Padding(3, 7, 7, 7);
+            this.cancel.Name = "cancel";
+            this.cancel.Size = new System.Drawing.Size(115, 33);
+            this.cancel.TabIndex = 5;
+            this.cancel.Text = "취소";
+            // 
+            // addEditBtn
+            // 
+            this.addEditBtn.Appearance.BackColor = System.Drawing.Color.SteelBlue;
+            this.addEditBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.addEditBtn.Appearance.Options.UseBackColor = true;
+            this.addEditBtn.Appearance.Options.UseFont = true;
+            this.addEditBtn.Location = new System.Drawing.Point(294, 7);
+            this.addEditBtn.Margin = new System.Windows.Forms.Padding(7, 7, 3, 7);
+            this.addEditBtn.Name = "addEditBtn";
+            this.addEditBtn.Size = new System.Drawing.Size(115, 33);
+            this.addEditBtn.TabIndex = 4;
+            this.addEditBtn.Text = "저장";
             // 
             // EmpEdit
             // 
@@ -653,10 +663,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gender)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem3)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

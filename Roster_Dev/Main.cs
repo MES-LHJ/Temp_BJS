@@ -24,6 +24,7 @@ namespace Roster_Dev
         {
             this.Load += Form_Load;
             this.deptBtn.Click += Dept_Click;
+            this.referenceBtn.Click += Reference_Click;
             this.addBtn.Click += Add_Click;
             this.multiAddBtn.Click += MultiAdd_Click;
             this.editBtn.Click += Edit_Click;
@@ -33,9 +34,16 @@ namespace Roster_Dev
             this.exitBtn.Click += Exit_Click;
         }
 
+        private void RefreshGrid()
+        {
+            var emp = SqlReposit.GetEmployees().OrderBy(e => e.EmployeeCode).ToList();
+
+            empGrid.DataSource = emp;
+        }
+
         private void Form_Load(object sender, EventArgs e)
         {
-
+            RefreshGrid();
         }
 
         private void Dept_Click(object sender, EventArgs e)
@@ -46,12 +54,20 @@ namespace Roster_Dev
             }
         }
 
+        private void Reference_Click(object sender, EventArgs e)
+        {
+            RefreshGrid();
+        }
+
         private void Add_Click(object sender, EventArgs e)
         {
             var dept = new DeptWorkout();
             using (var Form = new Emp.EmpAdd(dept))
             {
-                Form.ShowDialog();
+                if (Form.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshGrid();
+                }
             }
         }
 
@@ -65,7 +81,16 @@ namespace Roster_Dev
 
         private void Edit_Click(object sender, EventArgs e)
         {
-            using (var Form = new Emp.EmpEdit())
+            var view = empGrid.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
+            if (view == null || view.FocusedRowHandle < 0)
+                return;
+
+            // 현재 선택된 행의 EmployeeId 가져오기
+            var empId = Convert.ToInt32(view.GetFocusedRowCellValue("EmployeeId"));
+            var deptId = Convert.ToInt32(view.GetFocusedRowCellValue("DepartmentId"));
+            var upperDeptId = Convert.ToInt32(view.GetFocusedRowCellValue("UpperDepartmentId"));
+
+            using (var Form = new Emp.EmpEdit(empId))
             {
                 Form.ShowDialog();
             }
