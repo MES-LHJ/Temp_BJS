@@ -44,7 +44,7 @@
             this.upperDeptNameLayout = new DevExpress.XtraLayout.LayoutControlItem();
             this.deptCodeLayout = new DevExpress.XtraLayout.LayoutControlItem();
             this.deptNameLayout = new DevExpress.XtraLayout.LayoutControlItem();
-            this.upperDeptCode = new DevExpress.XtraEditors.LookUpEdit();
+            this.upperDeptCode = new DevExpress.XtraEditors.ComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -268,8 +268,6 @@
             this.upperDeptCode.Name = "upperDeptCode";
             this.upperDeptCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.upperDeptCode.Properties.NullText = "";
-            this.upperDeptCode.Properties.PopupSizeable = false;
             this.upperDeptCode.Size = new System.Drawing.Size(164, 20);
             this.upperDeptCode.StyleController = this.layoutControl1;
             this.upperDeptCode.TabIndex = 4;
@@ -323,6 +321,6 @@
         private DevExpress.XtraEditors.TextEdit memo;
         private DevExpress.XtraLayout.LayoutControlItem memoLayout;
         private DevExpress.XtraLayout.LayoutControlItem deptNameLayout;
-        private DevExpress.XtraEditors.LookUpEdit upperDeptCode;
+        private DevExpress.XtraEditors.ComboBoxEdit upperDeptCode;
     }
 }

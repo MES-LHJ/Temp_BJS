@@ -254,6 +254,21 @@ namespace Roster_Dev
                                 RAISERROR('이미 존재하는 로그인ID입니다.', 16, 1);
                                 RETURN;
                             END
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE LoginId = @PhonNum AND EmployeeId != @EmployeeId)
+                            BEGIN
+                                RAISERROR('이미 존재하는 전화번호입니다.', 16, 1);
+                                RETURN;
+                            END
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE LoginId = @Email AND EmployeeId != @EmployeeId)
+                            BEGIN
+                                RAISERROR('이미 존재하는 이메일입니다.', 16, 1);
+                                RETURN;
+                            END
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE LoginId = @MessengerId AND EmployeeId != @EmployeeId)
+                            BEGIN
+                                RAISERROR('이미 존재하는 메신저ID입니다.', 16, 1);
+                                RETURN;
+                            END
                             INSERT INTO dbo.Employee (DepartmentId, EmployeeCode, EmployeeName, LoginId, Password, Position, Employment,
                                 Gender, PhoneNum, Email, MessengerId, Memo, PhotoPath)
                             VALUES (@DepartmentId, @EmployeeCode, @EmployeeName, @LoginId, @Password, @Position, @Employment,
@@ -288,16 +303,28 @@ namespace Roster_Dev
         public static int UpdateEmp(EmpWorkout emp)
         {
             const string sql = @"
-                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE EmployeeCode = @EmployeeCode AND EmpId != @EmpId)
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE EmployeeCode = @EmployeeCode AND EmployeeId != @EmployeeId)
                             BEGIN
                                 RAISERROR('이미 존재하는 사원코드입니다.', 16, 1);
                                 RETURN;
                             END
-                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE LoginId = @LoginId AND EmployeeId != @EmployeeId)
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE LoginId = @PhonNum AND EmployeeId != @EmployeeId)
                             BEGIN
-                                RAISERROR('이미 존재하는 로그인ID입니다.', 16, 1);
+                                RAISERROR('이미 존재하는 전화번호입니다.', 16, 1);
                                 RETURN;
                             END
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE LoginId = @Email AND EmployeeId != @EmployeeId)
+                            BEGIN
+                                RAISERROR('이미 존재하는 이메일입니다.', 16, 1);
+                                RETURN;
+                            END
+                            IF EXISTS (SELECT 1 FROM dbo.Employee WHERE LoginId = @MessengerId AND EmployeeId != @EmployeeId)
+                            BEGIN
+                                RAISERROR('이미 존재하는 메신저ID입니다.', 16, 1);
+                                RETURN;
+                            END
+
+
                             UPDATE dbo.Employee
                             SET DepartmentId = @DepartmentId,
                                 EmployeeCode = @EmployeeCode,

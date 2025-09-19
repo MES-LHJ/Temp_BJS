@@ -65,7 +65,8 @@ namespace Roster_Dev.Dpt
 
         private void Add_Click(object sender, EventArgs e)
         {
-            using (var Form = new DeptAddEdit())
+            var dept = new DeptWorkout();
+            using (var Form = new DeptAddEdit(dept))
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {

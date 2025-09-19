@@ -87,8 +87,6 @@ namespace Roster_Dev
 
             // 현재 선택된 행의 EmployeeId 가져오기
             var empId = Convert.ToInt32(view.GetFocusedRowCellValue("EmployeeId"));
-            var deptId = Convert.ToInt32(view.GetFocusedRowCellValue("DepartmentId"));
-            var upperDeptId = Convert.ToInt32(view.GetFocusedRowCellValue("UpperDepartmentId"));
 
             using (var Form = new Emp.EmpEdit(empId))
             {
@@ -101,7 +99,13 @@ namespace Roster_Dev
             using (var Form = new Login())
             {
                 Form.ShowDialog();
-                this.Close();
+                if (Form.DialogResult == DialogResult.OK)
+                {
+                }
+                else
+                {
+                    this.Close();
+                }
             }
         }
 

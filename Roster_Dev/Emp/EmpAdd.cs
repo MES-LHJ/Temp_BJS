@@ -47,15 +47,6 @@ namespace Roster_Dev.Emp
 
         private void UpperDeptCode_EditValueChanged(object sender, EventArgs e)
         {
-            //UpperDeptWorkout upperDept = upperDeptCode.EditValue as UpperDeptWorkout;
-            //if (upperDept != null)
-            //{
-            //    upperDeptName.Text = upperDept.UpperDepartmentName;
-            //}
-            //else
-            //{
-            //    upperDeptName.Text = string.Empty;
-            //}
             deptCode.Properties.Items.Clear();
             deptCode.Text = string.Empty;
             deptName.Text = string.Empty;
@@ -111,6 +102,7 @@ namespace Roster_Dev.Emp
             foreach (var upperDept in upperDepartments)
             {
                 upperDeptCode.Properties.Items.Add(upperDept);
+                upperDeptCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             }
 
             deptCode.Properties.Items.Clear();
@@ -124,6 +116,7 @@ namespace Roster_Dev.Emp
             foreach (var dept in departments)
             {
                 deptCode.Properties.Items.Add(dept);
+                deptCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             }
 
             // 하위부서 선택
@@ -166,7 +159,7 @@ namespace Roster_Dev.Emp
                 var result = SqlReposit.InsertEmp(emp);
                 if (result > 0)
                 {
-                    MessageBox.Show("부서가 추가되었습니다.");
+                    MessageBox.Show("사원이 추가되었습니다.");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }

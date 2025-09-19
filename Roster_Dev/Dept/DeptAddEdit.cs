@@ -1,24 +1,33 @@
 ﻿using Roster_Dev.Model;
+using Roster_Dev.UtilClass;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Roster_Dev.Dept
 {
     public partial class DeptAddEdit : Form
     {
-        private bool isEditMode = false;
+        private DeptWorkout dept;
+        private bool isEditMode;
+
+        // 추가 모드
         public DeptAddEdit()
         {
             InitializeComponent();
             AddEvent();
+            isEditMode = false;
+            dept = new DeptWorkout();
         }
+
+        // 수정 모드
+        public DeptAddEdit(DeptWorkout dept) : this()
+        {
+            isEditMode = true;
+            this.dept = dept;
+        }
+
         private void AddEvent()
         {
             this.Load += Form_Load;
@@ -30,61 +39,8 @@ namespace Roster_Dev.Dept
         private void SetTag()
         {
             upperDeptCode.Tag = upperDeptCodeLayout.Text;
-            deptCode.Tag = deptCodeLayout.Text;
-            deptName.Tag = deptNameLayout.Text;
-        }
-
-        internal DeptAddEdit(DeptWorkout dept) : this()
-        {
-            isEditMode = true;
-            // 상위부서 목록을 가져옴
-            var upperDepartments = SqlReposit.GetUpperDepartments();
-
-            // 현재 Dept가 가지고 있는 UpperDepartmentId에 맞는 상위부서코드 찾기
-            var upperDept = upperDepartments
-                .FirstOrDefault(u => u.UpperDepartmentId == dept.UpperDepartmentId);
-
-            if (upperDept != null)
-            {
-                // EditValue를 Id로 매핑
-                upperDeptCode.Properties.DataSource = upperDepartments;
-                upperDeptCode.Properties.DisplayMember = "UpperDepartmentCode";
-                upperDeptCode.Properties.ValueMember = "UpperDepartmentId";
-
-                // 실제 선택값을 Id로 지정하고 화면엔 Code가 보임
-                upperDeptCode.EditValue = upperDept.UpperDepartmentId;
-            }
-            deptCode.Text = dept.DepartmentCode;
-            deptName.Text = dept.DepartmentName;
-            memo.Text = dept.Memo;
-        }
-
-        private void UpperDeptCode_EditValueChanged(object sender, EventArgs e)
-        {
-            if (isEditMode)
-            {
-                if(upperDeptCode.EditValue is UpperDeptWorkout upperDept)
-                {
-                    upperDeptName.Text = upperDept.UpperDepartmentName;
-                }
-                else
-                {
-                    upperDeptName.Text = string.Empty;
-                }
-            }
-            else
-            {
-                // 선택된 상위부서코드에 해당하는 상위부서명 매핑
-                UpperDeptWorkout upperDept = upperDeptCode.GetSelectedDataRow() as UpperDeptWorkout;
-                if (upperDept != null)
-                {
-                    upperDeptName.Text = upperDept.UpperDepartmentName;
-                }
-                else
-                {
-                    upperDeptName.Text = string.Empty;
-                }
-            }
+            deptCode.Tag      = deptCodeLayout.Text;
+            deptName.Tag      = deptNameLayout.Text;
         }
 
         private void Form_Load(object sender, EventArgs e)
@@ -92,7 +48,7 @@ namespace Roster_Dev.Dept
             if (isEditMode)
             {
                 this.Text = "부서 수정";
-                deptAddEditLabel.Text = "부서수정";
+                deptAddEditLabel.Text = "부서 수정";
                 addEditBtn.Text = "수정";
                 cancel.Text = "닫기";
                 cancel.BackColor = Color.FromArgb(171, 171, 171);
@@ -100,32 +56,61 @@ namespace Roster_Dev.Dept
             else
             {
                 this.Text = "부서 추가";
+                deptAddEditLabel.Text = "부서 추가";
                 addEditBtn.Text = "추가";
             }
 
             SetTag();
-            // 상위부서코드
+
+            // 상위부서 목록 로드
             var upperDepartments = SqlReposit.GetUpperDepartments()
-                .OrderBy(u => u.UpperDepartmentId)
-                .ToList();
-            upperDeptCode.Properties.DataSource = upperDepartments;
-            upperDeptCode.Properties.DisplayMember = "UpperDepartmentCode";
-            upperDeptCode.Properties.ValueMember = "UpperDepartmentId";
+                                             .OrderBy(u => u.UpperDepartmentId)
+                                             .ToList();
+            upperDeptCode.Properties.Items.Clear();
+            foreach (var upper in upperDepartments)
+                upperDeptCode.Properties.Items.Add(upper);
+
+            if (isEditMode && dept != null)
+            {
+                // 현재 부서 값 세팅
+                var selectedUpper = upperDepartments
+                    .FirstOrDefault(u => u.UpperDepartmentId == dept.UpperDepartmentId);
+
+                if (selectedUpper != null)
+                {
+                    upperDeptCode.SelectedItem = selectedUpper;
+                    upperDeptName.Text = selectedUpper.UpperDepartmentName;
+                }
+
+                deptCode.Text = dept.DepartmentCode;
+                deptName.Text = dept.DepartmentName;
+                memo.Text     = dept.Memo;
+            }
+        }
+
+        private void UpperDeptCode_EditValueChanged(object sender, EventArgs e)
+        {
+            if (upperDeptCode.SelectedItem is UpperDeptWorkout selectedUpper)
+                upperDeptName.Text = selectedUpper.UpperDepartmentName;
+            else
+                upperDeptName.Text = string.Empty;
         }
 
         private void Save_Click(object sender, EventArgs e)
         {
-            if (!UtilClass.Util.Instance.NullCheck(upperDeptCode, deptCode, deptName))
+            if (!Util.Instance.NullCheck(upperDeptCode, deptCode, deptName))
                 return;
 
             try
             {
+                var selectedUpper = upperDeptCode.SelectedItem as UpperDeptWorkout;
+
                 var dpt = new DeptWorkout
                 {
-                    UpperDepartmentId = (long)upperDeptCode.EditValue,
-                    DepartmentCode = deptCode.Text.Trim(),
-                    DepartmentName = deptName.Text.Trim(),
-                    Memo = memo.Text.Trim()
+                    UpperDepartmentId = selectedUpper.UpperDepartmentId,
+                    DepartmentCode    = deptCode.Text.Trim(),
+                    DepartmentName    = deptName.Text.Trim(),
+                    Memo              = memo.Text.Trim()
                 };
 
                 if (isEditMode)
@@ -139,7 +124,6 @@ namespace Roster_Dev.Dept
                     MessageBox.Show("부서가 추가되었습니다.");
                 }
 
-                // 저장 로직 추가
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -148,6 +132,7 @@ namespace Roster_Dev.Dept
                 MessageBox.Show($"오류가 발생했습니다: {ex.Message}");
             }
         }
+
         private void Cancel_Click(object sender, EventArgs e)
         {
             this.Close();
