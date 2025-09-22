@@ -1,5 +1,6 @@
 ﻿using Roster_Dev.Dpt;
 using Roster_Dev.Model;
+using Roster_Dev.UtilClass;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -83,7 +84,10 @@ namespace Roster_Dev
         {
             var view = empGrid.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
             if (view == null || view.FocusedRowHandle < 0)
+            {
+                MessageBox.Show("수정할 행을 선택하세요.");
                 return;
+            }
 
             // 현재 선택된 행의 EmployeeId 가져오기
             var empId = Convert.ToInt32(view.GetFocusedRowCellValue("EmployeeId"));
@@ -96,17 +100,8 @@ namespace Roster_Dev
 
         private void LoginInfo_Click(object sender, EventArgs e)
         {
-            using (var Form = new Login())
-            {
-                Form.ShowDialog();
-                if (Form.DialogResult == DialogResult.OK)
-                {
-                }
-                else
-                {
-                    this.Close();
-                }
-            }
+            var loginInfoForm = new Login();
+            loginInfoForm.ShowDialog();
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -119,7 +114,12 @@ namespace Roster_Dev
 
         private void Convert_Click(object sender, EventArgs e)
         {
-
+            if (empGrid.DataSource == null)
+            {
+                MessageBox.Show("변환할 데이터가 없습니다.");
+                return;
+            }
+            Util.Instance.Convert(empGrid, "Employee.xlsx");
         }
 
         private void Exit_Click(object sender, EventArgs e)

@@ -14,10 +14,17 @@ namespace Roster_Dev.Dept
     public partial class UpperDeptAddEdit : Form
     {
         private bool isEditMode = false;
+        private UpperDeptWorkout upperDpt;
         public UpperDeptAddEdit()
         {
             InitializeComponent();
             AddEvent();
+            this.upperDpt = new UpperDeptWorkout();
+        }
+        internal UpperDeptAddEdit(UpperDeptWorkout dept) : this()
+        {
+            isEditMode = true;
+            this.upperDpt = dept;
         }
         private void AddEvent()
         {
@@ -29,13 +36,6 @@ namespace Roster_Dev.Dept
         {
             upperDeptCode.Tag = upperDeptCodeLayout.Text;
             upperDeptName.Tag = upperDeptNameLayout.Text;
-        }
-        internal UpperDeptAddEdit(UpperDeptWorkout dept) : this()
-        {
-            isEditMode = true;
-            upperDeptCode.Text = dept.UpperDepartmentCode;
-            upperDeptName.Text = dept.UpperDepartmentName;
-            memo.Text = dept.Memo;
         }
         private void Form_Load(object sender, EventArgs e)
         {
@@ -60,10 +60,11 @@ namespace Roster_Dev.Dept
                 return;
             try
             {
-                var upperDept = new Model.UpperDeptWorkout
+                var upperDept = new UpperDeptWorkout
                 {
-                    UpperDepartmentCode = upperDeptCode.Text,
-                    UpperDepartmentName = upperDeptName.Text,
+                    UpperDepartmentId = upperDpt.UpperDepartmentId,
+                    UpperDepartmentCode = upperDeptCode.Text.Trim(),
+                    UpperDepartmentName = upperDeptName.Text.Trim(),
                     Memo = memo.Text
                 };
 

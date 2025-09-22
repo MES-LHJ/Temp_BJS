@@ -1,4 +1,5 @@
-﻿using Roster_Dev.Model;
+﻿using DevExpress.XtraEditors.TextEditController.Win32;
+using Roster_Dev.Model;
 using Roster_Dev.UtilClass;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -16,6 +18,7 @@ namespace Roster_Dev.Emp
 {
     public partial class EmpAdd : Form
     {
+        private EmpWorkout emp;
         private DeptWorkout _deptWorkout;
         public EmpAdd(DeptWorkout deptWorkout)
         {
@@ -153,8 +156,21 @@ namespace Roster_Dev.Emp
                     Gender = male.Checked ? Util.Gender.Male : (female.Checked ? Util.Gender.Female : (Util.Gender?)null),
                     MessengerId = string.IsNullOrWhiteSpace(messengerId.Text) ? null : messengerId.Text,
                     Memo = string.IsNullOrWhiteSpace(memo.Text) ? null : memo.Text,
-                    PhotoPath = photo.Image != null ? Convert.ToBase64String((byte[])(new ImageConverter()).ConvertTo(photo.Image, typeof(byte[]))) : null
+                    //PhotoPath = photo.Image != null ? Convert.ToBase64String((byte[])(new ImageConverter()).ConvertTo(photo.Image, typeof(byte[]))) : null
                 };
+
+                // 사진 저장 처리
+                if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
+                {
+                    string imagesFolder = @"C:\work\Roster\Roster_Dev\Picture";
+                    Directory.CreateDirectory(imagesFolder);
+
+                    string newFileName = $"{Guid.NewGuid()}{Path.GetExtension(emp.PhotoPath)}";
+                    string destPath = Path.Combine(imagesFolder, newFileName);
+
+                    File.Copy(emp.PhotoPath, destPath, true);
+                    emp.PhotoPath = destPath; // DB에 저장할 최종 경로
+                }
 
                 var result = SqlReposit.InsertEmp(emp);
                 if (result > 0)
@@ -166,22 +182,29 @@ namespace Roster_Dev.Emp
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"{ ex.Message}");
             }
         }
+
 
         private void Photo_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Title = "사진 선택";
+                openFileDialog.Title = "사원 이미지 선택";
                 openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
+                        // 미리보기
                         Image selectedImage = Image.FromFile(openFileDialog.FileName);
                         photo.Image = selectedImage;
+                        photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
+
+                        // 경로만 임시로 저장
+                        emp.PhotoPath = openFileDialog.FileName;
                     }
                     catch (Exception ex)
                     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Roster_Dev.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,21 +13,22 @@ namespace Roster_Dev.Dept
 {
     public partial class UpperDeptDelete : Form
     {
-        private readonly Model.UpperDeptWorkout upperDept;
-        public UpperDeptDelete(Model.UpperDeptWorkout selectedRow)
+        private readonly UpperDeptWorkout upperDept;
+        public UpperDeptDelete(UpperDeptWorkout upperDept)
         {
             InitializeComponent();
             AddEvent();
 
-            this.upperDept = selectedRow;
+            this.upperDept = upperDept;
             upperDeptCode.Text = upperDept.UpperDepartmentCode;
             upperDeptName.Text = upperDept.UpperDepartmentName;
         }
-        private void AddEvent()
+        public void AddEvent()
         {
             this.Load += Form_Load;
             this.deleteBtn.Click += Delete_Click;
             this.cancel.Click += Cancel_Click;
+
         }
         private void Form_Load(object sender, EventArgs e)
         {
@@ -35,14 +37,23 @@ namespace Roster_Dev.Dept
         {
             try
             {
-                SqlReposit.DeleteUpperDept(upperDept.UpperDepartmentId.ToString());
-                MessageBox.Show("삭제되었습니다.");
+                var result = SqlReposit.DeleteUpperDept(upperDept.UpperDepartmentId);
+
+                if (result > 0)
+                {
+                    MessageBox.Show("부서가 삭제되었습니다.");
+                }
+                else
+                {
+                    MessageBox.Show("부서 삭제에 실패했습니다.");
+                    return;
+                }
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"오류가 발생했습니다: {ex.Message}");
+                MessageBox.Show($"{ex.Message}");
             }
         }
         private void Cancel_Click(object sender, EventArgs e)

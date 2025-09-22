@@ -67,12 +67,12 @@ namespace Roster_Dev
         public static int UpdateUpperDept(UpperDeptWorkout dpt)
         {
             const string sql = @"
-                            IF EXISTS (SELECT 1 FROM dbo.UpperDepartment WHERE UpperDepartmentCode = @UpperDepartmentCode AND UpperDepartmentId != @UpperDepartmentId)
+                            IF EXISTS (SELECT 1 FROM dbo.UpperDepartment WHERE UpperDepartmentCode = @UpperDepartmentCode AND UpperDepartmentId <> @UpperDepartmentId)
                             BEGIN
                                 RAISERROR('이미 존재하는 코드입니다.', 16, 1);
                                 RETURN;
                             END
-                            IF EXISTS (SELECT 1 FROM dbo.UpperDepartment WHERE UpperDepartmentName = @UpperDepartmentName AND UpperDepartmentId != @UpperDepartmentId)
+                            IF EXISTS (SELECT 1 FROM dbo.UpperDepartment WHERE UpperDepartmentName = @UpperDepartmentName AND UpperDepartmentId <> @UpperDepartmentId)
                             BEGIN
                                 RAISERROR('이미 존재하는 부서명입니다.', 16, 1);
                                 RETURN;
@@ -101,7 +101,7 @@ namespace Roster_Dev
         /// </summary>
         /// <param name="upperDepartmentId"></param>
         /// <returns></returns>
-        public static int DeleteUpperDept(string upperDepartmentId)
+        public static int DeleteUpperDept(long upperDepartmentId)
         {
             const string sql = @"
                             IF EXISTS (SELECT 1 FROM dbo.Department WHERE UpperDepartmentId = @UpperDepartmentId)
@@ -127,7 +127,7 @@ namespace Roster_Dev
         /// <param name="dpt"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static DeptWorkout InsertDept(DeptWorkout dpt)
+        public static int InsertDept(DeptWorkout dpt)
         {
             const string sql = @"
                             IF EXISTS (SELECT 1 FROM dbo.Department WHERE DepartmentCode = @DepartmentCode)
@@ -135,13 +135,7 @@ namespace Roster_Dev
                                 RAISERROR('이미 존재하는 코드입니다.', 16, 1);
                                 RETURN;
                             END
-                            IF EXISTS (SELECT 1 FROM dbo.Department WHERE DepartmentName = @DepartmentName)
-                            BEGIN
-                                RAISERROR('이미 존재하는 부서명입니다.', 16, 1);
-                                RETURN;
-                            END
                             INSERT INTO dbo.Department (UpperDepartmentId, DepartmentCode, DepartmentName, Memo)
-                            OUTPUT INSERTED.UpperDepartmentId, INSERTED.DepartmentId, INSERTED.DepartmentCode, INSERTED.DepartmentName, INSERTED.Memo
                             VALUES (@UpperDepartmentId, @DepartmentCode, @DepartmentName, @Memo);
             ";
             using (var conn = new SqlConnection(CS))
@@ -152,24 +146,7 @@ namespace Roster_Dev
                 cmd.AddValue($"@{nameof(DeptWorkout.DepartmentName)}", dpt.DepartmentName);
                 cmd.AddValue($"@{nameof(DeptWorkout.Memo)}", dpt.Memo.DbNull());
                 conn.Open();
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        return new DeptWorkout
-                        {
-                            UpperDepartmentId = Convert.ToInt32(reader[nameof(DeptWorkout.UpperDepartmentId)]),
-                            DepartmentId = Convert.ToInt32(reader[nameof(DeptWorkout.DepartmentId)]),
-                            DepartmentCode = reader[nameof(DeptWorkout.DepartmentCode)].ToString(),
-                            DepartmentName = reader[nameof(DeptWorkout.DepartmentName)].ToString(),
-                            Memo = reader[nameof(DeptWorkout.Memo)] as string
-                        };
-                    }
-                    else
-                    {
-                        throw new Exception("부서 추가에 실패했습니다.");
-                    }
-                }
+                return cmd.ExecuteNonQuery();
             }
         }
 
@@ -181,12 +158,12 @@ namespace Roster_Dev
         public static int UpdateDept(DeptWorkout dpt)
         {
             const string sql = @"
-                            IF EXISTS (SELECT 1 FROM dbo.Department WHERE DepartmentCode = @DepartmentCode AND DepartmentId != @DepartmentId)
+                            IF EXISTS (SELECT 1 FROM dbo.Department WHERE DepartmentCode = @DepartmentCode AND DepartmentId <> @DepartmentId)
                             BEGIN
                                 RAISERROR('이미 존재하는 코드입니다.', 16, 1);
                                 RETURN;
                             END
-                            IF EXISTS (SELECT 1 FROM dbo.Department WHERE DepartmentName = @DepartmentName AND DepartmentId != @DepartmentId)
+                            IF EXISTS (SELECT 1 FROM dbo.Department WHERE DepartmentName = @DepartmentName AND DepartmentId <> @DepartmentId)
                             BEGIN
                                 RAISERROR('이미 존재하는 부서명입니다.', 16, 1);
                                 RETURN;
@@ -216,7 +193,7 @@ namespace Roster_Dev
         /// </summary>
         /// <param name="departmentId"></param>
         /// <returns></returns>
-        public static int DeleteDept(string departmentId)
+        public static int DeleteDept(long departmentId)
         {
             const string sql = @"
                             IF EXISTS (SELECT 1 FROM dbo.Employee WHERE DepartmentId = @DepartmentId)

@@ -66,7 +66,7 @@ namespace Roster_Dev.Dpt
         private void Add_Click(object sender, EventArgs e)
         {
             var dept = new DeptWorkout();
-            using (var Form = new DeptAddEdit(dept))
+            using (var Form = new DeptAddEdit())
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
@@ -99,9 +99,20 @@ namespace Roster_Dev.Dpt
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            using (var Form = new DeptDelete())
+            var view = deptGrid.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
+            var department = view?.GetFocusedRow() as DeptWorkout;
+            if (department == null)
             {
-                Form.ShowDialog();
+                MessageBox.Show("삭제할 부서를 선택하세요.");
+                return;
+            }
+
+            using (var Form = new DeptDelete(department))
+            {
+                if (Form.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshGrid();
+                }
             }
         }
 

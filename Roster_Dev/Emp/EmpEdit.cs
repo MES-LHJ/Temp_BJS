@@ -83,10 +83,6 @@ namespace Roster_Dev.Emp
                 }
                 upperDeptCode.Text = upperDept.UpperDepartmentCode;
                 upperDeptName.Text = upperDept.UpperDepartmentName;
-                //upperDeptCode.DataBindings.Add("Text", departments, nameof(departments));
-                //upperDeptCode.Properties.DataSource = upperDeptList;
-                //upperDeptCode.Properties.DisplayMember = "UpperDepartmentCode";
-                //upperDeptCode.Properties.ValueMember = "UpperDepartmentId";
             }
 
             if (departments.Any())
@@ -197,13 +193,11 @@ namespace Roster_Dev.Emp
         private void Save_Click(object sender, EventArgs e)
         {
             if (!UtilClass.Util.Instance.NullCheck(upperDeptCode, deptCode, empCode, empName))
-            {
                 return;
-            }
 
             try
             {
-                // 상위부서, 부서, 사원 정보 업데이트
+                // 사원 기본정보
                 emp.EmployeeCode = empCode.Text.Trim();
                 emp.EmployeeName = empName.Text.Trim();
                 emp.Position = position.Text.Trim();
@@ -217,25 +211,17 @@ namespace Roster_Dev.Emp
                 emp.DepartmentId = dept.DepartmentId;
                 emp.UpperDeppartmentId = upperDept.UpperDepartmentId;
 
-
-                // 사진 업데이트
-                string imagesFolder = @"C:\work\Roster\Roster_Dev";// 사진 저장 폴더 경로 설정
-
-                if (string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
+                // 사진 저장 처리
+                if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
                 {
-                    // 사진이 선택되어 있고, 기존에 사진이 없는 경우
+                    string imagesFolder = @"C:\work\Roster\Roster_Dev\Picture";
+                    Directory.CreateDirectory(imagesFolder);
+
                     string newFileName = $"{Guid.NewGuid()}{Path.GetExtension(emp.PhotoPath)}";
                     string destPath = Path.Combine(imagesFolder, newFileName);
-                    File.Copy(emp.PhotoPath, destPath);
-                    emp.PhotoPath = destPath;
-                }
-                else if (!string.IsNullOrEmpty(emp.PhotoPath) && !File.Exists(emp.PhotoPath))
-                {
-                    // 사진이 변경되었고, 기존에 사진이 있는 경우
-                    string newFileName = $"{Guid.NewGuid()}{Path.GetExtension(emp.PhotoPath)}";
-                    string destPath = Path.Combine(imagesFolder, newFileName);
-                    File.Copy(emp.PhotoPath, destPath);
-                    emp.PhotoPath = destPath;
+
+                    File.Copy(emp.PhotoPath, destPath, true);
+                    emp.PhotoPath = destPath; // DB에 저장할 최종 경로
                 }
 
                 SqlReposit.UpdateEmp(emp);
@@ -247,29 +233,28 @@ namespace Roster_Dev.Emp
             catch (Exception ex)
             {
                 MessageBox.Show("오류가 발생했습니다: " + ex.Message);
-                return;
             }
-
         }
+
 
         private void Photo_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Title = "사진 선택";
+                openFileDialog.Title = "사원 이미지 선택";
                 openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
+                        // 미리보기
                         Image selectedImage = Image.FromFile(openFileDialog.FileName);
                         photo.Image = selectedImage;
-                        // 사진을 Base64 문자열로 변환하여 emp.PhotoPath에 저장
-                        using (var ms = new MemoryStream())
-                        {
-                            selectedImage.Save(ms, selectedImage.RawFormat);
-                            emp.PhotoPath = Convert.ToBase64String(ms.ToArray());
-                        }
+                        photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
+
+                        // 경로만 임시로 저장
+                        emp.PhotoPath = openFileDialog.FileName;
                     }
                     catch (Exception ex)
                     {
@@ -278,6 +263,7 @@ namespace Roster_Dev.Emp
                 }
             }
         }
+
 
         private void Cancel_Click(object sender, EventArgs e)
         {

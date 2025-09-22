@@ -88,6 +88,7 @@ namespace Roster_Dev.Dept
             }
         }
 
+        // 상위부서 선택 시 상위부서명 표시
         private void UpperDeptCode_EditValueChanged(object sender, EventArgs e)
         {
             if (upperDeptCode.SelectedItem is UpperDeptWorkout selectedUpper)
@@ -108,6 +109,7 @@ namespace Roster_Dev.Dept
                 var dpt = new DeptWorkout
                 {
                     UpperDepartmentId = selectedUpper.UpperDepartmentId,
+                    DepartmentId      = dept.DepartmentId,
                     DepartmentCode    = deptCode.Text.Trim(),
                     DepartmentName    = deptName.Text.Trim(),
                     Memo              = memo.Text.Trim()
@@ -129,7 +131,7 @@ namespace Roster_Dev.Dept
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"오류가 발생했습니다: {ex.Message}");
+                MessageBox.Show($"{ex.Message}");
             }
         }
 
