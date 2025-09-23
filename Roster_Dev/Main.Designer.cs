@@ -60,7 +60,7 @@
             this.messengerId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.memo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.image = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
+            this.photoToolTip = new DevExpress.Utils.ToolTipController(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.empBtns)).BeginInit();
@@ -70,7 +70,6 @@
             this.panelControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.empGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -307,9 +306,6 @@
             this.rosterLabel.Appearance.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.rosterLabel.Appearance.Options.UseFont = true;
             this.rosterLabel.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Horizontal;
-            this.behaviorManager1.SetBehaviors(this.rosterLabel, new DevExpress.Utils.Behaviors.Behavior[] {
-            ((DevExpress.Utils.Behaviors.Behavior)(DevExpress.Utils.Behaviors.Common.FileIconBehavior.Create(typeof(DevExpress.XtraEditors.Behaviors.FileIconBehaviorSourceForLabelControl), DevExpress.Utils.Behaviors.Common.FileIconSize.Small, ((System.Drawing.Image)(resources.GetObject("rosterLabel.Behaviors"))), null))),
-            ((DevExpress.Utils.Behaviors.Behavior)(DevExpress.Utils.Behaviors.Common.KeyboardIndicatorBehavior.Create(typeof(DevExpress.XtraEditors.Behaviors.KeyboardIndicatorBehaviorSourceForLabelControl), DevExpress.Utils.Behaviors.Common.LockedKey.CapsLock, null, null)))});
             this.rosterLabel.Location = new System.Drawing.Point(30, 9);
             this.rosterLabel.Name = "rosterLabel";
             this.rosterLabel.Size = new System.Drawing.Size(64, 21);
@@ -552,8 +548,8 @@
             this.image.AppearanceHeader.Options.UseTextOptions = true;
             this.image.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.image.Caption = "이미지";
-            this.image.FieldName = "Photo";
-            this.image.Name = "image";
+            this.image.FieldName = "PhotoPath";
+            this.image.Name = global::Roster_Dev.Properties.Settings.Default.PhotoPath;
             this.image.Visible = true;
             this.image.VisibleIndex = 13;
             // 
@@ -576,7 +572,6 @@
             this.panelControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.empGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -612,7 +607,7 @@
         private DevExpress.XtraEditors.SimpleButton deleteBtn;
         private DevExpress.XtraEditors.SimpleButton convertBtn;
         private DevExpress.XtraEditors.SimpleButton exitBtn;
-        private DevExpress.Utils.Behaviors.BehaviorManager behaviorManager1;
         private DevExpress.XtraEditors.PictureEdit imageEdit1;
+        private DevExpress.Utils.ToolTipController photoToolTip;
     }
 }

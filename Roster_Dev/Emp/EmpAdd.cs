@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors.TextEditController.Win32;
+using DocumentFormat.OpenXml.Vml;
 using Roster_Dev.Model;
 using Roster_Dev.UtilClass;
 using System;
@@ -13,6 +14,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Path = System.IO.Path;
 
 namespace Roster_Dev.Emp
 {
@@ -20,11 +22,13 @@ namespace Roster_Dev.Emp
     {
         private EmpWorkout emp;
         private DeptWorkout _deptWorkout;
+
         public EmpAdd(DeptWorkout deptWorkout)
         {
             InitializeComponent();
             AddEvent();
             _deptWorkout = deptWorkout;
+            emp = new EmpWorkout();
         }
         private void AddEvent()
         {
@@ -141,36 +145,42 @@ namespace Roster_Dev.Emp
             }
             try
             {
-                var selectedDept = deptCode.SelectedItem as DeptWorkout;
-                var emp = new EmpWorkout
-                {
-                    DepartmentId = selectedDept.DepartmentId,
-                    EmployeeCode = empCode.Text,
-                    EmployeeName = empName.Text,
-                    LoginId = loginId.Text,
-                    Password = password.Text,
-                    Email = string.IsNullOrWhiteSpace(email.Text) ? null : email.Text,
-                    PhoneNum = string.IsNullOrWhiteSpace(phoneNum.Text) ? null : phoneNum.Text,
-                    Position = string.IsNullOrWhiteSpace(position.Text) ? null : position.Text,
-                    Employment = string.IsNullOrWhiteSpace(employment.Text) ? null : employment.Text,
-                    Gender = male.Checked ? Util.Gender.Male : (female.Checked ? Util.Gender.Female : (Util.Gender?)null),
-                    MessengerId = string.IsNullOrWhiteSpace(messengerId.Text) ? null : messengerId.Text,
-                    Memo = string.IsNullOrWhiteSpace(memo.Text) ? null : memo.Text,
-                    //PhotoPath = photo.Image != null ? Convert.ToBase64String((byte[])(new ImageConverter()).ConvertTo(photo.Image, typeof(byte[]))) : null
-                };
-
                 // 사진 저장 처리
-                if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
-                {
-                    string imagesFolder = @"C:\work\Roster\Roster_Dev\Picture";
-                    Directory.CreateDirectory(imagesFolder);
+                //if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
+                //{
+                //    string imagesFolder = @"C:\work\Roster\Roster_Dev\Picture";
+                //    Directory.CreateDirectory(imagesFolder);
 
-                    string newFileName = $"{Guid.NewGuid()}{Path.GetExtension(emp.PhotoPath)}";
-                    string destPath = Path.Combine(imagesFolder, newFileName);
+                //    string newFileName = $"{Guid.NewGuid()}{Path.GetExtension(emp.PhotoPath)}";
+                //    string destPath = Path.Combine(imagesFolder, newFileName);
 
-                    File.Copy(emp.PhotoPath, destPath, true);
-                    emp.PhotoPath = destPath; // DB에 저장할 최종 경로
-                }
+                //    File.Copy(emp.PhotoPath, destPath, true);
+                //    emp.PhotoPath = destPath; // DB에 저장할 최종 경로
+                //}
+
+                //if (string.IsNullOrWhiteSpace(emp.PhotoPath))
+                //    emp.PhotoPath = null;
+
+                string imageFolder = @"C:\work\Roster\Roster_Dev\Picture";
+                string fileName = Path.GetFileName(emp.PhotoPath);
+                string newPhotoPath = Path.Combine(imageFolder, fileName);
+                File.Copy(emp.PhotoPath, newPhotoPath, true);
+
+                var selectedDept = deptCode.SelectedItem as DeptWorkout;
+                emp.DepartmentId = selectedDept.DepartmentId;
+                emp.EmployeeCode = empCode.Text;
+                emp.EmployeeName = empName.Text;
+                emp.LoginId = loginId.Text;
+                emp.Password = password.Text;
+                emp.Email = string.IsNullOrWhiteSpace(email.Text) ? null : email.Text;
+                emp.PhoneNum = string.IsNullOrWhiteSpace(phoneNum.Text) ? null : phoneNum.Text;
+                emp.Position = string.IsNullOrWhiteSpace(position.Text) ? null : position.Text;
+                emp.Employment = string.IsNullOrWhiteSpace(employment.Text) ? null : employment.Text;
+                emp.Gender = male.Checked ? Util.Gender.Male : (female.Checked ? Util.Gender.Female : (Util.Gender?)null);
+                emp.MessengerId = string.IsNullOrWhiteSpace(messengerId.Text) ? null : messengerId.Text;
+                emp.Memo = string.IsNullOrWhiteSpace(memo.Text) ? null : memo.Text;
+                //PhotoPath = photo.Image != null ? Convert.ToBase64String((byte[])(new ImageConverter()).ConvertTo(photo.Image, typeof(byte[]))) : null
+                emp.PhotoPath = newPhotoPath;
 
                 var result = SqlReposit.InsertEmp(emp);
                 if (result > 0)
@@ -182,7 +192,7 @@ namespace Roster_Dev.Emp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ ex.Message}");
+                MessageBox.Show($"{ex.Message}");
             }
         }
 
@@ -196,20 +206,13 @@ namespace Roster_Dev.Emp
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    try
-                    {
-                        // 미리보기
-                        Image selectedImage = Image.FromFile(openFileDialog.FileName);
-                        photo.Image = selectedImage;
-                        photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
+                    // 미리보기
+                    Image selectedImage = Image.FromFile(openFileDialog.FileName);
+                    photo.Image = selectedImage;
+                    photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
 
-                        // 경로만 임시로 저장
-                        emp.PhotoPath = openFileDialog.FileName;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("이미지를 불러오는 중 오류가 발생했습니다: " + ex.Message);
-                    }
+                    // 경로만 임시로 저장
+                    emp.PhotoPath = openFileDialog.FileName;
                 }
             }
         }

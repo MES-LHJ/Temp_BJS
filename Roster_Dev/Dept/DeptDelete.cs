@@ -34,11 +34,6 @@ namespace Roster_Dev.Dept
 
         private void Form_Load(object sender, EventArgs e)
         {
-            //this.Text = "부서 삭제";
-            //deptDeleteLabel.Text = "부서 삭제";
-            //deleteBtn.Text = "삭제";
-            //cancelBtn.Text = "닫기";
-            //cancelBtn.BackColor = Color.FromArgb(171, 171, 171);
         }
 
         private void Delete_Click(object sender, EventArgs e)

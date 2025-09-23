@@ -18,6 +18,7 @@ namespace Roster_Dev.Emp
         private EmpWorkout emp;
         private DeptWorkout dept;
         private UpperDeptWorkout upperDept;
+        private string currentPhotoPath;
         private readonly int empId;
         public EmpEdit(int employeeId)
         {
@@ -104,8 +105,6 @@ namespace Roster_Dev.Emp
             email.Text = emp.Email;
             messengerId.Text = emp.MessengerId;
             memo.Text = emp.Memo;
-            photo.Text = emp.PhotoPath;
-
 
             //if (emp.Gender == Util.Gender.Male)
             //{
@@ -126,59 +125,33 @@ namespace Roster_Dev.Emp
             male.Checked = (emp.Gender == Util.Gender.Male);
             female.Checked = (emp.Gender == Util.Gender.Female);
 
-            //emp = SqlReposit.GetEmployees().FirstOrDefault(x => x.EmployeeId == empId);
+            if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
+            {
+                using (var fs = new FileStream(emp.PhotoPath, FileMode.Open, FileAccess.Read))
+                {
+                    photo.Image = Image.FromStream(fs);
+                }
+                photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
+            }
+        }
 
-            // 상위부서와 부서 정보도 로드
-            //dept = SqlReposit.GetDepartments().FirstOrDefault(d => d.DepartmentId == emp.DepartmentId);
-            //if (dept != null)
-            //{
-            //    upperDept = SqlReposit.GetUpperDepartments()
-            //                          .FirstOrDefault(u => u.UpperDepartmentId == dept.UpperDepartmentId);
-            //}
+        private void Photo_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+                openFileDialog.Title = "사원 이미지 변경";
 
-            // ComboBoxEdit (DevExpress) - DataSource 세팅
-            //upperDeptCode.Properties.Items.Clear();
-            //foreach (var item in SqlReposit.GetUpperDepartments())
-            //{
-            //    upperDeptCode.Properties.Items.Add(item);
-            //}
-
-            //deptCode.Properties.Items.Clear();
-            //foreach (var item in SqlReposit.GetDepartments().Where(d => d.UpperDepartmentId == dept?.UpperDepartmentId))
-            //{
-            //    deptCode.Properties.Items.Add(item);
-            //}
-
-            // 값 바인딩 (TextBox/ComboBoxEdit)
-            //upperDeptCode.EditValue = upperDept?.UpperDepartmentId;
-            //deptCode.EditValue = emp.DepartmentId;
-
-            //empCode.DataBindings.Add("Text", emp, nameof(emp.EmployeeCode));
-            //empName.DataBindings.Add("Text", emp, nameof(emp.EmployeeName));
-            //email.DataBindings.Add("Text", emp, nameof(emp.Email));
-            //phoneNum.DataBindings.Add("Text", emp, nameof(emp.PhoneNum));
-            //position.DataBindings.Add("Text", emp, nameof(emp.Position));
-            //employment.DataBindings.Add("Text", emp, nameof(emp.Employment));
-            //messengerId.DataBindings.Add("Text", emp, nameof(emp.MessengerId));
-            //memo.DataBindings.Add("Text", emp, nameof(emp.Memo));
-
-            // 성별 체크박스 반영
-            //male.Checked = emp.Gender == Util.Gender.Male;
-            //female.Checked = emp.Gender == Util.Gender.Female;
-
-            //사진 표시(Base64)
-            //    if (!string.IsNullOrEmpty(emp.PhotoPath))
-            //{
-            //    try
-            //    {
-            //        byte[] bytes = Convert.FromBase64String(emp.PhotoPath);
-            //        using (var ms = new MemoryStream(bytes))
-            //        {
-            //            photo.Image = Image.FromStream(ms);
-            //        }
-            //    }
-            //    catch { }
-            //}
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (var fs = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
+                    {
+                        photo.Image = Image.FromStream(fs);
+                    }
+                    photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
+                    currentPhotoPath = openFileDialog.FileName;
+                }
+            }
         }
 
         private void Male_CheckedChanged(object sender, EventArgs e)
@@ -192,7 +165,7 @@ namespace Roster_Dev.Emp
 
         private void Save_Click(object sender, EventArgs e)
         {
-            if (!UtilClass.Util.Instance.NullCheck(upperDeptCode, deptCode, empCode, empName))
+            if (!Util.Instance.NullCheck(upperDeptCode, deptCode, empCode, empName))
                 return;
 
             try
@@ -211,17 +184,36 @@ namespace Roster_Dev.Emp
                 emp.DepartmentId = dept.DepartmentId;
                 emp.UpperDeppartmentId = upperDept.UpperDepartmentId;
 
+                string imagesFolder = @"C:\work\Roster\Roster_Dev\Picture";
+
+
+
                 // 사진 저장 처리
                 if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
                 {
-                    string imagesFolder = @"C:\work\Roster\Roster_Dev\Picture";
-                    Directory.CreateDirectory(imagesFolder);
+                    string newFileName = Path.GetFileName(currentPhotoPath);
+                    string newPhotoPath = Path.Combine(imagesFolder, newFileName);
 
-                    string newFileName = $"{Guid.NewGuid()}{Path.GetExtension(emp.PhotoPath)}";
-                    string destPath = Path.Combine(imagesFolder, newFileName);
+                    File.Copy(emp.PhotoPath, newPhotoPath, true);
 
-                    File.Copy(emp.PhotoPath, destPath, true);
-                    emp.PhotoPath = destPath; // DB에 저장할 최종 경로
+                    //원본 사진은 삭제
+                    if (!string.IsNullOrEmpty(currentPhotoPath) && File.Exists(currentPhotoPath))
+                    {
+                        if (photo.Image != null)
+                        {
+                            photo.Image.Dispose();
+                            photo.Image = null;
+                        }
+                        File.Delete(emp.PhotoPath);
+                    }
+
+                    emp.PhotoPath = newPhotoPath; // DB에 저장할 최종 경로
+
+                    using (var fs = new FileStream(newPhotoPath, FileMode.Open, FileAccess.Read))
+                    {
+                        photo.Image = Image.FromStream(fs);
+                    }
+                    photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
                 }
 
                 SqlReposit.UpdateEmp(emp);
@@ -235,35 +227,6 @@ namespace Roster_Dev.Emp
                 MessageBox.Show("오류가 발생했습니다: " + ex.Message);
             }
         }
-
-
-        private void Photo_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.Title = "사원 이미지 선택";
-                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    try
-                    {
-                        // 미리보기
-                        Image selectedImage = Image.FromFile(openFileDialog.FileName);
-                        photo.Image = selectedImage;
-                        photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
-
-                        // 경로만 임시로 저장
-                        emp.PhotoPath = openFileDialog.FileName;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("이미지를 불러오는 중 오류가 발생했습니다: " + ex.Message);
-                    }
-                }
-            }
-        }
-
 
         private void Cancel_Click(object sender, EventArgs e)
         {

@@ -58,5 +58,17 @@ namespace Roster_Dev.Properties {
                 this["Memo"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("image")]
+        public string PhotoPath {
+            get {
+                return ((string)(this["PhotoPath"]));
+            }
+            set {
+                this["PhotoPath"] = value;
+            }
+        }
     }
 }

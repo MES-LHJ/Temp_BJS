@@ -14,11 +14,15 @@ namespace Roster_Dev.Emp
     public partial class EmpDelete : Form
     {
         private readonly EmpWorkout emp;
-        public EmpDelete()
+        public EmpDelete(EmpWorkout emp)
         {
             InitializeComponent();
             AddEvent();
             this.emp = new EmpWorkout();
+
+            this.emp = emp;
+            empCode.Text = emp.EmployeeCode;
+            empName.Text = emp.EmployeeName;
         }
 
         private void AddEvent()
@@ -36,8 +40,17 @@ namespace Roster_Dev.Emp
         {
             try
             {
-                // Implement deletion logic here
-                MessageBox.Show("Employee has been deleted.");
+                var result = SqlReposit.DeleteEmp(emp.EmployeeId);
+
+                if (result > 0)
+                {
+                    MessageBox.Show("삭제되었습니다.");
+                }
+                else
+                {
+                    MessageBox.Show("삭제할 데이터가 없습니다. (조건 불일치)");
+                }
+
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
