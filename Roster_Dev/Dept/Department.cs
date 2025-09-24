@@ -1,4 +1,6 @@
-﻿using Roster_Dev.Dept;
+﻿using DevExpress.Charts.Model;
+using DevExpress.XtraGrid.Views.Grid;
+using Roster_Dev.Dept;
 using Roster_Dev.Model;
 using System;
 using System.Collections.Generic;
@@ -24,19 +26,50 @@ namespace Roster_Dev.Dpt
         {
             this.Load += Form_Load;
             this.upperDeptBtn.Click += UpperDept_Click;
+            this.deptTreeBtn.Click += Tree_Click;
+            this.deptChartBtn.Click += Chart_Click;
             this.deptAddBtn.Click += Add_Click;
             this.deptEditBtn.Click += Edit_Click;
             this.deleteBtn.Click += Delete_Click;
             this.exitBtn.Click += Exit_Click;
+            var upperGridView = this.upperDeptGrid.MainView as GridView;
+            if (upperGridView != null)
+            {
+                upperGridView.FocusedRowChanged += UpperDeptGrid_FocusedRowChanged;
+            }
         }
 
         private void RefreshGrid()
         {
-            var departments = SqlReposit.GetDepartments()
-                .OrderBy(d => d.DepartmentCode)
-                .ToList();
+            var departments = SqlReposit.GetDepartments().OrderBy(d => d.DepartmentCode).ToList();
             deptGrid.DataSource = departments;
-            deptGrid.Refresh();
+        }
+
+        private void UpperDeptGrid_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
+        {
+            var view = upperDeptGrid.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
+            if (view == null) return;
+
+            // 모델 클래스로 연동
+            var upperDepartment = view.GetFocusedRow() as UpperDeptWorkout; 
+
+            if (upperDepartment != null)
+            {
+                // 부서 필터링 헬퍼 메서드
+                FilterByUpperDept(upperDepartment.UpperDepartmentId);
+            }
+        }
+
+        private void FilterByUpperDept(long upperDeptId)
+        {
+            var allDepartments = SqlReposit.GetDepartments().OrderBy(d => d.DepartmentCode).ToList();
+
+            // 상위 부서 코드 기준
+            var filteredDepartments = allDepartments
+                .Where(d => d.UpperDepartmentId == upperDeptId)
+                .ToList();
+
+            deptGrid.DataSource = filteredDepartments;
         }
 
         private void Form_Load(object sender, EventArgs e)
@@ -44,20 +77,41 @@ namespace Roster_Dev.Dpt
             var upperDepartments = SqlReposit.GetUpperDepartments()
                 .OrderBy(u => u.UpperDepartmentCode)
                 .ToList();
-
             upperDeptGrid.DataSource = upperDepartments;
 
+            // 모든 부서 로드
             var departments = SqlReposit.GetDepartments()
                 .OrderBy(d => d.DepartmentCode)
                 .ToList();
-
             deptGrid.DataSource = departments;
-            RefreshGrid();
+
+            // 상위 부서 필터링
+            if (upperDepartments.Any())
+            {
+                var firstUpperDept = upperDepartments.First();
+                FilterByUpperDept(firstUpperDept.UpperDepartmentId);
+            }
         }
 
         private void UpperDept_Click(object sender, EventArgs e)
         {
             using (var Form = new UpperDept())
+            {
+                Form.ShowDialog();
+            }
+        }
+
+        private void Tree_Click(object sender, EventArgs e)
+        {
+            using (var Form = new Tree()) 
+            {
+                Form.ShowDialog();
+            }
+        }
+
+        private void Chart_Click(object sender, EventArgs e)
+        {
+            using (var Form = new DeptChart())
             {
                 Form.ShowDialog();
             }
@@ -92,7 +146,7 @@ namespace Roster_Dev.Dpt
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
-                    RefreshGrid();// Refresh the grid or perform any necessary actions after editing
+                    RefreshGrid();
                 }
             }
         }

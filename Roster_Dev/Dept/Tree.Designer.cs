@@ -31,12 +31,12 @@
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.treeLabel = new DevExpress.XtraEditors.LabelControl();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
-            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.deptTree = new DevExpress.XtraTreeList.TreeList();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptTree)).BeginInit();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -64,20 +64,20 @@
             // 
             // panelControl2
             // 
-            this.panelControl2.Controls.Add(this.treeList1);
+            this.panelControl2.Controls.Add(this.deptTree);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl2.Location = new System.Drawing.Point(0, 39);
             this.panelControl2.Name = "panelControl2";
             this.panelControl2.Size = new System.Drawing.Size(471, 453);
             this.panelControl2.TabIndex = 2;
             // 
-            // treeList1
+            // deptTree
             // 
-            this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeList1.Location = new System.Drawing.Point(2, 2);
-            this.treeList1.Name = "treeList1";
-            this.treeList1.Size = new System.Drawing.Size(467, 449);
-            this.treeList1.TabIndex = 0;
+            this.deptTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.deptTree.Location = new System.Drawing.Point(2, 2);
+            this.deptTree.Name = "deptTree";
+            this.deptTree.Size = new System.Drawing.Size(467, 449);
+            this.deptTree.TabIndex = 0;
             // 
             // Tree
             // 
@@ -93,7 +93,7 @@
             this.panelControl1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deptTree)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -103,6 +103,6 @@
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.LabelControl treeLabel;
         private DevExpress.XtraEditors.PanelControl panelControl2;
-        private DevExpress.XtraTreeList.TreeList treeList1;
+        private DevExpress.XtraTreeList.TreeList deptTree;
     }
 }

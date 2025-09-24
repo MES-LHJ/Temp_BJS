@@ -9,9 +9,13 @@ namespace Roster_Dev.Model
 {
     public class UpperDeptWorkout
     {
+        public long ParentId { get; set; } = 0;
+        //public long Id => UpperDepartmentId;
         public long UpperDepartmentId { get; set; }
         public string UpperDepartmentCode { get; set; }
         public string UpperDepartmentName { get; set; }
+        //public string Code => UpperDepartmentCode;
+        //public string Name => UpperDepartmentName;
         public string Memo { get; set; }
         public override string ToString()
         {

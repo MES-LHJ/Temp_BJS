@@ -45,8 +45,6 @@ namespace Roster_Dev
             this.exitBtn.Click += Exit_Click;
             var view = empGrid.MainView as GridView;
             view.CustomColumnDisplayText += EmpGrid_CellFormatting;
-            photoToolTip.GetActiveObjectInfo += photoToolTip_GetActiveObjectInfo;
-
         }
 
         private void EmpGrid_CellFormatting(object sender, CustomColumnDisplayTextEventArgs e)
@@ -65,49 +63,6 @@ namespace Roster_Dev
             if (e.Column.FieldName == "PhotoPath" && e.Value != null)
             {
                 e.DisplayText = Path.GetFileName(e.Value.ToString());
-            }
-        }
-
-        private void photoToolTip_GetActiveObjectInfo(object sender, ToolTipControllerGetActiveObjectInfoEventArgs e)
-        {
-            if (e.SelectedControl != empGrid) return;
-
-            GridView view = empGrid.FocusedView as GridView;
-            if (view == null) return;
-
-            GridHitInfo hitInfo = view.CalcHitInfo(e.ControlMousePosition);
-
-            if (hitInfo.InRowCell && hitInfo.Column.FieldName == "PhotoPath")
-            {
-                string photoPath = view.GetRowCellValue(hitInfo.RowHandle, hitInfo.Column)?.ToString();
-                if (!string.IsNullOrEmpty(photoPath) && File.Exists(photoPath))
-                {
-                    ToolTipControlInfo info = new ToolTipControlInfo();
-                    info.Object = hitInfo;
-                    info.ToolTipType = ToolTipType.SuperTip;
-
-                    SuperToolTip superTip = new SuperToolTip();
-                    superTip.Items.AddTitle("사진 미리보기");
-
-                    using (Image original = Image.FromFile(photoPath))
-                    {
-                        int targetWidth = 100;   // 원하는 크기
-                        int targetHeight = 100;  // 원하는 크기
-                        Image resized = new Bitmap(original, new Size(targetWidth, targetHeight));
-
-
-                        ToolTipItem item = new ToolTipItem
-                        {
-                            //Image = Image.FromFile(photoPath),
-                            Image = new Bitmap(resized),
-                            Text = ""
-                        };
-                        superTip.Items.Add(item);
-                    }
-
-                    info.SuperTip = superTip;
-                    e.Info = info;
-                }
             }
         }
 

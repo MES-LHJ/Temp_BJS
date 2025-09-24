@@ -34,12 +34,12 @@
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.chartLabel = new DevExpress.XtraEditors.LabelControl();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
-            this.chartControl1 = new DevExpress.XtraCharts.ChartControl();
+            this.departmentChart = new DevExpress.XtraCharts.ChartControl();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.departmentChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(series1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(stackedBarSeriesView1)).BeginInit();
@@ -72,27 +72,27 @@
             // 
             // panelControl2
             // 
-            this.panelControl2.Controls.Add(this.chartControl1);
+            this.panelControl2.Controls.Add(this.departmentChart);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl2.Location = new System.Drawing.Point(0, 39);
             this.panelControl2.Name = "panelControl2";
             this.panelControl2.Size = new System.Drawing.Size(598, 411);
             this.panelControl2.TabIndex = 3;
             // 
-            // chartControl1
+            // departmentChart
             // 
             xyDiagram1.AxisX.VisibleInPanesSerializable = "-1";
             xyDiagram1.AxisY.VisibleInPanesSerializable = "-1";
-            this.chartControl1.Diagram = xyDiagram1;
-            this.chartControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartControl1.Location = new System.Drawing.Point(2, 2);
-            this.chartControl1.Name = "chartControl1";
+            this.departmentChart.Diagram = xyDiagram1;
+            this.departmentChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.departmentChart.Location = new System.Drawing.Point(2, 2);
+            this.departmentChart.Name = "departmentChart";
             series1.Name = "Series 1";
             series1.View = stackedBarSeriesView1;
-            this.chartControl1.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
+            this.departmentChart.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
         series1};
-            this.chartControl1.Size = new System.Drawing.Size(594, 407);
-            this.chartControl1.TabIndex = 0;
+            this.departmentChart.Size = new System.Drawing.Size(594, 407);
+            this.departmentChart.TabIndex = 0;
             // 
             // DeptChart
             // 
@@ -112,7 +112,7 @@
             ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(stackedBarSeriesView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(series1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.departmentChart)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -122,6 +122,6 @@
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.LabelControl chartLabel;
         private DevExpress.XtraEditors.PanelControl panelControl2;
-        private DevExpress.XtraCharts.ChartControl chartControl1;
+        private DevExpress.XtraCharts.ChartControl departmentChart;
     }
 }

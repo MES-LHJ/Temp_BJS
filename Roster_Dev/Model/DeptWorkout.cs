@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,5 +18,11 @@ namespace Roster_Dev.Model
         {
             return DepartmentCode; // ComboBoxEdit이나 ComboBox에 표시될 값
         }
+    }
+    public class ChartData
+    {
+        public string UpperDepartmentName { get; set; }
+        public string DepartmentName { get; set; }
+        public int EmployeeCount { get; set; }
     }
 }

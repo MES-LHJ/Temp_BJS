@@ -490,5 +490,10 @@ namespace Roster_Dev
 
             return photoPath;
         }
+
+        //public static List<DepartmentCount> GetDepartmentCount()
+        //{
+        //    var list = new List<DepartmentCount>();
+        //}
     }
 }
