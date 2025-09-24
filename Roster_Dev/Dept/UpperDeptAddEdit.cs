@@ -19,7 +19,7 @@ namespace Roster_Dev.Dept
         {
             InitializeComponent();
             AddEvent();
-            this.upperDpt = new UpperDeptWorkout();
+            upperDpt = new UpperDeptWorkout();
         }
         internal UpperDeptAddEdit(UpperDeptWorkout dept) : this()
         {
@@ -53,6 +53,13 @@ namespace Roster_Dev.Dept
                 addEditBtn.Text = "추가";
             }
             SetTag();
+
+            if (isEditMode && upperDpt != null)
+            {
+                upperDeptCode.Text = upperDpt.UpperDepartmentCode;
+                upperDeptName.Text = upperDpt.UpperDepartmentName;
+                memo.Text = upperDpt.Memo;
+            }
         }
         private void Save_Click(object sender, EventArgs e)
         {

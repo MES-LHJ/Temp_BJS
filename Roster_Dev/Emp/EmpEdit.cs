@@ -28,6 +28,16 @@ namespace Roster_Dev.Emp
             EditVariable();
         }
 
+        private void AddEvent()
+        {
+            this.Load += Form_Load;
+            this.male.CheckedChanged += Male_CheckedChanged;
+            this.female.CheckedChanged += Female_CheckedChanged;
+            this.addEditBtn.Click += Save_Click;
+            this.photo.Click += Photo_Click;
+            this.cancel.Click += Cancel_Click;
+        }
+
         private void EditVariable()
         {
             emp = SqlReposit.GetEmployees().FirstOrDefault(x => x.EmployeeId == empId);
@@ -39,16 +49,6 @@ namespace Roster_Dev.Emp
             }
         }
 
-        private void AddEvent()
-        {
-            this.Load += Form_Load;
-            this.male.CheckedChanged += Male_CheckedChanged;
-            this.female.CheckedChanged += Female_CheckedChanged;
-            this.addEditBtn.Click += Save_Click;
-            this.photo.Click += Photo_Click;
-            this.cancel.Click += Cancel_Click;
-        }
-
         private void SetTag()
         {
             upperDeptCode.Tag = upperDeptCodeLayout.Text;
@@ -56,8 +56,6 @@ namespace Roster_Dev.Emp
             empCode.Tag = empCodeLayout.Text;
             empName.Tag = empNameLayout.Text;
         }
-
-
 
         private void Form_Load(object sender, EventArgs e)
         {
@@ -187,15 +185,13 @@ namespace Roster_Dev.Emp
                 string imagesFolder = @"C:\work\Roster\Roster_Dev\Picture";
 
                 // 사진 저장 처리
-                if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
+                if (!string.IsNullOrEmpty(currentPhotoPath) && File.Exists(currentPhotoPath))
                 {
                     string newFileName = Path.GetFileName(currentPhotoPath);
                     string newPhotoPath = Path.Combine(imagesFolder, newFileName);
 
-                    File.Copy(emp.PhotoPath, newPhotoPath, true);
-
                     //원본 사진은 삭제
-                    if (!string.IsNullOrEmpty(currentPhotoPath) && File.Exists(currentPhotoPath))
+                    if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
                     {
                         if (photo.Image != null)
                         {
@@ -204,6 +200,8 @@ namespace Roster_Dev.Emp
                         }
                         File.Delete(emp.PhotoPath);
                     }
+
+                    File.Copy(currentPhotoPath, newPhotoPath, true);
 
                     emp.PhotoPath = newPhotoPath; // DB에 저장할 최종 경로
 

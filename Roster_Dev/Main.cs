@@ -91,8 +91,8 @@ namespace Roster_Dev
 
                     using (Image original = Image.FromFile(photoPath))
                     {
-                        int targetWidth = 50;   // 원하는 크기
-                        int targetHeight = 50;  // 원하는 크기
+                        int targetWidth = 100;   // 원하는 크기
+                        int targetHeight = 100;  // 원하는 크기
                         Image resized = new Bitmap(original, new Size(targetWidth, targetHeight));
 
 
