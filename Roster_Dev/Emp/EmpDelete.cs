@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,13 @@ namespace Roster_Dev.Emp
         {
             try
             {
+                string photoPath = SqlReposit.GetPhotoPath(emp.EmployeeId);
+
+                if ((!string.IsNullOrEmpty(photoPath) && System.IO.File.Exists(photoPath)))
+                {
+                    System.IO.File.Delete(photoPath);
+                }
+
                 var result = SqlReposit.DeleteEmp(emp.EmployeeId);
 
                 if (result > 0)

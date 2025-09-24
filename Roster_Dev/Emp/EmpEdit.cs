@@ -171,6 +171,8 @@ namespace Roster_Dev.Emp
             try
             {
                 // 사원 기본정보
+                emp.DepartmentId = dept.DepartmentId;
+                emp.UpperDeppartmentId = upperDept.UpperDepartmentId;
                 emp.EmployeeCode = empCode.Text.Trim();
                 emp.EmployeeName = empName.Text.Trim();
                 emp.Position = position.Text.Trim();
@@ -181,12 +183,8 @@ namespace Roster_Dev.Emp
                 emp.Email = email.Text.Trim();
                 emp.MessengerId = messengerId.Text.Trim();
                 emp.Memo = memo.Text.Trim();
-                emp.DepartmentId = dept.DepartmentId;
-                emp.UpperDeppartmentId = upperDept.UpperDepartmentId;
 
                 string imagesFolder = @"C:\work\Roster\Roster_Dev\Picture";
-
-
 
                 // 사진 저장 처리
                 if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))

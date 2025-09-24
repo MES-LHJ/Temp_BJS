@@ -98,7 +98,8 @@ namespace Roster_Dev
 
                         ToolTipItem item = new ToolTipItem
                         {
-                            Image = Image.FromFile(photoPath),
+                            //Image = Image.FromFile(photoPath),
+                            Image = new Bitmap(resized),
                             Text = ""
                         };
                         superTip.Items.Add(item);
@@ -169,7 +170,10 @@ namespace Roster_Dev
 
             using (var Form = new Emp.EmpEdit(empId))
             {
-                Form.ShowDialog();
+                if (Form.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshGrid();
+                }
             }
         }
 

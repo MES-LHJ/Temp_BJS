@@ -472,5 +472,23 @@ namespace Roster_Dev
             }
             return list;
         }
+
+        public static string GetPhotoPath(long empId)
+        {
+            string photoPath = null;
+            string sql = "SELECT PhotoPath FROM Employee WHERE EmployeeId = @EmpId";
+
+            using (SqlConnection conn = new SqlConnection(CS))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@EmpId", empId);
+                conn.Open();
+                var result = cmd.ExecuteScalar();
+                if (result != DBNull.Value && result != null)
+                    photoPath = result.ToString();
+            }
+
+            return photoPath;
+        }
     }
 }
