@@ -120,7 +120,7 @@
             // 
             // panelControl1
             // 
-            this.panelControl1.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.panelControl1.Appearance.BorderColor = System.Drawing.Color.CadetBlue;
             this.panelControl1.Appearance.Options.UseBackColor = true;
             this.panelControl1.Appearance.Options.UseBorderColor = true;
@@ -356,6 +356,8 @@
             // 
             // Root
             // 
+            this.Root.AppearanceGroup.BackColor = System.Drawing.Color.White;
+            this.Root.AppearanceGroup.Options.UseBackColor = true;
             this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             this.Root.GroupBordersVisible = false;
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {

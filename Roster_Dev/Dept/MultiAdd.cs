@@ -1,6 +1,6 @@
 ﻿using DevExpress.Spreadsheet;
 using DevExpress.XtraEditors;
-using DevExpress.XtraSpreadsheet;
+using DevExpress.XtraGrid;
 using Roster_Dev.Model;
 using System;
 using System.Collections.Generic;
@@ -11,140 +11,205 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.Spreadsheet.Core;
+using static Roster_Dev.UtilClass.Util;
+using Color = System.Drawing.Color;
+using Worksheet = DevExpress.Spreadsheet.Worksheet;
 
 namespace Roster_Dev
 {
     public partial class MultiAdd : Form
     {
-        private SpreadsheetControl spreadsheetControl;
-        private SimpleButton saveBtn;
-        private SimpleButton cancelBtn;
+        private const string Header_deptCode = "부서코드";
+        private const string Header_empCode = "사원코드";
+        private const string Header_empName = "사원명";
+        private const string Header_loginId = "로그인ID";
+        private const string Header_password = "비밀번호";
+        private const string Header_position = "직위";
+        private const string Header_employment = "고용형태";
+        private const string Header_gender = "성별";
+        private const string Header_phoneNum = "휴대전화";
+        private const string Header_email = "이메일";
+        private const string Header_messengerId = "메신저ID";
+        private const string Header_memo = "메모";
+
+        private List<string> departmentCodes;
         public MultiAdd()
         {
             InitializeComponent();
+            InitializeSpreadControlColumns();
             AddEvent();
-            InitializeSpreadsheetControl();
-        }
-
-        private void InitializeSpreadsheetControl()
-        {
-            // Spreadsheet 컨트롤 동적 생성 및 Dock 설정
-            spreadsheetControl = new SpreadsheetControl();
-            this.Controls.Add(spreadsheetControl);
-            spreadsheetControl.Dock = DockStyle.Fill;
-            spreadsheetControl.SendToBack(); // 다른 컨트롤 뒤로 보내기
-
-            // UI 컨트롤 위치 조정 (예시)
-            saveBtn = new SimpleButton();
-            saveBtn.Text = "저장";
-            saveBtn.Click += SaveBtn_Click;
-
-            cancelBtn = new SimpleButton();
-            cancelBtn.Text = "취소";
-            cancelBtn.Click += CancelBtn_Click;
-
-            // 레이아웃 컨트롤에 버튼 추가
-            // 이 부분은 디자이너에 따라 달라질 수 있습니다.
-            // 예시로 직접 컨트롤을 Form에 추가하는 코드를 작성했습니다.
-            this.Controls.Add(saveBtn);
-            this.Controls.Add(cancelBtn);
-            saveBtn.BringToFront();
-            cancelBtn.BringToFront();
-            // 버튼 위치 설정은 디자이너에서 직접 하거나, LayoutControl을 사용하면 더 편리합니다.
         }
 
         private void AddEvent()
         {
             this.Load += Form_Load;
-            this.saveBtn.Click += SaveBtn_Click;
-            this.cancelBtn.Click += CancelBtn_Click;
+            this.save.Click += SaveBtn_Click;
+            this.cancel.Click += CancelBtn_Click;
+        }
+
+        private void InitializeSpreadControlColumns()
+        {
+            var worksheet = multiAddGrid.ActiveWorksheet;
+
+            worksheet.Clear(worksheet.Cells);
+
+            //Style headerStyle = worksheet.Workbook.Styles[BuiltInStyleId.Normal];
+            Style headerStyle = worksheet.Workbook.Styles.Add("CustomHeaderStyle");
+            headerStyle.Fill.BackgroundColor = worksheet.Workbook.Styles[BuiltInStyleId.Normal].Fill.BackgroundColor;
+            headerStyle.Font.Color = worksheet.Workbook.Styles[BuiltInStyleId.Normal].Font.Color;
+
+            headerStyle.Font.Color = Color.Red;
+            headerStyle.Font.Bold = true;
+            headerStyle.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
+            //headerStyle.Fill.BackgroundColor = Color.FromArgb(243, 243, 243);
+
+            string[] headers =
+            {
+        Header_deptCode, Header_empCode, Header_empName,
+        Header_loginId, Header_password, Header_position,
+        Header_employment, Header_gender, Header_phoneNum,
+        Header_email, Header_messengerId, Header_memo
+    };
+
+            int[] widths =
+            {
+        200, 200, 200, 200, 200, 160, 200, 120, 220, 400, 200, 200
+    };
+
+            // 첫 번째 행(Row 0)에 순서대로 헤더 텍스트를 할당합니다.
+            for (int i = 0; i < headers.Length; i++)
+            {
+                worksheet.Cells[0, i].Value = headers[i];
+
+                worksheet.Columns[i].Width = widths[i];
+            }
+
+            CellRange headerRowRange = worksheet.Range.FromLTRB(0, 0, 4, 0);
+            headerRowRange.Style = headerStyle;
+
+            worksheet.FreezeRows(1);
+
+        }
+
+        private void ApplyDepartmentValidation()
+        {
+            if (departmentCodes == null || !departmentCodes.Any())
+                return;
+
+            Worksheet sheet = multiAddGrid.ActiveWorksheet;
+
+            // A2:A100 범위 (부서코드 입력 칸)
+            CellRange range = sheet.Range.FromLTRB(0, 1, 0, 100);
+
+            CellValue[] listValues = departmentCodes.Select(d => CellValue.FromObject((object)d)).ToArray();
+
+            ValueObject listSource = ValueObject.CreateListSource(listValues);
+
+            DataValidation validation = sheet.DataValidations.Add(
+                range,
+                DataValidationType.List,
+                listSource
+            );
+
+            validation.ShowDropDown = true;
+            validation.ErrorStyle = DataValidationErrorStyle.Stop;
+            validation.ErrorTitle = "잘못된 부서코드";
+            validation.ErrorMessage = "유효한 부서코드 중 하나를 선택해야 합니다.";
         }
 
         private void Form_Load(object sender, EventArgs e)
         {
-            // 폼 로드 시 초기화 로직 (필요 시 추가)
-        }
+            var allDepartments = SqlReposit.GetDepartments();
+            departmentCodes = allDepartments
+                                   .Select(d => d.DepartmentCode)
+                                   .ToList();
 
+            // 부서코드 콤보박스 유효성 검사 적용
+            ApplyDepartmentValidation();
+        }
         private void SaveBtn_Click(object sender, EventArgs e)
         {
             try
             {
-                // SpreadsheetControl의 첫 번째 워크시트 가져오기
-                Worksheet worksheet = spreadsheetControl.ActiveWorksheet;
-                if (worksheet == null || worksheet.GetUsedRange().RowCount <= 1)
+                Worksheet sheet = multiAddGrid.ActiveWorksheet;
+
+                CellRange used = sheet.GetUsedRange();
+
+                // 데이터가 없는 경우 (헤더 행만 있는 경우 포함)
+                if (used == null || used.RowCount <= 1)
                 {
-                    MessageBox.Show("스프레드시트에 데이터가 없습니다.");
+                    MessageBox.Show("추가할 데이터가 없습니다.");
                     return;
                 }
 
-                // A2 셀부터 데이터가 시작한다고 가정 (A1은 헤더)
-                DevExpress.Spreadsheet.Range usedRange = worksheet.GetUsedRange();
-                int rowCount = usedRange.RowCount;
+                var departments = SqlReposit.GetDepartments();
+                var employeesToSave = new List<EmpWorkout>();
 
-                // 결과를 저장할 리스트
-                List<EmpWorkout> employeesToSave = new List<EmpWorkout>();
-                int successCount = 0;
-                int failCount = 0;
+                int success = 0, fail = 0;
 
-                for (int i = 1; i < rowCount; i++) // 0번 인덱스는 헤더이므로 건너뜁니다.
+                for (int row = 1; row < used.RowCount; row++)
                 {
-                    EmpWorkout emp = new EmpWorkout();
                     try
                     {
-                        // 각 열의 데이터를 EmpWorkout 객체로 매핑 (예시)
-                        // 실제 열 순서에 맞게 필드명을 수정해야 합니다.
-                        emp.EmployeeCode = worksheet.Cells[i, 0].DisplayText; // A열
-                        emp.EmployeeName = worksheet.Cells[i, 1].DisplayText; // B열
-                        emp.LoginId = worksheet.Cells[i, 2].DisplayText;      // C열
-                        emp.Password = worksheet.Cells[i, 3].DisplayText;     // D열
+                        string deptCode = sheet.Cells[row, 0].DisplayText?.Trim();
+                        string empCode = sheet.Cells[row, 1].DisplayText?.Trim();
+                        string empName = sheet.Cells[row, 2].DisplayText?.Trim();
+                        string loginId = sheet.Cells[row, 3].DisplayText?.Trim();
+                        string password = sheet.Cells[row, 4].DisplayText?.Trim();
 
-                        // 부서 ID와 상위 부서 ID는 코드로 조회하여 설정
-                        string deptCode = worksheet.Cells[i, 4].DisplayText;  // E열
-                        var dept = SqlReposit.GetDepartments().FirstOrDefault(d => d.DepartmentCode == deptCode);
-
-                        if (dept != null)
+                        if (string.IsNullOrWhiteSpace(deptCode) ||
+                            string.IsNullOrWhiteSpace(empCode) ||
+                            string.IsNullOrWhiteSpace(empName) ||
+                            string.IsNullOrWhiteSpace(loginId) ||
+                            string.IsNullOrWhiteSpace(password))
                         {
-                            emp.DepartmentId = dept.DepartmentId;
-                            emp.UpperDeppartmentId = dept.UpperDepartmentId;
+                            throw new Exception("필수 항목 누락");
                         }
+
+                        var dept = departments.FirstOrDefault(d => d.DepartmentCode == deptCode);
+                        if (dept == null)
+                            throw new Exception($"부서코드 '{deptCode}' 없음");
+
+                        var emp = new EmpWorkout
+                        {
+                            DepartmentId = dept.DepartmentId,
+                            UpperDeppartmentId = dept.UpperDepartmentId,
+                            DepartmentCode = dept.DepartmentCode,
+                            DepartmentName = dept.DepartmentName,
+                            EmployeeCode = empCode,
+                            EmployeeName = empName,
+                            LoginId = loginId,
+                            Password = password,
+                            Position = sheet.Cells[row, 5].DisplayText?.Trim(),
+                            Employment = sheet.Cells[row, 6].DisplayText?.Trim(),
+                            PhoneNum = sheet.Cells[row, 8].DisplayText?.Trim(),
+                            Email = sheet.Cells[row, 9].DisplayText?.Trim(),
+                            MessengerId = sheet.Cells[row, 10].DisplayText?.Trim(),
+                            Memo = sheet.Cells[row, 11].DisplayText?.Trim()
+                        };
+
+                        Gender parsedGender;
+                        if (Enum.TryParse(sheet.Cells[row, 7].DisplayText?.Trim(), true, out parsedGender))
+                            emp.Gender = parsedGender;
                         else
-                        {
-                            // 유효성 검사 실패
-                            throw new Exception($"부서 코드 '{deptCode}'를 찾을 수 없습니다.");
-                        }
-
-                        // 필요에 따라 다른 필드들도 추가로 매핑
-                        // emp.Email = worksheet.Cells[i, 5].DisplayText;
-                        // emp.Gender = ...
-
-                        // 필수 필드 유효성 검사
-                        if (string.IsNullOrWhiteSpace(emp.EmployeeCode) ||
-                            string.IsNullOrWhiteSpace(emp.EmployeeName) ||
-                            string.IsNullOrWhiteSpace(emp.LoginId) ||
-                            string.IsNullOrWhiteSpace(emp.Password))
-                        {
-                            throw new Exception("필수 필드(사원코드, 이름, 로그인ID, 비밀번호)가 비어 있습니다.");
-                        }
+                            emp.Gender = null;
 
                         employeesToSave.Add(emp);
                     }
                     catch (Exception ex)
                     {
-                        failCount++;
-                        // 실패한 행에 대한 피드백 (예: 메시지 박스 또는 로그)
-                        Console.WriteLine($"행 {i + 1} 처리 중 오류 발생: {ex.Message}");
+                        fail++;
+                        Console.WriteLine($"Row {row + 1} 실패: {ex.Message}");
                     }
                 }
 
-                // 유효성 검사를 통과한 직원들만 DB에 저장
                 foreach (var emp in employeesToSave)
                 {
                     SqlReposit.InsertEmp(emp);
-                    successCount++;
+                    success++;
                 }
 
-                MessageBox.Show($"총 {successCount}명의 사원이 성공적으로 추가되었습니다. (실패: {failCount}명)");
+                XtraMessageBox.Show($"추가 완료: {success}명, 실패: {fail}명");
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

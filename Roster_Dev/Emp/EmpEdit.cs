@@ -20,12 +20,14 @@ namespace Roster_Dev.Emp
         private UpperDeptWorkout upperDept;
         private string currentPhotoPath;
         private readonly int empId;
+        private readonly ApiMethod apiMethod = new ApiMethod();
+
         public EmpEdit(int employeeId)
         {
             InitializeComponent();
             AddEvent();
             empId = employeeId;
-            EditVariable();
+            
         }
 
         private void AddEvent()
@@ -57,9 +59,20 @@ namespace Roster_Dev.Emp
             empName.Tag = empNameLayout.Text;
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             SetTag();
+
+            // ⭐ 1. 사원 상세 정보 조회 (GET)
+            string empJson = await apiMethod.GetAsync($"employees/{empId}"); // ⭐ 엔드포인트 가정
+            string upperDeptJson = await apiMethod.GetAsync("upperdepartments");
+            string deptJson = await apiMethod.GetAsync("departments");
+
+            if (empJson == null || upperDeptJson == null || deptJson == null)
+            {
+                if (CurrentToken.NeedsRelogin) this.Close(); // 401 오류 처리
+                return;
+            }
 
             var upperDepartments = SqlReposit.GetUpperDepartments();
 
@@ -131,6 +144,7 @@ namespace Roster_Dev.Emp
                 }
                 photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
             }
+            EditVariable();
         }
 
         private void Photo_Click(object sender, EventArgs e)

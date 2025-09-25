@@ -32,9 +32,9 @@
             this.rosterAddLabel = new DevExpress.XtraEditors.LabelControl();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.cancel = new DevExpress.XtraEditors.SimpleButton();
-            this.loginBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.save = new DevExpress.XtraEditors.SimpleButton();
             this.panelControl3 = new DevExpress.XtraEditors.PanelControl();
-            this.spreadsheetControl1 = new DevExpress.XtraSpreadsheet.SpreadsheetControl();
+            this.multiAddGrid = new DevExpress.XtraSpreadsheet.SpreadsheetControl();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
@@ -73,7 +73,7 @@
             this.panelControl2.Appearance.BackColor = System.Drawing.Color.White;
             this.panelControl2.Appearance.Options.UseBackColor = true;
             this.panelControl2.Controls.Add(this.cancel);
-            this.panelControl2.Controls.Add(this.loginBtn);
+            this.panelControl2.Controls.Add(this.save);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelControl2.Location = new System.Drawing.Point(0, 386);
             this.panelControl2.Name = "panelControl2";
@@ -93,36 +93,36 @@
             this.cancel.TabIndex = 35;
             this.cancel.Text = "취소";
             // 
-            // loginBtn
+            // save
             // 
-            this.loginBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.loginBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(198)))));
-            this.loginBtn.Appearance.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.loginBtn.Appearance.Options.UseBackColor = true;
-            this.loginBtn.Appearance.Options.UseFont = true;
-            this.loginBtn.Location = new System.Drawing.Point(611, 6);
-            this.loginBtn.Name = "loginBtn";
-            this.loginBtn.Size = new System.Drawing.Size(120, 30);
-            this.loginBtn.TabIndex = 34;
-            this.loginBtn.Text = "저장";
+            this.save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.save.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(198)))));
+            this.save.Appearance.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.save.Appearance.Options.UseBackColor = true;
+            this.save.Appearance.Options.UseFont = true;
+            this.save.Location = new System.Drawing.Point(611, 6);
+            this.save.Name = "save";
+            this.save.Size = new System.Drawing.Size(120, 30);
+            this.save.TabIndex = 34;
+            this.save.Text = "저장";
             // 
             // panelControl3
             // 
-            this.panelControl3.Controls.Add(this.spreadsheetControl1);
+            this.panelControl3.Controls.Add(this.multiAddGrid);
             this.panelControl3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl3.Location = new System.Drawing.Point(0, 39);
             this.panelControl3.Name = "panelControl3";
             this.panelControl3.Size = new System.Drawing.Size(864, 347);
             this.panelControl3.TabIndex = 5;
             // 
-            // spreadsheetControl1
+            // multiAddGrid
             // 
-            this.spreadsheetControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spreadsheetControl1.Location = new System.Drawing.Point(2, 2);
-            this.spreadsheetControl1.Name = "spreadsheetControl1";
-            this.spreadsheetControl1.Size = new System.Drawing.Size(860, 343);
-            this.spreadsheetControl1.TabIndex = 0;
-            this.spreadsheetControl1.Text = "spreadsheetControl1";
+            this.multiAddGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.multiAddGrid.Location = new System.Drawing.Point(2, 2);
+            this.multiAddGrid.Name = "multiAddGrid";
+            this.multiAddGrid.Size = new System.Drawing.Size(860, 343);
+            this.multiAddGrid.TabIndex = 0;
+            this.multiAddGrid.Text = "multiAddGrid";
             // 
             // MultiAdd
             // 
@@ -151,8 +151,8 @@
         private DevExpress.XtraEditors.LabelControl rosterAddLabel;
         private DevExpress.XtraEditors.PanelControl panelControl2;
         private DevExpress.XtraEditors.PanelControl panelControl3;
-        private DevExpress.XtraSpreadsheet.SpreadsheetControl spreadsheetControl1;
+        private DevExpress.XtraSpreadsheet.SpreadsheetControl multiAddGrid;
         private DevExpress.XtraEditors.SimpleButton cancel;
-        private DevExpress.XtraEditors.SimpleButton loginBtn;
+        private DevExpress.XtraEditors.SimpleButton save;
     }
 }

@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Vml;
 using Roster_Dev.Model;
 using Roster_Dev.UtilClass;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -137,7 +138,7 @@ namespace Roster_Dev.Emp
             }
         }
 
-        private void Save_Click(object sender, EventArgs e)
+        private async void Save_Click(object sender, EventArgs e)
         {
             if (!Util.Instance.NullCheck(upperDeptCode, deptCode, empCode, empName, loginId, password))
             {
@@ -145,22 +146,6 @@ namespace Roster_Dev.Emp
             }
             try
             {
-                // 사진 저장 처리
-                //if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
-                //{
-                //    string imagesFolder = @"C:\work\Roster\Roster_Dev\Picture";
-                //    Directory.CreateDirectory(imagesFolder);
-
-                //    string newFileName = $"{Guid.NewGuid()}{Path.GetExtension(emp.PhotoPath)}";
-                //    string destPath = Path.Combine(imagesFolder, newFileName);
-
-                //    File.Copy(emp.PhotoPath, destPath, true);
-                //    emp.PhotoPath = destPath; // DB에 저장할 최종 경로
-                //}
-
-                //if (string.IsNullOrWhiteSpace(emp.PhotoPath))
-                //    emp.PhotoPath = null;
-
                 string imageFolder = @"C:\work\Roster\Roster_Dev\Picture";
                 string fileName = Path.GetFileName(emp.PhotoPath);
                 string newPhotoPath = Path.Combine(imageFolder, fileName);
@@ -182,12 +167,30 @@ namespace Roster_Dev.Emp
                 //PhotoPath = photo.Image != null ? Convert.ToBase64String((byte[])(new ImageConverter()).ConvertTo(photo.Image, typeof(byte[]))) : null
                 emp.PhotoPath = newPhotoPath;
 
-                var result = SqlReposit.InsertEmp(emp);
-                if (result > 0)
+                // ⭐ 2. API 전송용 객체 생성 (EmpWorkout 대신 API 스키마에 맞는 DTO 사용 권장)
+                // 여기서는 emp 객체를 그대로 전송한다고 가정
+                var dataToSend = emp;
+
+                // ⭐ 3. POST API 요청으로 변경
+                var apiService = new ApiMethod();
+                // ⭐ 엔드포인트: 사원 추가
+                bool success = await apiService.PostAsync("employees", dataToSend);
+
+                if (success) // API 요청 성공
                 {
                     MessageBox.Show("사원이 추가되었습니다.");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
+                }
+                else if (CurrentToken.NeedsRelogin)
+                {
+                    // 401 오류 발생 시 메인 폼이 닫히도록 유도
+                    this.Close();
+                }
+                else
+                {
+                    // 다른 API 오류 발생 (ApiService에서 메시지 박스 처리 가정)
+                    // 실패 시 OK가 아닌 Cancel을 반환하거나, 그냥 폼을 닫지 않음
                 }
             }
             catch (Exception ex)

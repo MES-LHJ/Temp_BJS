@@ -13,13 +13,6 @@ using System.Windows.Forms;
 
 namespace Roster_Dev.Dpt
 {
-    //public class TreeNode
-    //{
-    //    public long Id { get; set; }
-    //    public long ParentId { get; set; }
-    //    public string Code { get; set; }
-    //    public string Name { get; set; }
-    //}
     public partial class Tree : Form
     {
         public class TreeNodeDto
@@ -42,12 +35,12 @@ namespace Roster_Dev.Dpt
 
         private void SetupTreeList()
         {
-            // 1. 모든 데이터 가져오기
+            // 데이터 가져오기
             var upperDepts = SqlReposit.GetUpperDepartments().ToList();
             var departments = SqlReposit.GetDepartments().ToList();
             var employees = SqlReposit.GetEmployees().ToList();
 
-            // 2. 모든 객체를 담을 리스트 생성
+            // 객체를 담을 리스트 생성
             var allNodes = new List<TreeNodeDto>();
 
             allNodes.AddRange(upperDepts.Select(u => new TreeNodeDto
@@ -75,7 +68,7 @@ namespace Roster_Dev.Dpt
             }));
 
 
-            // 3. TreeList 컨트롤 설정
+            // TreeList 컨트롤 설정
             deptTree.KeyFieldName = "Id";
             deptTree.ParentFieldName = "ParentId";
             deptTree.Columns.Clear();
@@ -85,12 +78,6 @@ namespace Roster_Dev.Dpt
             codeCol.Caption = "코드";
             codeCol.Visible = true;
             codeCol.OptionsColumn.AllowEdit = false;
-
-            //TreeListColumn nameCol = deptTree.Columns.Add();
-            //nameCol.FieldName = "Name"; // 통일된 속성 이름 사용
-            //nameCol.Caption = "이름";
-            //nameCol.Visible = true;
-            //nameCol.OptionsColumn.AllowEdit = false;
 
             deptTree.DataSource = allNodes;
             deptTree.ExpandAll();

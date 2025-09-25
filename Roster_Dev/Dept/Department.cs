@@ -1,4 +1,5 @@
 ﻿using DevExpress.Charts.Model;
+using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using Roster_Dev.Dept;
 using Roster_Dev.Model;
@@ -45,9 +46,9 @@ namespace Roster_Dev.Dpt
             deptGrid.DataSource = departments;
         }
 
-        private void UpperDeptGrid_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
+        private void UpperDeptGrid_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
         {
-            var view = upperDeptGrid.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
+            var view = upperDeptGrid.MainView as GridView;
             if (view == null) return;
 
             // 모델 클래스로 연동
@@ -131,7 +132,7 @@ namespace Roster_Dev.Dpt
 
         private void Edit_Click(object sender, EventArgs e)
         {
-            var view = deptGrid.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
+            var view = deptGrid.MainView as GridView;
             if (view == null) return;
 
             var department = view.GetFocusedRow() as DeptWorkout;
@@ -153,7 +154,7 @@ namespace Roster_Dev.Dpt
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            var view = deptGrid.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
+            var view = deptGrid.MainView as GridView;
             var department = view?.GetFocusedRow() as DeptWorkout;
             if (department == null)
             {
