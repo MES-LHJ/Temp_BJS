@@ -46,21 +46,24 @@
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.empGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.factoryCode = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.factoryName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.departmentCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.departmentName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.departmentMemo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.employeeCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.employeeName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.loginId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.password = new DevExpress.XtraGrid.Columns.GridColumn();
             this.position = new DevExpress.XtraGrid.Columns.GridColumn();
             this.employment = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gender = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.memo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.phoneNum = new DevExpress.XtraGrid.Columns.GridColumn();
             this.email = new DevExpress.XtraGrid.Columns.GridColumn();
             this.messengerId = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.memo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.image = new DevExpress.XtraGrid.Columns.GridColumn();
             this.photoToolTip = new DevExpress.Utils.ToolTipController(this.components);
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.image = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.empBtns)).BeginInit();
@@ -85,7 +88,7 @@
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(1225, 39);
+            this.panelControl1.Size = new System.Drawing.Size(1397, 39);
             this.panelControl1.TabIndex = 1;
             // 
             // empBtns
@@ -100,7 +103,7 @@
             this.empBtns.Controls.Add(this.deleteBtn);
             this.empBtns.Controls.Add(this.convertBtn);
             this.empBtns.Controls.Add(this.exitBtn);
-            this.empBtns.Location = new System.Drawing.Point(673, 0);
+            this.empBtns.Location = new System.Drawing.Point(845, 0);
             this.empBtns.Name = "empBtns";
             this.empBtns.Size = new System.Drawing.Size(552, 39);
             this.empBtns.TabIndex = 1;
@@ -333,7 +336,7 @@
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl2.Location = new System.Drawing.Point(0, 39);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(1225, 411);
+            this.panelControl2.Size = new System.Drawing.Size(1397, 411);
             this.panelControl2.TabIndex = 2;
             // 
             // empGrid
@@ -343,7 +346,7 @@
             this.empGrid.Location = new System.Drawing.Point(2, 2);
             this.empGrid.MainView = this.gridView1;
             this.empGrid.Name = "empGrid";
-            this.empGrid.Size = new System.Drawing.Size(1221, 407);
+            this.empGrid.Size = new System.Drawing.Size(1393, 407);
             this.empGrid.TabIndex = 0;
             this.empGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -353,27 +356,56 @@
             this.gridView1.Appearance.ColumnFilterButton.BackColor = System.Drawing.Color.White;
             this.gridView1.Appearance.ColumnFilterButton.Options.UseBackColor = true;
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.factoryCode,
+            this.factoryName,
             this.departmentCode,
             this.departmentName,
+            this.departmentMemo,
             this.employeeCode,
             this.employeeName,
             this.loginId,
             this.password,
             this.position,
             this.employment,
-            this.gender,
+            this.memo,
             this.phoneNum,
             this.email,
-            this.messengerId,
-            this.memo,
-            this.image});
+            this.messengerId});
             this.gridView1.GridControl = this.empGrid;
             this.gridView1.Name = "gridView1";
+            // 
+            // factoryCode
+            // 
+            this.factoryCode.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.factoryCode.AppearanceCell.Options.UseFont = true;
+            this.factoryCode.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.factoryCode.AppearanceHeader.Options.UseFont = true;
+            this.factoryCode.AppearanceHeader.Options.UseTextOptions = true;
+            this.factoryCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.factoryCode.Caption = "공장코드";
+            this.factoryCode.FieldName = "FactoryCode";
+            this.factoryCode.Name = "factoryCode";
+            this.factoryCode.Visible = true;
+            this.factoryCode.VisibleIndex = 0;
+            // 
+            // factoryName
+            // 
+            this.factoryName.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.factoryName.AppearanceCell.Options.UseFont = true;
+            this.factoryName.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.factoryName.AppearanceHeader.Options.UseFont = true;
+            this.factoryName.AppearanceHeader.Options.UseTextOptions = true;
+            this.factoryName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.factoryName.Caption = "공장이름";
+            this.factoryName.FieldName = "FactoryName";
+            this.factoryName.Name = "factoryName";
+            this.factoryName.Visible = true;
+            this.factoryName.VisibleIndex = 1;
             // 
             // departmentCode
             // 
             this.departmentCode.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.departmentCode.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.departmentCode.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.departmentCode.AppearanceCell.Options.UseFont = true;
             this.departmentCode.AppearanceHeader.Options.UseTextOptions = true;
             this.departmentCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -382,12 +414,12 @@
             this.departmentCode.Name = "departmentCode";
             this.departmentCode.OptionsFilter.AllowFilter = false;
             this.departmentCode.Visible = true;
-            this.departmentCode.VisibleIndex = 0;
+            this.departmentCode.VisibleIndex = 2;
             // 
             // departmentName
             // 
             this.departmentName.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.departmentName.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.departmentName.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.departmentName.AppearanceCell.Options.UseFont = true;
             this.departmentName.AppearanceHeader.Options.UseTextOptions = true;
             this.departmentName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -395,38 +427,52 @@
             this.departmentName.FieldName = "DepartmentName";
             this.departmentName.Name = "departmentName";
             this.departmentName.Visible = true;
-            this.departmentName.VisibleIndex = 1;
+            this.departmentName.VisibleIndex = 3;
+            // 
+            // departmentMemo
+            // 
+            this.departmentMemo.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.departmentMemo.AppearanceCell.Options.UseFont = true;
+            this.departmentMemo.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.departmentMemo.AppearanceHeader.Options.UseFont = true;
+            this.departmentMemo.AppearanceHeader.Options.UseTextOptions = true;
+            this.departmentMemo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.departmentMemo.Caption = "부서메모";
+            this.departmentMemo.FieldName = "DepartmentMemo";
+            this.departmentMemo.Name = "departmentMemo";
+            this.departmentMemo.Visible = true;
+            this.departmentMemo.VisibleIndex = 4;
             // 
             // employeeCode
             // 
             this.employeeCode.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.employeeCode.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.employeeCode.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.employeeCode.AppearanceCell.Options.UseFont = true;
             this.employeeCode.AppearanceHeader.Options.UseTextOptions = true;
             this.employeeCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.employeeCode.Caption = "사원코드";
-            this.employeeCode.FieldName = "EmployeeCode";
+            this.employeeCode.FieldName = "Code";
             this.employeeCode.Name = "employeeCode";
             this.employeeCode.Visible = true;
-            this.employeeCode.VisibleIndex = 2;
+            this.employeeCode.VisibleIndex = 5;
             // 
             // employeeName
             // 
             this.employeeName.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.employeeName.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.employeeName.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.employeeName.AppearanceCell.Options.UseFont = true;
             this.employeeName.AppearanceHeader.Options.UseTextOptions = true;
             this.employeeName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.employeeName.Caption = "사원명";
-            this.employeeName.FieldName = "EmployeeName";
+            this.employeeName.FieldName = "Name";
             this.employeeName.Name = "employeeName";
             this.employeeName.Visible = true;
-            this.employeeName.VisibleIndex = 3;
+            this.employeeName.VisibleIndex = 6;
             // 
             // loginId
             // 
             this.loginId.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.loginId.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loginId.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.loginId.AppearanceCell.Options.UseFont = true;
             this.loginId.AppearanceHeader.Options.UseTextOptions = true;
             this.loginId.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -434,25 +480,25 @@
             this.loginId.FieldName = "LoginId";
             this.loginId.Name = "loginId";
             this.loginId.Visible = true;
-            this.loginId.VisibleIndex = 4;
+            this.loginId.VisibleIndex = 10;
             // 
             // password
             // 
             this.password.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.password.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.password.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.password.AppearanceCell.Options.UseFont = true;
             this.password.AppearanceHeader.Options.UseTextOptions = true;
             this.password.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.password.Caption = "비밀번호";
-            this.password.FieldName = "Password";
+            this.password.FieldName = "LoginPassword";
             this.password.Name = "password";
             this.password.Visible = true;
-            this.password.VisibleIndex = 5;
+            this.password.VisibleIndex = 11;
             // 
             // position
             // 
             this.position.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.position.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.position.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.position.AppearanceCell.Options.UseFont = true;
             this.position.AppearanceHeader.Options.UseTextOptions = true;
             this.position.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -460,77 +506,25 @@
             this.position.FieldName = "Position";
             this.position.Name = "position";
             this.position.Visible = true;
-            this.position.VisibleIndex = 6;
+            this.position.VisibleIndex = 7;
             // 
             // employment
             // 
             this.employment.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.employment.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.employment.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.employment.AppearanceCell.Options.UseFont = true;
             this.employment.AppearanceHeader.Options.UseTextOptions = true;
             this.employment.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.employment.Caption = "고용형태";
-            this.employment.FieldName = "Employment";
+            this.employment.FieldName = "ContractType";
             this.employment.Name = "employment";
             this.employment.Visible = true;
-            this.employment.VisibleIndex = 7;
-            // 
-            // gender
-            // 
-            this.gender.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.gender.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gender.AppearanceCell.Options.UseFont = true;
-            this.gender.AppearanceHeader.Options.UseTextOptions = true;
-            this.gender.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gender.Caption = "성별";
-            this.gender.FieldName = "Gender";
-            this.gender.Name = "gender";
-            this.gender.Visible = true;
-            this.gender.VisibleIndex = 8;
-            // 
-            // phoneNum
-            // 
-            this.phoneNum.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.phoneNum.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phoneNum.AppearanceCell.Options.UseFont = true;
-            this.phoneNum.AppearanceHeader.Options.UseTextOptions = true;
-            this.phoneNum.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.phoneNum.Caption = "휴대전화";
-            this.phoneNum.FieldName = "PhoneNum";
-            this.phoneNum.Name = "phoneNum";
-            this.phoneNum.Visible = true;
-            this.phoneNum.VisibleIndex = 9;
-            // 
-            // email
-            // 
-            this.email.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.email.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.email.AppearanceCell.Options.UseFont = true;
-            this.email.AppearanceHeader.Options.UseTextOptions = true;
-            this.email.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.email.Caption = "이메일";
-            this.email.FieldName = "Email";
-            this.email.Name = "email";
-            this.email.Visible = true;
-            this.email.VisibleIndex = 10;
-            // 
-            // messengerId
-            // 
-            this.messengerId.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.messengerId.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.messengerId.AppearanceCell.Options.UseFont = true;
-            this.messengerId.AppearanceHeader.Options.UseTextOptions = true;
-            this.messengerId.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.messengerId.Caption = "메신저ID";
-            this.messengerId.FieldName = "MessengerId";
-            this.messengerId.Name = "messengerId";
-            this.messengerId.Visible = true;
-            this.messengerId.VisibleIndex = 11;
+            this.employment.VisibleIndex = 8;
             // 
             // memo
             // 
             this.memo.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.memo.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.memo.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.memo.AppearanceCell.Options.UseFont = true;
             this.memo.AppearanceHeader.Options.UseTextOptions = true;
             this.memo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -538,26 +532,68 @@
             this.memo.FieldName = "Memo";
             this.memo.Name = "memo";
             this.memo.Visible = true;
-            this.memo.VisibleIndex = 12;
+            this.memo.VisibleIndex = 9;
+            // 
+            // phoneNum
+            // 
+            this.phoneNum.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
+            this.phoneNum.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
+            this.phoneNum.AppearanceCell.Options.UseFont = true;
+            this.phoneNum.AppearanceHeader.Options.UseTextOptions = true;
+            this.phoneNum.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.phoneNum.Caption = "휴대전화";
+            this.phoneNum.FieldName = "PhoneNumber";
+            this.phoneNum.Name = "phoneNum";
+            this.phoneNum.Visible = true;
+            this.phoneNum.VisibleIndex = 12;
+            // 
+            // email
+            // 
+            this.email.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
+            this.email.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
+            this.email.AppearanceCell.Options.UseFont = true;
+            this.email.AppearanceHeader.Options.UseTextOptions = true;
+            this.email.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.email.Caption = "이메일";
+            this.email.FieldName = "Email";
+            this.email.Name = "email";
+            this.email.Visible = true;
+            this.email.VisibleIndex = 13;
+            // 
+            // messengerId
+            // 
+            this.messengerId.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
+            this.messengerId.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
+            this.messengerId.AppearanceCell.Options.UseFont = true;
+            this.messengerId.AppearanceHeader.Options.UseTextOptions = true;
+            this.messengerId.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.messengerId.Caption = "메신저ID";
+            this.messengerId.FieldName = "MessengerId";
+            this.messengerId.Name = "messengerId";
+            this.messengerId.Visible = true;
+            this.messengerId.VisibleIndex = 14;
+            // 
+            // gridColumn1
+            // 
+            this.gridColumn1.Caption = "gridColumn1";
+            this.gridColumn1.Name = "gridColumn1";
             // 
             // image
             // 
             this.image.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.image.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.image.AppearanceCell.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold);
             this.image.AppearanceCell.Options.UseFont = true;
             this.image.AppearanceHeader.Options.UseTextOptions = true;
             this.image.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.image.Caption = "이미지";
             this.image.FieldName = "PhotoPath";
             this.image.Name = global::Roster_Dev.Properties.Settings.Default.PhotoPath;
-            this.image.Visible = true;
-            this.image.VisibleIndex = 13;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1225, 450);
+            this.ClientSize = new System.Drawing.Size(1397, 450);
             this.Controls.Add(this.panelControl2);
             this.Controls.Add(this.panelControl1);
             this.Name = "Main";
@@ -591,12 +627,10 @@
         private DevExpress.XtraGrid.Columns.GridColumn password;
         private DevExpress.XtraGrid.Columns.GridColumn position;
         private DevExpress.XtraGrid.Columns.GridColumn employment;
-        private DevExpress.XtraGrid.Columns.GridColumn gender;
         private DevExpress.XtraGrid.Columns.GridColumn phoneNum;
         private DevExpress.XtraGrid.Columns.GridColumn email;
         private DevExpress.XtraGrid.Columns.GridColumn messengerId;
         private DevExpress.XtraGrid.Columns.GridColumn memo;
-        private DevExpress.XtraGrid.Columns.GridColumn image;
         private DevExpress.Utils.Layout.StackPanel empBtns;
         private DevExpress.XtraEditors.SimpleButton multiAddBtn;
         private DevExpress.XtraEditors.SimpleButton addBtn;
@@ -609,5 +643,10 @@
         private DevExpress.XtraEditors.SimpleButton exitBtn;
         private DevExpress.XtraEditors.PictureEdit imageEdit1;
         private DevExpress.Utils.ToolTipController photoToolTip;
+        private DevExpress.XtraGrid.Columns.GridColumn factoryCode;
+        private DevExpress.XtraGrid.Columns.GridColumn factoryName;
+        private DevExpress.XtraGrid.Columns.GridColumn departmentMemo;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraGrid.Columns.GridColumn image;
     }
 }

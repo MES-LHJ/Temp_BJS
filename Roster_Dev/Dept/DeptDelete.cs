@@ -13,15 +13,15 @@ namespace Roster_Dev.Dept
 {
     public partial class DeptDelete : Form
     {
-        public readonly DeptWorkout dept;
-        public DeptDelete(DeptWorkout dept)
+        public readonly DepartmentWorkout dept;
+        public DeptDelete(DepartmentWorkout dept)
         {
             InitializeComponent();
             AddEvent();
 
             this.dept = dept;
-            deptCode.Text = dept.DepartmentCode;
-            deptName.Text = dept.DepartmentName;
+            deptCode.Text = dept.Code;
+            deptName.Text = dept.Name;
         }
 
         public void AddEvent()
@@ -36,11 +36,11 @@ namespace Roster_Dev.Dept
         {
         }
 
-        private void Delete_Click(object sender, EventArgs e)
+        private async void Delete_Click(object sender, EventArgs e)
         {
             try
             {
-                var result = SqlReposit.DeleteDept(dept.DepartmentId);
+                var result = await ApiRepository.DeleteDepartment(dept.Id);
 
                 if (result > 0)
                 {

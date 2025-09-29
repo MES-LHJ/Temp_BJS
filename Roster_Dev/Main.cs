@@ -25,15 +25,13 @@ namespace Roster_Dev
 {
     public partial class Main : Form
     {
-        private readonly ApiMethod apiMethod = new ApiMethod();
-        //private Timer tokenCheckTimer;
+        private long factoryId;
+
         public Main()
         {
             InitializeComponent();
             AddEvent();
             empGrid.ToolTipController = photoToolTip;
-
-            //SetupTokenCheckTimer();
         }
 
         public void AddEvent()
@@ -48,48 +46,14 @@ namespace Roster_Dev
             this.deleteBtn.Click += Delete_Click;
             this.convertBtn.Click += Convert_Click;
             this.exitBtn.Click += Exit_Click;
-            //this.FormClosing += Main_FormClosing;
             var view = empGrid.MainView as GridView;
             view.CustomColumnDisplayText += EmpGrid_CellFormatting;
         }
 
-        //private void SetupTokenCheckTimer()
-        //{
-        //    tokenCheckTimer = new Timer();
-        //    tokenCheckTimer.Interval = 60000;
-        //    tokenCheckTimer.Tick += TokenCheckTimer_Tick;
-        //    tokenCheckTimer.Start();
-        //}
-
-        //private void TokenCheckTimer_Tick(object sender, EventArgs e)
-        //{
-        //    if (CurrentToken.IsExpired)
-        //    {
-        //        tokenCheckTimer.Stop();
-
-        //        CurrentToken.NeedsRelogin = true;
-        //        this.Close();
-        //    }
-        //}
-
-        //private void Main_FormClosing(object sender, FormClosingEventArgs e)
-        //{
-        //    if (!CurrentToken.NeedsRelogin)
-        //    {
-        //        tokenCheckTimer?.Stop();
-        //        tokenCheckTimer?.Dispose();
-        // 여기에 필요한 정리 코드 (예: 데이터 저장)
-        //    }
-        // 토큰 만료로 닫힐 경우 (NeedsRelogin=true), Program.cs에서 타이머 정리를 처리할 수도 있습니다.
-
-        // 기존 Exit_Click 로직의 this.Close()와 충돌 방지를 위해 주석 처리하거나 로직 조정 필요
-        // 현재 Program.cs 로직 상 Main 폼이 닫히면 루프가 돌기 때문에 이대로 두어도 됩니다.
-        //}
-
         private void EmpGrid_CellFormatting(object sender, CustomColumnDisplayTextEventArgs e)
         {
             // Password * 마킹
-            if (e.Column.FieldName == "Password" && e.Value != null)
+            if (e.Column.FieldName == "LoginPassword" && e.Value != null)
             {
                 string password = e.Value.ToString();
                 if (!string.IsNullOrEmpty(password))
@@ -112,43 +76,32 @@ namespace Roster_Dev
         //    empGrid.DataSource = emp;
         //}
 
-        private async Task RefreshGridAsync()
+        public async Task RefreshGrid() // Task를 반환하도록 변경하고 async 키워드 추가
         {
-            // 사원 목록 조회 (GET)
-            string jsonResponse = await apiMethod.GetAsync("employees"); // ⭐ API 엔드포인트 가정
-
-            if (jsonResponse != null)
+            try
             {
-                try
-                {
-                    // TODO: API 응답을 List<EmpWorkout>으로 역직렬화
-                    // var emp = JsonSerializer.Deserialize<List<EmpWorkout>>(jsonResponse); 
+                // ApiRepository를 사용하여 API에서 사원 목록을 비동기로 가져dha
+                // GetEmployeesAsync는 이미 List<EmployeeWorkout>을 반환하도록 ApiRepository에 정의
+                var employeeList = await ApiRepository.GetEmployeesAsync();
 
-                    // ⭐ 임시 데이터 가정 (실제 구현 시 역직렬화 로직으로 대체)
-                    var emp = new List<EmpWorkout> { /* Load data from JSON */ };
-
-                    empGrid.DataSource = emp.OrderBy(e => e.EmployeeCode).ToList();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("데이터 처리 오류: " + ex.Message, "오류");
-                }
+                // 가져온 데이터를 GridControl (empGrid)에 바인딩
+                // DevExpress GridControl에 List<T>를 바인딩
+                empGrid.DataSource = employeeList;
             }
-            else if (CurrentToken.NeedsRelogin)
+            catch (Exception ex)
             {
-                // 401 오류 발생 시 Main 폼을 닫아서 Program.cs의 재로그인 루프로 제어권 이양
-                this.Close();
+                MessageBox.Show($"{ex.Message}");
             }
         }
 
         private async void Form_Load(object sender, EventArgs e)
         {
-            await RefreshGridAsync();
+            await RefreshGrid();
         }
 
         private void Dept_Click(object sender, EventArgs e)
         {
-            using (var Form = new Department())
+            using (var Form = new Department(factoryId))
             {
                 Form.ShowDialog();
             }
@@ -156,17 +109,17 @@ namespace Roster_Dev
 
         private async void Reference_Click(object sender, EventArgs e)
         {
-            await RefreshGridAsync();
+            await RefreshGrid();
         }
 
         private async void Add_Click(object sender, EventArgs e)
         {
-            var dept = new DeptWorkout();
+            var dept = new DepartmentWorkout();
             using (var Form = new Emp.EmpAdd(dept))
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
-                    await RefreshGridAsync();
+                    await RefreshGrid();
                 }
             }
         }
@@ -195,7 +148,7 @@ namespace Roster_Dev
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
-                    await RefreshGridAsync();
+                    await RefreshGrid();
                 }
             }
         }
@@ -209,7 +162,7 @@ namespace Roster_Dev
         private async void Delete_Click(object sender, EventArgs e)
         {
             var view = empGrid.MainView as GridView;
-            var employee = view?.GetFocusedRow() as EmpWorkout;
+            var employee = view?.GetFocusedRow() as EmployeeWorkout;
 
             if (employee == null)
             {
@@ -221,7 +174,7 @@ namespace Roster_Dev
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
-                    await RefreshGridAsync();
+                    await RefreshGrid();
                 }
             }
         }
@@ -238,7 +191,6 @@ namespace Roster_Dev
 
         private void Exit_Click(object sender, EventArgs e)
         {
-            CurrentToken.NeedsRelogin = false;
             this.Close();
         }
     }

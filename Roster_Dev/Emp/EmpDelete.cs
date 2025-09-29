@@ -14,16 +14,16 @@ namespace Roster_Dev.Emp
 {
     public partial class EmpDelete : Form
     {
-        private readonly EmpWorkout emp;
-        public EmpDelete(EmpWorkout emp)
+        private readonly EmployeeWorkout emp;
+        public EmpDelete(EmployeeWorkout emp)
         {
             InitializeComponent();
             AddEvent();
-            this.emp = new EmpWorkout();
+            this.emp = new EmployeeWorkout();
 
             this.emp = emp;
-            empCode.Text = emp.EmployeeCode;
-            empName.Text = emp.EmployeeName;
+            empCode.Text = emp.Code;
+            empName.Text = emp.Name;
         }
 
         private void AddEvent()
@@ -41,14 +41,14 @@ namespace Roster_Dev.Emp
         {
             try
             {
-                string photoPath = SqlReposit.GetPhotoPath(emp.EmployeeId);
+                string photoPath = SqlReposit.GetPhotoPath(emp.Id);
 
                 if ((!string.IsNullOrEmpty(photoPath) && System.IO.File.Exists(photoPath)))
                 {
                     System.IO.File.Delete(photoPath);
                 }
 
-                var result = SqlReposit.DeleteEmp(emp.EmployeeId);
+                var result = SqlReposit.DeleteEmp(emp.Id);
 
                 if (result > 0)
                 {

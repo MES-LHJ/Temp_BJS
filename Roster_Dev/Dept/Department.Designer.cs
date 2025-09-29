@@ -44,9 +44,8 @@
             this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
             this.upperDeptGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.upperDeptCode = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.factoryCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.upperDeptName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.upperDeptMemo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.deptGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.deptCode = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -317,41 +316,30 @@
             // gridView1
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.upperDeptCode,
-            this.upperDeptName,
-            this.upperDeptMemo});
+            this.factoryCode,
+            this.upperDeptName});
             this.gridView1.GridControl = this.upperDeptGrid;
             this.gridView1.Name = "gridView1";
             // 
-            // upperDeptCode
+            // factoryCode
             // 
-            this.upperDeptCode.AppearanceHeader.Options.UseTextOptions = true;
-            this.upperDeptCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.upperDeptCode.Caption = "상위부서";
-            this.upperDeptCode.FieldName = "UpperDepartmentCode";
-            this.upperDeptCode.Name = "upperDeptCode";
-            this.upperDeptCode.Visible = true;
-            this.upperDeptCode.VisibleIndex = 0;
+            this.factoryCode.AppearanceHeader.Options.UseTextOptions = true;
+            this.factoryCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.factoryCode.Caption = "상위부서";
+            this.factoryCode.FieldName = "FactoryCode";
+            this.factoryCode.Name = "factoryCode";
+            this.factoryCode.Visible = true;
+            this.factoryCode.VisibleIndex = 0;
             // 
             // upperDeptName
             // 
             this.upperDeptName.AppearanceHeader.Options.UseTextOptions = true;
             this.upperDeptName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.upperDeptName.Caption = "상위부서명";
-            this.upperDeptName.FieldName = "UpperDepartmentName";
+            this.upperDeptName.FieldName = "FactoryName";
             this.upperDeptName.Name = "upperDeptName";
             this.upperDeptName.Visible = true;
             this.upperDeptName.VisibleIndex = 1;
-            // 
-            // upperDeptMemo
-            // 
-            this.upperDeptMemo.AppearanceHeader.Options.UseTextOptions = true;
-            this.upperDeptMemo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.upperDeptMemo.Caption = "메모";
-            this.upperDeptMemo.FieldName = "Memo";
-            this.upperDeptMemo.Name = "upperDeptMemo";
-            this.upperDeptMemo.Visible = true;
-            this.upperDeptMemo.VisibleIndex = 2;
             // 
             // deptGrid
             // 
@@ -378,7 +366,7 @@
             this.deptCode.AppearanceHeader.Options.UseTextOptions = true;
             this.deptCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.deptCode.Caption = "부서코드";
-            this.deptCode.FieldName = "DepartmentCode";
+            this.deptCode.FieldName = "Code";
             this.deptCode.Name = "deptCode";
             this.deptCode.Visible = true;
             this.deptCode.VisibleIndex = 0;
@@ -388,7 +376,7 @@
             this.deptName.AppearanceHeader.Options.UseTextOptions = true;
             this.deptName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.deptName.Caption = "부서명";
-            this.deptName.FieldName = "DepartmentName";
+            this.deptName.FieldName = "Name";
             this.deptName.Name = "deptName";
             this.deptName.Visible = true;
             this.deptName.VisibleIndex = 1;
@@ -451,13 +439,12 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraGrid.GridControl deptGrid;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
-        private DevExpress.XtraGrid.Columns.GridColumn upperDeptCode;
         private DevExpress.XtraGrid.Columns.GridColumn upperDeptName;
-        private DevExpress.XtraGrid.Columns.GridColumn upperDeptMemo;
         private DevExpress.XtraGrid.Columns.GridColumn deptCode;
         private DevExpress.XtraGrid.Columns.GridColumn deptName;
         private DevExpress.XtraGrid.Columns.GridColumn deptMemo;
         private DevExpress.XtraEditors.LabelControl deptLabel;
         private DevExpress.XtraEditors.PictureEdit imageEdit1;
+        private DevExpress.XtraGrid.Columns.GridColumn factoryCode;
     }
 }

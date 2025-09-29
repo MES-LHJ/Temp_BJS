@@ -249,7 +249,7 @@
             this.upperDeptCode.AppearanceHeader.Options.UseTextOptions = true;
             this.upperDeptCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.upperDeptCode.Caption = "상위부서코드";
-            this.upperDeptCode.FieldName = "UpperDepartmentCode";
+            this.upperDeptCode.FieldName = "FactoryCode";
             this.upperDeptCode.Name = global::Roster_Dev.Properties.Settings.Default.UpperDepartmentCode;
             this.upperDeptCode.Visible = true;
             this.upperDeptCode.VisibleIndex = 0;
@@ -259,7 +259,7 @@
             this.upperDeptName.AppearanceHeader.Options.UseTextOptions = true;
             this.upperDeptName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.upperDeptName.Caption = "상위부서명";
-            this.upperDeptName.FieldName = "UpperDepartmentName";
+            this.upperDeptName.FieldName = "FactoryName";
             this.upperDeptName.Name = global::Roster_Dev.Properties.Settings.Default.UpperDepartmentName;
             this.upperDeptName.Visible = true;
             this.upperDeptName.VisibleIndex = 1;

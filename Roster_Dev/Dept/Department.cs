@@ -17,10 +17,15 @@ namespace Roster_Dev.Dpt
 {
     public partial class Department : Form
     {
-        public Department()
+        private List<DepartmentWorkout> allDepartments = new List<DepartmentWorkout>();
+        private List<DepartmentWorkout> filteredDepartments;
+        private long factoryId;
+
+        public Department(long factoryId)
         {
             InitializeComponent();
             AddEvent();
+            //this.factoryId = new factoryId();
         }
 
         public void AddEvent()
@@ -40,10 +45,17 @@ namespace Roster_Dev.Dpt
             }
         }
 
-        private void RefreshGrid()
+        public async Task RefreshGrid()
         {
-            var departments = SqlReposit.GetDepartments().OrderBy(d => d.DepartmentCode).ToList();
-            deptGrid.DataSource = departments;
+            try
+            {
+                var departmentList = await ApiRepository.GetDepartmentsAsync(factoryId);
+                deptGrid.DataSource = departmentList;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
         }
 
         private void UpperDeptGrid_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
@@ -52,51 +64,90 @@ namespace Roster_Dev.Dpt
             if (view == null) return;
 
             // 모델 클래스로 연동
-            var upperDepartment = view.GetFocusedRow() as UpperDeptWorkout; 
+            var upperDepartment = view.GetFocusedRow() as DepartmentWorkout; 
 
             if (upperDepartment != null)
             {
                 // 부서 필터링 헬퍼 메서드
-                FilterByUpperDept(upperDepartment.UpperDepartmentId);
+                FilterByUpperDept(upperDepartment.FactoryId);
             }
         }
 
-        private void FilterByUpperDept(long upperDeptId)
+        private void FilterByUpperDept(long upperDepartmentId)
         {
-            var allDepartments = SqlReposit.GetDepartments().OrderBy(d => d.DepartmentCode).ToList();
+            //var allDepartments = SqlReposit.GetDepartments().OrderBy(d => d.DepartmentCode).ToList();
 
-            // 상위 부서 코드 기준
-            var filteredDepartments = allDepartments
-                .Where(d => d.UpperDepartmentId == upperDeptId)
-                .ToList();
+            //// 상위 부서 코드 기준
+            //var filteredDepartments = allDepartments
+            //    .Where(d => d.UpperDepartmentId == upperDeptId)
+            //    .ToList();
 
+            //deptGrid.DataSource = filteredDepartments;
+
+            filteredDepartments = allDepartments
+                                .Where(d => d.UpperDepartmentId == upperDepartmentId)
+                                .ToList();
+
+            // 하위 부서 GridView에 바인딩
             deptGrid.DataSource = filteredDepartments;
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
-            var upperDepartments = SqlReposit.GetUpperDepartments()
-                .OrderBy(u => u.UpperDepartmentCode)
-                .ToList();
-            upperDeptGrid.DataSource = upperDepartments;
+            //var upperDepartments = ApiRepository.GetUpperDepartmentAsync();
+            //upperDeptGrid.DataSource = upperDepartments;
 
             // 모든 부서 로드
-            var departments = SqlReposit.GetDepartments()
-                .OrderBy(d => d.DepartmentCode)
-                .ToList();
-            deptGrid.DataSource = departments;
+            //var departments = ApiRepository.GetDepartmentsAsync();
+            //deptGrid.DataSource = departments;
 
             // 상위 부서 필터링
-            if (upperDepartments.Any())
+            //if (upperDepartments.Any())
+            //{
+            //    var firstUpperDept = upperDepartments.First();
+            //    FilterByUpperDept(firstUpperDept.UpperDepartmentId);
+            //}
+            try
             {
-                var firstUpperDept = upperDepartments.First();
-                FilterByUpperDept(firstUpperDept.UpperDepartmentId);
+                // 1. 모든 부서 데이터 로드 (ApiRepository는 필터링 없는 전체 데이터를 가져와야 함)
+                //var allDepts = await ApiRepository.GetDepartmentsAsync();
+                //allDepartments = allDepts; // 필드에 저장
+
+                // 2. 상위 부서만 필터링 (UpperDepartmentId가 null 또는 0인 부서)
+                //var upperDepartments = allDepts
+                //                        .Where(d => d.UpperDepartmentId == null || d.UpperDepartmentId == 0)
+                //                        .ToList();
+
+                // 3. 상위 부서 GridView에 바인딩
+                //upperDeptGrid.DataSource = upperDepartments;
+
+                // 4. 초기 하위 부서 필터링 (첫 번째 상위 부서 기준)
+                //if (upperDepartments.Any())
+                //{
+                    //var firstUpperDept = upperDepartments.First();
+                    //FilterByUpperDept(firstUpperDept.Id); // ID로 필터링
+                //}
+                //else
+                //{
+                    // 상위 부서가 없으면 하위 부서도 비워둡니다.
+                //    deptGrid.DataSource = new List<DepartmentWorkout>();
+                //}
+
+                var departmentList = await ApiRepository.GetDepartmentsAsync(factoryId);
+                deptGrid.DataSource = departmentList;
+
+                var upperDepartmentList = await ApiRepository.GetUpperDepartmentAsync();
+                upperDeptGrid.DataSource = upperDepartmentList;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
             }
         }
 
         private void UpperDept_Click(object sender, EventArgs e)
         {
-            using (var Form = new UpperDept())
+            using (var Form = new UpperDept(factoryId))
             {
                 Form.ShowDialog();
             }
@@ -118,24 +169,24 @@ namespace Roster_Dev.Dpt
             }
         }
 
-        private void Add_Click(object sender, EventArgs e)
+        private async void Add_Click(object sender, EventArgs e)
         {
             var dept = new DeptWorkout();
-            using (var Form = new DeptAddEdit())
+            using (var Form = new DeptAddEdit(dept))
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
-                    RefreshGrid();
+                    await RefreshGrid();
                 }
             }
         }
 
-        private void Edit_Click(object sender, EventArgs e)
+        private async void Edit_Click(object sender, EventArgs e)
         {
             var view = deptGrid.MainView as GridView;
             if (view == null) return;
 
-            var department = view.GetFocusedRow() as DeptWorkout;
+            var department = view.GetFocusedRow() as DepartmentWorkout;
 
             if (department == null)
             {
@@ -143,19 +194,19 @@ namespace Roster_Dev.Dpt
                 return;
             }
 
-            using (var Form = new DeptAddEdit(department))
+            using (var Form = new DeptAddEdit(factoryId))
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
-                    RefreshGrid();
+                    await RefreshGrid();
                 }
             }
         }
 
-        private void Delete_Click(object sender, EventArgs e)
+        private async void Delete_Click(object sender, EventArgs e)
         {
             var view = deptGrid.MainView as GridView;
-            var department = view?.GetFocusedRow() as DeptWorkout;
+            var department = view?.GetFocusedRow() as DepartmentWorkout;
             if (department == null)
             {
                 MessageBox.Show("삭제할 부서를 선택하세요.");
@@ -166,7 +217,7 @@ namespace Roster_Dev.Dpt
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
-                    RefreshGrid();
+                    await RefreshGrid();
                 }
             }
         }

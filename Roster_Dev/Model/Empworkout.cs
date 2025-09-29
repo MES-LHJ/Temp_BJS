@@ -11,8 +11,8 @@ namespace Roster_Dev.Model
 {
     public class EmpWorkout
     {
-        //public long ParentId { get; set; }
-        //public long Id => EmployeeId;
+        public long Id { get; set; }
+        public long FactotyId { get; set; }
         public long UpperDeppartmentId { get; set; }
         public long DepartmentId { get; set; }
         public long EmployeeId { get; set; }
@@ -20,8 +20,6 @@ namespace Roster_Dev.Model
         public string DepartmentName { get; set; }
         public string EmployeeCode { get; set; }
         public string EmployeeName { get; set; }
-        //public string Code => EmployeeCode;
-        //public string Name => EmployeeName;
         public string LoginId { get; set; }
         public string Password { get; set; }
         public string Position { get; set; }

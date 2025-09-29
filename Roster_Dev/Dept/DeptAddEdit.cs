@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Roster_Dev.Dept
 {
@@ -13,7 +14,7 @@ namespace Roster_Dev.Dept
         private bool isEditMode;
 
         // 추가 모드
-        public DeptAddEdit()
+        public DeptAddEdit(long factoryId)
         {
             InitializeComponent();
             AddEvent();

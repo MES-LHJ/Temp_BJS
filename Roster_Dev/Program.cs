@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Roster_Dev.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,46 +13,58 @@ namespace Roster_Dev
         /// <summary>
         /// 해당 애플리케이션의 주 진입점입니다.
         /// </summary>
+        //[STAThread]
+        //static void Main()
+        //{
+        //    Application.EnableVisualStyles();
+        //    Application.SetCompatibleTextRenderingDefault(false);
+
+        //    using (var loginForm = new Login())
+        //    {
+        //        if (loginForm.ShowDialog() == DialogResult.OK)
+        //        {
+        //            Application.Run(new Main());
+        //        }
+        //        else
+        //        {
+        //            Application.Exit();
+        //        }
+        //    }
+
+        //Application.Exit();
+        //}
         [STAThread]
-        static void Main()
+        static async Task Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // ⭐ 재로그인 흐름을 위한 루프 추가
-            bool mustExit = false;
-            while (!mustExit)
+            using (var loginForm = new Login())
             {
-                using (var loginForm = new Login())
+                if (loginForm.ShowDialog() == DialogResult.OK)
                 {
-                    if (loginForm.ShowDialog() == DialogResult.OK)
+                    try
                     {
-                        // 로그인 성공 시 메인 폼 실행
-                        Application.Run(new Main());
+                        //업체 토큰 -> 사원 토큰
+                        // Brn 값은 "debug"
+                        await ApiRepository.ApiClient.GetCustomerTokenAsync("debug");
+                        await ApiRepository.ApiClient.GetAndSetEmployeeTokenAsync("admin", "1111");
 
-                        // Main 폼이 닫힌 후, 토큰 만료 여부 확인
-                        if (CurrentToken.NeedsRelogin)
-                        {
-                            // 토큰 만료로 인한 닫힘 -> 재로그인 유도
-                            MessageBox.Show("세션이 만료되었습니다. 보안을 위해 재로그인이 필요합니다.", "세션 만료", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            CurrentToken.Reset(); // 토큰 정보 초기화
-                            // 루프가 계속되어 Login 폼이 재실행됨
-                        }
-                        else
-                        {
-                            // 사용자가 정상적으로 종료 -> 애플리케이션 종료
-                            mustExit = true;
-                        }
+                        // 토큰 및 데이터 획득 성공 시, 메인 폼 실행
+                        Application.Run(new Main());
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        // 로그인 폼에서 취소 또는 X 버튼 클릭 -> 애플리케이션 종료
-                        mustExit = true;
+                        // 에러 발생 시 프로그램 종료
+                        MessageBox.Show($"인증/데이터 로드 실패: {ex.Message}", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Application.Exit();
                     }
                 }
+                else
+                {
+                    Application.Exit();
+                }
             }
-
-            //Application.Exit();
         }
     }
 }
