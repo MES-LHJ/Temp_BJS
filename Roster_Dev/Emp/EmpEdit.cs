@@ -18,9 +18,6 @@ namespace Roster_Dev.Emp
         private EmployeeWorkout emp;
         private long factoryId;
 
-        //private DepartmentWorkout dept;
-        //private DepartmentWorkout upperDept;
-        //private string currentPhotoPath;
         private readonly int empId;
 
         public EmpEdit(int employeeId)
@@ -28,30 +25,14 @@ namespace Roster_Dev.Emp
             InitializeComponent();
             AddEvent();
             empId = employeeId;
-            //EditVariable();
         }
 
         private void AddEvent()
         {
             this.Load += Form_Load;
-            //this.male.CheckedChanged += Male_CheckedChanged;
-            //this.female.CheckedChanged += Female_CheckedChanged;
             this.addEditBtn.Click += Save_Click;
-            //this.photo.Click += Photo_Click;
             this.cancel.Click += Cancel_Click;
         }
-
-        //private void EditVariable()
-        //{
-            //emp = SqlReposit.GetEmployees().FirstOrDefault(x => x.EmployeeId == empId);
-            //emp = ApiRepository.GetEmployeesAsync().FirstOrDefault(x => x.Id == empId);
-            //dept = SqlReposit.GetDepartments().FirstOrDefault(d => d.DepartmentId == emp.DepartmentId);
-            //if (dept != null)
-            //{
-            //    upperDept = SqlReposit.GetUpperDepartments()
-            //                          .FirstOrDefault(u => u.UpperDepartmentId == dept.UpperDepartmentId);
-            //}
-        //}
 
         private void SetTag()
         {
@@ -87,8 +68,8 @@ namespace Roster_Dev.Emp
         {
             try
             {
-                // ⭐ ApiRepository를 통해 모든 사원을 가져와서 필터링 (사원 상세 조회 API가 있다면 그것을 사용)
-                var allEmployees = await ApiRepository.GetEmployeesAsync();
+                // ApiRepository를 통해 모든 사원을 가져와서 필터링 (사원 상세 조회 API가 있다면 그것을 사용)
+                var allEmployees = await ApiRepository.GetEmployeesAsync(factoryId);
                 emp = allEmployees.FirstOrDefault(x => x.Id == empId);
 
                 if (emp == null)
@@ -132,94 +113,6 @@ namespace Roster_Dev.Emp
             BindControls();
         }
 
-        //private void Form_Load(object sender, EventArgs e)
-        //{
-        //    SetTag();
-
-        //    var upperDepartments = SqlReposit.GetUpperDepartments();
-
-        //    var upperDeptList = upperDepartments
-        //        .Where(u => u.UpperDepartmentId == dept.UpperDepartmentId)
-        //        .OrderBy(u => u.UpperDepartmentCode)
-        //        .ToList();
-
-        //    var departments = SqlReposit.GetDepartments()
-        //        .Where(d => d.UpperDepartmentId == upperDeptList.FirstOrDefault()?.UpperDepartmentId)
-        //        .OrderBy(d => d.DepartmentId == emp.DepartmentId);
-
-        //    if (upperDeptList.Any())
-        //    {
-        //        upperDeptCode.Properties.Items.Clear();
-        //        foreach (var item in upperDeptList)
-        //        {
-        //            upperDeptCode.Properties.Items.Add(item);
-        //            upperDeptCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-        //        }
-        //        upperDeptCode.Text = upperDept.UpperDepartmentCode;
-        //        upperDeptName.Text = upperDept.UpperDepartmentName;
-        //    }
-
-        //    if (departments.Any())
-        //    {
-        //        deptCode.Properties.Items.Clear();
-        //        foreach (var item in departments)
-        //        {
-        //            deptCode.Properties.Items.Add(item);
-        //            deptCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-        //            deptCode.Text = dept.Code;
-        //        }
-        //        deptName.Text = dept.Name;
-        //    }
-        //    empCode.Text = emp.Code;
-        //    empName.Text = emp.Name;
-        //    position.Text = emp.Position;
-        //    employment.Text = emp.ContractType;
-        //    phoneNum.Text = emp.PhoneNumber;
-        //    email.Text = emp.Email;
-        //    messengerId.Text = emp.MessengerId;
-        //    memo.Text = emp.Memo;
-
-            //male.Checked = (emp.Gender == Util.Gender.Male);
-            //female.Checked = (emp.Gender == Util.Gender.Female);
-
-            //if (!string.IsNullOrEmpty(emp.PhotoPath) && File.Exists(emp.PhotoPath))
-            //{
-            //    using (var fs = new FileStream(emp.PhotoPath, FileMode.Open, FileAccess.Read))
-            //    {
-            //        photo.Image = Image.FromStream(fs);
-            //    }
-            //    photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
-            //}
-        //}
-
-        //private void Photo_Click(object sender, EventArgs e)
-        //{
-        //    using (OpenFileDialog openFileDialog = new OpenFileDialog())
-        //    {
-        //        openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
-        //        openFileDialog.Title = "사원 이미지 변경";
-
-        //        if (openFileDialog.ShowDialog() == DialogResult.OK)
-        //        {
-        //            using (var fs = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
-        //            {
-        //                photo.Image = Image.FromStream(fs);
-        //            }
-        //            photo.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
-        //            currentPhotoPath = openFileDialog.FileName;
-        //        }
-        //    }
-        //}
-
-        //private void Male_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    if (male.Checked) female.Checked = false;
-        //}
-        //private void Female_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    if (female.Checked) male.Checked = false;
-        //}
-
         private async void Save_Click(object sender, EventArgs e)
         {
             if (emp == null)
@@ -234,7 +127,11 @@ namespace Roster_Dev.Emp
                 emp.Name = this.empName.Text;
                 emp.Code = this.empCode.Text;
                 emp.Position = this.position.Text;
-                // ... (나머지 필드도 모두 반영)
+                emp.Email = this.email.Text;
+                emp.ContractType = this.employment.Text;
+                emp.PhoneNumber = this.phoneNum.Text;
+                emp.MessengerId = this.messengerId.Text;
+                emp.Memo = this.memo.Text;
 
                 // SQL 호출 코드를 API 호출 코드로 교체
                 // 기존: SqlReposit.UpdateEmp(emp);

@@ -45,7 +45,7 @@
             this.upperDeptGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.factoryCode = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.upperDeptName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.factoryName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.deptGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.deptCode = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -317,7 +317,7 @@
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.factoryCode,
-            this.upperDeptName});
+            this.factoryName});
             this.gridView1.GridControl = this.upperDeptGrid;
             this.gridView1.Name = "gridView1";
             // 
@@ -331,15 +331,15 @@
             this.factoryCode.Visible = true;
             this.factoryCode.VisibleIndex = 0;
             // 
-            // upperDeptName
+            // factoryName
             // 
-            this.upperDeptName.AppearanceHeader.Options.UseTextOptions = true;
-            this.upperDeptName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.upperDeptName.Caption = "상위부서명";
-            this.upperDeptName.FieldName = "FactoryName";
-            this.upperDeptName.Name = "upperDeptName";
-            this.upperDeptName.Visible = true;
-            this.upperDeptName.VisibleIndex = 1;
+            this.factoryName.AppearanceHeader.Options.UseTextOptions = true;
+            this.factoryName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.factoryName.Caption = "상위부서명";
+            this.factoryName.FieldName = "FactoryName";
+            this.factoryName.Name = "factoryName";
+            this.factoryName.Visible = true;
+            this.factoryName.VisibleIndex = 1;
             // 
             // deptGrid
             // 
@@ -439,7 +439,7 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraGrid.GridControl deptGrid;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
-        private DevExpress.XtraGrid.Columns.GridColumn upperDeptName;
+        private DevExpress.XtraGrid.Columns.GridColumn factoryName;
         private DevExpress.XtraGrid.Columns.GridColumn deptCode;
         private DevExpress.XtraGrid.Columns.GridColumn deptName;
         private DevExpress.XtraGrid.Columns.GridColumn deptMemo;

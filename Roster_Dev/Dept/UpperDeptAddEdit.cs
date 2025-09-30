@@ -14,14 +14,14 @@ namespace Roster_Dev.Dept
     public partial class UpperDeptAddEdit : Form
     {
         private bool isEditMode = false;
-        private UpperDeptWorkout upperDpt;
+        private DepartmentWorkout upperDpt;
         public UpperDeptAddEdit()
         {
             InitializeComponent();
             AddEvent();
-            upperDpt = new UpperDeptWorkout();
+            upperDpt = new DepartmentWorkout();
         }
-        internal UpperDeptAddEdit(UpperDeptWorkout dept) : this()
+        internal UpperDeptAddEdit(DepartmentWorkout dept) : this()
         {
             isEditMode = true;
             this.upperDpt = dept;
@@ -67,7 +67,7 @@ namespace Roster_Dev.Dept
                 return;
             try
             {
-                var upperDept = new UpperDeptWorkout
+                var upperDept = new DepartmentWorkout
                 {
                     UpperDepartmentId = upperDpt.UpperDepartmentId,
                     UpperDepartmentCode = upperDeptCode.Text.Trim(),
@@ -77,12 +77,12 @@ namespace Roster_Dev.Dept
 
                 if (isEditMode)
                 {
-                    SqlReposit.UpdateUpperDept(upperDept);
+                    ApiRepository.UpdateUpperDepartmentAsync(upperDept);
                     MessageBox.Show("수정 되었습니다");
                 }
                 else
                 {
-                    SqlReposit.InsertUpperDept(upperDept);
+                    ApiRepository.InsertUpperDepartmentAsync(upperDept);
                     MessageBox.Show("추가 되었습니다");
                 }
                 this.DialogResult = DialogResult.OK;

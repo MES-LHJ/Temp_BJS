@@ -80,9 +80,9 @@ namespace Roster_Dev
         {
             try
             {
-                // ApiRepository를 사용하여 API에서 사원 목록을 비동기로 가져dha
+                // ApiRepository를 사용하여 API에서 사원 목록을 비동기로 가져옴
                 // GetEmployeesAsync는 이미 List<EmployeeWorkout>을 반환하도록 ApiRepository에 정의
-                var employeeList = await ApiRepository.GetEmployeesAsync();
+                var employeeList = await ApiRepository.GetEmployeesAsync(factoryId);
 
                 // 가져온 데이터를 GridControl (empGrid)에 바인딩
                 // DevExpress GridControl에 List<T>를 바인딩

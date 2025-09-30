@@ -14,6 +14,8 @@ namespace Roster_Dev.Dept
 {
     public partial class UpperDept : Form
     {
+        private long factoryId;
+
         public UpperDept(long factoryId)
         {
             InitializeComponent();
@@ -41,7 +43,7 @@ namespace Roster_Dev.Dept
             {
                 // 1. ApiRepository를 사용하여 API에서 사원 목록을 비동기로 가져옵니다.
                 // GetEmployeesAsync는 이미 List<EmployeeWorkout>을 반환하도록 ApiRepository에 정의되어 있습니다.
-                var upperDeptList = await ApiRepository.GetUpperDepartmentAsync();
+                var upperDeptList = await ApiRepository.GetUpperDepartmentAsync(factoryId);
 
                 // 2. 가져온 데이터를 GridControl (empGrid)에 바인딩합니다.
                 // DevExpress GridControl에 List<T>를 바인딩합니다.
@@ -55,9 +57,6 @@ namespace Roster_Dev.Dept
 
         private void Form_Load(object sender, EventArgs e)
         {
-            var upperDepartments = ApiRepository.GetUpperDepartmentAsync();
-
-            upperDeptGrid.DataSource = upperDepartments;
             RefreshGrid();
         }
 
@@ -81,11 +80,12 @@ namespace Roster_Dev.Dept
                 }
             }
         }
+
         private void Edit_Click(object sender, EventArgs e)
         {
             var view = upperDeptGrid.MainView as DevExpress.XtraGrid.Views.Grid.GridView;
             if (view == null) return;
-            var selectedRow = view.GetFocusedRow() as UpperDeptWorkout;
+            var selectedRow = view.GetFocusedRow() as DepartmentWorkout;
             if (selectedRow == null)
             {
                 MessageBox.Show("수정할 부서를 선택하세요.");
@@ -99,6 +99,7 @@ namespace Roster_Dev.Dept
                 }
             }
         }
+
         private void Delete_Click(object sender, EventArgs e)
         {
             var view = upperDeptGrid.MainView as DevExpress.XtraGrid.Views.Grid.GridView;

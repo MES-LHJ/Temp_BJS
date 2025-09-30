@@ -18,14 +18,13 @@ namespace Roster_Dev.Dpt
     public partial class Department : Form
     {
         private List<DepartmentWorkout> allDepartments = new List<DepartmentWorkout>();
-        private List<DepartmentWorkout> filteredDepartments;
-        private long factoryId;
+        private readonly long _factoryId;
 
         public Department(long factoryId)
         {
             InitializeComponent();
             AddEvent();
-            //this.factoryId = new factoryId();
+            this._factoryId = factoryId;
         }
 
         public void AddEvent()
@@ -41,113 +40,86 @@ namespace Roster_Dev.Dpt
             var upperGridView = this.upperDeptGrid.MainView as GridView;
             if (upperGridView != null)
             {
-                upperGridView.FocusedRowChanged += UpperDeptGrid_FocusedRowChanged;
+                upperGridView.FocusedRowChanged += UpperGridView_FocusedRowChanged;
             }
         }
 
         public async Task RefreshGrid()
         {
+            upperDeptGrid.BeginUpdate();
+            deptGrid.BeginUpdate();
+
             try
             {
-                var departmentList = await ApiRepository.GetDepartmentsAsync(factoryId);
-                deptGrid.DataSource = departmentList;
+                allDepartments = await ApiRepository.GetDepartmentsAsync(_factoryId);
+
+                if (!allDepartments.Any())
+                {
+                    MessageBox.Show("로드된 부서 데이터가 없습니다.");
+                    deptGrid.DataSource = new List<DepartmentWorkout>();
+                    upperDeptGrid.DataSource = new List<DepartmentWorkout>();
+                    return;
+                }
+
+                var upperDepartmentList = allDepartments
+                    .Where(d => !d.UpperDepartmentId.HasValue || d.UpperDepartmentId.Value == 0)
+                    .ToList();
+
+                upperDeptGrid.DataSource = upperDepartmentList;
+
+                if (upperDepartmentList.Any())
+                {
+                    var upperGridView = upperDeptGrid.MainView as GridView;
+                    if (upperGridView != null)
+                    {
+                        upperGridView.FocusedRowHandle = 0;
+                    }
+                }
+                else
+                {
+                    deptGrid.DataSource = new List<DepartmentWorkout>();
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
             }
-        }
-
-        private void UpperDeptGrid_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
-        {
-            var view = upperDeptGrid.MainView as GridView;
-            if (view == null) return;
-
-            // 모델 클래스로 연동
-            var upperDepartment = view.GetFocusedRow() as DepartmentWorkout; 
-
-            if (upperDepartment != null)
+            finally
             {
-                // 부서 필터링 헬퍼 메서드
-                FilterByUpperDept(upperDepartment.FactoryId);
+                deptGrid.EndUpdate();
+                upperDeptGrid.EndUpdate();
             }
         }
 
-        private void FilterByUpperDept(long upperDepartmentId)
+        private void UpperGridView_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
         {
-            //var allDepartments = SqlReposit.GetDepartments().OrderBy(d => d.DepartmentCode).ToList();
+            var view = sender as GridView;
+            if (view != null || !allDepartments.Any()) return;
 
-            //// 상위 부서 코드 기준
-            //var filteredDepartments = allDepartments
-            //    .Where(d => d.UpperDepartmentId == upperDeptId)
-            //    .ToList();
+            var selectedUpperDept = view.GetFocusedRow() as DepartmentWorkout;
 
-            //deptGrid.DataSource = filteredDepartments;
+            var filteredDepartments = new List<DepartmentWorkout>();
 
-            filteredDepartments = allDepartments
-                                .Where(d => d.UpperDepartmentId == upperDepartmentId)
-                                .ToList();
+            if (selectedUpperDept != null)
+            {
+                long parentId = selectedUpperDept.Id;
 
-            // 하위 부서 GridView에 바인딩
+                filteredDepartments = allDepartments
+                        .Where(d => d.UpperDepartmentId.HasValue && d.UpperDepartmentId.Value == parentId)
+                        .ToList();
+            }
             deptGrid.DataSource = filteredDepartments;
+            (deptGrid.MainView as GridView)?.RefreshData();
         }
 
         private async void Form_Load(object sender, EventArgs e)
         {
-            //var upperDepartments = ApiRepository.GetUpperDepartmentAsync();
-            //upperDeptGrid.DataSource = upperDepartments;
-
-            // 모든 부서 로드
-            //var departments = ApiRepository.GetDepartmentsAsync();
-            //deptGrid.DataSource = departments;
-
-            // 상위 부서 필터링
-            //if (upperDepartments.Any())
-            //{
-            //    var firstUpperDept = upperDepartments.First();
-            //    FilterByUpperDept(firstUpperDept.UpperDepartmentId);
-            //}
-            try
-            {
-                // 1. 모든 부서 데이터 로드 (ApiRepository는 필터링 없는 전체 데이터를 가져와야 함)
-                //var allDepts = await ApiRepository.GetDepartmentsAsync();
-                //allDepartments = allDepts; // 필드에 저장
-
-                // 2. 상위 부서만 필터링 (UpperDepartmentId가 null 또는 0인 부서)
-                //var upperDepartments = allDepts
-                //                        .Where(d => d.UpperDepartmentId == null || d.UpperDepartmentId == 0)
-                //                        .ToList();
-
-                // 3. 상위 부서 GridView에 바인딩
-                //upperDeptGrid.DataSource = upperDepartments;
-
-                // 4. 초기 하위 부서 필터링 (첫 번째 상위 부서 기준)
-                //if (upperDepartments.Any())
-                //{
-                    //var firstUpperDept = upperDepartments.First();
-                    //FilterByUpperDept(firstUpperDept.Id); // ID로 필터링
-                //}
-                //else
-                //{
-                    // 상위 부서가 없으면 하위 부서도 비워둡니다.
-                //    deptGrid.DataSource = new List<DepartmentWorkout>();
-                //}
-
-                var departmentList = await ApiRepository.GetDepartmentsAsync(factoryId);
-                deptGrid.DataSource = departmentList;
-
-                var upperDepartmentList = await ApiRepository.GetUpperDepartmentAsync();
-                upperDeptGrid.DataSource = upperDepartmentList;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ex.Message}");
-            }
+            await RefreshGrid();
         }
 
         private void UpperDept_Click(object sender, EventArgs e)
         {
-            using (var Form = new UpperDept(factoryId))
+            using (var Form = new UpperDept(_factoryId))
             {
                 Form.ShowDialog();
             }
@@ -155,7 +127,7 @@ namespace Roster_Dev.Dpt
 
         private void Tree_Click(object sender, EventArgs e)
         {
-            using (var Form = new Tree()) 
+            using (var Form = new Tree())
             {
                 Form.ShowDialog();
             }
@@ -163,7 +135,7 @@ namespace Roster_Dev.Dpt
 
         private void Chart_Click(object sender, EventArgs e)
         {
-            using (var Form = new DeptChart())
+            using (var Form = new DeptChart(_factoryId))
             {
                 Form.ShowDialog();
             }
@@ -171,7 +143,7 @@ namespace Roster_Dev.Dpt
 
         private async void Add_Click(object sender, EventArgs e)
         {
-            var dept = new DeptWorkout();
+            var dept = new DepartmentWorkout();
             using (var Form = new DeptAddEdit(dept))
             {
                 if (Form.ShowDialog() == DialogResult.OK)
@@ -194,7 +166,7 @@ namespace Roster_Dev.Dpt
                 return;
             }
 
-            using (var Form = new DeptAddEdit(factoryId))
+            using (var Form = new DeptAddEdit(_factoryId))
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {

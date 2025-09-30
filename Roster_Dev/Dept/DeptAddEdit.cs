@@ -10,7 +10,7 @@ namespace Roster_Dev.Dept
 {
     public partial class DeptAddEdit : Form
     {
-        private DeptWorkout dept;
+        private DepartmentWorkout dept;
         private bool isEditMode;
 
         // 추가 모드
@@ -19,11 +19,11 @@ namespace Roster_Dev.Dept
             InitializeComponent();
             AddEvent();
             isEditMode = false;
-            dept = new DeptWorkout();
+            dept = new DepartmentWorkout();
         }
 
         // 수정 모드
-        public DeptAddEdit(DeptWorkout dept) : this()
+        public DeptAddEdit(DepartmentWorkout dept) : this(1)
         {
             isEditMode = true;
             this.dept = dept;
@@ -83,8 +83,8 @@ namespace Roster_Dev.Dept
                     upperDeptName.Text = selectedUpper.UpperDepartmentName;
                 }
 
-                deptCode.Text = dept.DepartmentCode;
-                deptName.Text = dept.DepartmentName;
+                deptCode.Text = dept.Code;
+                deptName.Text = dept.Name;
                 memo.Text     = dept.Memo;
             }
         }
@@ -92,7 +92,7 @@ namespace Roster_Dev.Dept
         // 상위부서 선택 시 상위부서명 표시
         private void UpperDeptCode_EditValueChanged(object sender, EventArgs e)
         {
-            if (upperDeptCode.SelectedItem is UpperDeptWorkout selectedUpper)
+            if (upperDeptCode.SelectedItem is DepartmentWorkout selectedUpper)
                 upperDeptName.Text = selectedUpper.UpperDepartmentName;
             else
                 upperDeptName.Text = string.Empty;
@@ -105,25 +105,25 @@ namespace Roster_Dev.Dept
 
             try
             {
-                var selectedUpper = upperDeptCode.SelectedItem as UpperDeptWorkout;
+                var selectedUpper = upperDeptCode.SelectedItem as DepartmentWorkout;
 
-                var dpt = new DeptWorkout
+                var dpt = new DepartmentWorkout
                 {
                     UpperDepartmentId = selectedUpper.UpperDepartmentId,
-                    DepartmentId      = dept.DepartmentId,
-                    DepartmentCode    = deptCode.Text.Trim(),
-                    DepartmentName    = deptName.Text.Trim(),
+                    Id      = dept.Id,
+                    Code    = deptCode.Text.Trim(),
+                    Name    = deptName.Text.Trim(),
                     Memo              = memo.Text.Trim()
                 };
 
                 if (isEditMode)
                 {
-                    SqlReposit.UpdateDept(dpt);
+                    ApiRepository.UpdateDepartmentAsync(dpt);
                     MessageBox.Show("부서가 수정되었습니다.");
                 }
                 else
                 {
-                    SqlReposit.InsertDept(dpt);
+                    ApiRepository.InsertDepartmentAsync(dpt);
                     MessageBox.Show("부서가 추가되었습니다.");
                 }
 
