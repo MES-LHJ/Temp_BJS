@@ -12,6 +12,7 @@ namespace Roster_Dev.Dept
     {
         private DepartmentWorkout dept;
         private bool isEditMode;
+        private long factoryId;
 
         // 추가 모드
         public DeptAddEdit(long factoryId)
@@ -20,13 +21,19 @@ namespace Roster_Dev.Dept
             AddEvent();
             isEditMode = false;
             dept = new DepartmentWorkout();
+            this.factoryId = factoryId;
         }
 
         // 수정 모드
-        public DeptAddEdit(DepartmentWorkout dept) : this(1)
+        public DeptAddEdit(DepartmentWorkout dept)
         {
+            InitializeComponent();
+            AddEvent();
+
             isEditMode = true;
             this.dept = dept;
+
+            this.factoryId = dept.FactoryId;
         }
 
         private void AddEvent()
@@ -44,7 +51,7 @@ namespace Roster_Dev.Dept
             deptName.Tag      = deptNameLayout.Text;
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             if (isEditMode)
             {
@@ -64,12 +71,12 @@ namespace Roster_Dev.Dept
             SetTag();
 
             // 상위부서 목록 로드
-            var upperDepartments = SqlReposit.GetUpperDepartments()
-                                             .OrderBy(u => u.UpperDepartmentId)
-                                             .ToList();
+            var upperDepartments = await ApiRepository.GetUpperDepartmentAsync(factoryId);
             upperDeptCode.Properties.Items.Clear();
             foreach (var upper in upperDepartments)
+            {
                 upperDeptCode.Properties.Items.Add(upper);
+            }
 
             if (isEditMode && dept != null)
             {
@@ -82,7 +89,6 @@ namespace Roster_Dev.Dept
                     upperDeptCode.SelectedItem = selectedUpper;
                     upperDeptName.Text = selectedUpper.UpperDepartmentName;
                 }
-
                 deptCode.Text = dept.Code;
                 deptName.Text = dept.Name;
                 memo.Text     = dept.Memo;
@@ -98,14 +104,14 @@ namespace Roster_Dev.Dept
                 upperDeptName.Text = string.Empty;
         }
 
-        private void Save_Click(object sender, EventArgs e)
+        private async void Save_Click(object sender, EventArgs e)
         {
             if (!Util.Instance.NullCheck(upperDeptCode, deptCode, deptName))
                 return;
 
             try
             {
-                var selectedUpper = upperDeptCode.SelectedItem as DepartmentWorkout;
+                var selectedUpper = upperDeptCode.SelectedItem as UpperDepartmentWorkout;
 
                 var dpt = new DepartmentWorkout
                 {
@@ -113,17 +119,18 @@ namespace Roster_Dev.Dept
                     Id      = dept.Id,
                     Code    = deptCode.Text.Trim(),
                     Name    = deptName.Text.Trim(),
-                    Memo              = memo.Text.Trim()
+                    Memo    = memo.Text.Trim(),
+                    FactoryId = this.factoryId
                 };
 
                 if (isEditMode)
                 {
-                    ApiRepository.UpdateDepartmentAsync(dpt);
+                    await ApiRepository.UpdateDepartmentAsync(dpt);
                     MessageBox.Show("부서가 수정되었습니다.");
                 }
                 else
                 {
-                    ApiRepository.InsertDepartmentAsync(dpt);
+                    await ApiRepository.InsertDepartmentAsync(dpt);
                     MessageBox.Show("부서가 추가되었습니다.");
                 }
 

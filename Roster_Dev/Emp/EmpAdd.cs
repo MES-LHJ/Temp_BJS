@@ -21,7 +21,7 @@ namespace Roster_Dev.Emp
 {
     public partial class EmpAdd : Form
     {
-        private EmpWorkout emp;
+        private EmployeeWorkout emp;
         private DepartmentWorkout _deptWorkout;
         private long factoryId;
 
@@ -30,7 +30,8 @@ namespace Roster_Dev.Emp
             InitializeComponent();
             AddEvent();
             _deptWorkout = deptWorkout;
-            emp = new EmpWorkout();
+            emp = new EmployeeWorkout();
+            factoryId = _deptWorkout.FactoryId;
         }
         private void AddEvent()
         {
@@ -57,15 +58,12 @@ namespace Roster_Dev.Emp
             deptCode.Text = string.Empty;
             deptName.Text = string.Empty;
 
-            if (upperDeptCode.SelectedItem is DepartmentWorkout selectedUpper)
+            if (upperDeptCode.SelectedItem is UpperDepartmentWorkout selectedUpper)
             {
-                upperDeptName.Text = selectedUpper.UpperDepartmentName;
+                upperDeptName.Text = selectedUpper.FactoryName;
 
                 // 하위부서 바인딩
                 var departments = await ApiRepository.GetDepartmentsAsync(factoryId);
-                    //.Where(d => d.UpperDepartmentId == selectedUpper.UpperDepartmentId)
-                    //.OrderBy(d => d.DepartmentCode)
-                    //.ToList();
 
                 deptCode.Properties.Items.Clear();
                 foreach (var dept in departments)
@@ -92,14 +90,15 @@ namespace Roster_Dev.Emp
             SetTag();
             // 상위부서코드
             var upperDepartments = await ApiRepository.GetUpperDepartmentAsync(factoryId);
-                //.OrderBy(u => u.UpperDepartmentCode)
-                //.ToList();
+            //.OrderBy(u => u.UpperDepartmentCode)
+            //.ToList();
 
             upperDeptCode.Properties.Items.Clear();
             foreach (var upperDept in upperDepartments)
             {
                 upperDeptCode.Properties.Items.Add(upperDept);
                 upperDeptCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+                //upperDeptCode.Properties.Items.AddRange(upperDepartments.Select(d => d.FactoryCode).ToArray());
             }
 
             deptCode.Properties.Items.Clear();
@@ -111,20 +110,21 @@ namespace Roster_Dev.Emp
             {
                 deptCode.Properties.Items.Add(dept);
                 deptCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+                //deptCode.Properties.Items.AddRange(departments.Select(d => d.Code).ToArray());
             }
 
             // 하위부서 선택
-            foreach (DepartmentWorkout item in deptCode.Properties.Items)
-            {
-                if (item.Id == _deptWorkout.Id)
-                {
-                    deptCode.SelectedItem = item;
-                    break;
-                }
-            }
+            //foreach (DepartmentWorkout item in deptCode.Properties.Items)
+            //{
+            //    if (item.Code == _deptWorkout.Code)
+            //    {
+            //        deptCode.SelectedItem = item.Code;
+            //        break;
+            //    }
+            //}
         }
 
-        private void Save_Click(object sender, EventArgs e)
+        private async void Save_Click(object sender, EventArgs e)
         {
             if (!Util.Instance.NullCheck(upperDeptCode, deptCode, empCode, empName, loginId, password))
             {
@@ -132,26 +132,25 @@ namespace Roster_Dev.Emp
             }
             try
             {
-                var selectedDept = deptCode.SelectedItem as DeptWorkout;
-                emp.DepartmentId = selectedDept.DepartmentId;
-                emp.EmployeeCode = empCode.Text;
-                emp.EmployeeName = empName.Text;
-                emp.LoginId = loginId.Text;
-                emp.Password = password.Text;
-                emp.Email = string.IsNullOrWhiteSpace(email.Text) ? null : email.Text;
-                emp.PhoneNum = string.IsNullOrWhiteSpace(phoneNum.Text) ? null : phoneNum.Text;
-                emp.Position = string.IsNullOrWhiteSpace(position.Text) ? null : position.Text;
-                emp.Employment = string.IsNullOrWhiteSpace(employment.Text) ? null : employment.Text;
-                emp.MessengerId = string.IsNullOrWhiteSpace(messengerId.Text) ? null : messengerId.Text;
-                emp.Memo = string.IsNullOrWhiteSpace(memo.Text) ? null : memo.Text;
+                var selectedDept = deptCode.SelectedItem as DepartmentWorkout;
+                emp.DepartmentId = selectedDept.Id;
+                emp.Code = this.empCode.Text;
+                emp.Name = this.empName.Text;
+                emp.LoginId = this.loginId.Text;
+                emp.LoginPassword = this.password.Text;
+                emp.Email = this.email.Text;
+                emp.PhoneNumber = this.phoneNum.Text;
+                emp.Position = this.position.Text;
+                emp.ContractType = this.employment.Text;
+                emp.MessengerId = this.messengerId.Text;
+                emp.Memo = this.memo.Text;
+                emp.LoginTag = string.Empty;
+                emp.IsAdmin = false;
 
-                var result = SqlReposit.InsertEmp(emp);
-                if (result > 0)
-                {
-                    MessageBox.Show("사원이 추가되었습니다.");
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
+                await ApiRepository.AddEmployeeAsync(emp);
+                MessageBox.Show("사원이 추가되었습니다.");
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
             catch (Exception ex)
             {

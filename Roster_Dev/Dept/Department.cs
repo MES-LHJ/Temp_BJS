@@ -46,49 +46,19 @@ namespace Roster_Dev.Dpt
 
         public async Task RefreshGrid()
         {
-            upperDeptGrid.BeginUpdate();
-            deptGrid.BeginUpdate();
-
             try
             {
-                allDepartments = await ApiRepository.GetDepartmentsAsync(_factoryId);
+                var upperDepartments = await ApiRepository.GetUpperDepartmentAsync(_factoryId);
+                upperDeptGrid.DataSource = upperDepartments;
 
-                if (!allDepartments.Any())
-                {
-                    MessageBox.Show("로드된 부서 데이터가 없습니다.");
-                    deptGrid.DataSource = new List<DepartmentWorkout>();
-                    upperDeptGrid.DataSource = new List<DepartmentWorkout>();
-                    return;
-                }
-
-                var upperDepartmentList = allDepartments
-                    .Where(d => !d.UpperDepartmentId.HasValue || d.UpperDepartmentId.Value == 0)
-                    .ToList();
-
-                upperDeptGrid.DataSource = upperDepartmentList;
-
-                if (upperDepartmentList.Any())
-                {
-                    var upperGridView = upperDeptGrid.MainView as GridView;
-                    if (upperGridView != null)
-                    {
-                        upperGridView.FocusedRowHandle = 0;
-                    }
-                }
-                else
-                {
-                    deptGrid.DataSource = new List<DepartmentWorkout>();
-                }
+                var departments = await ApiRepository.GetDepartmentsAsync(_factoryId);
+                deptGrid.DataSource = departments;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}");
             }
-            finally
-            {
-                deptGrid.EndUpdate();
-                upperDeptGrid.EndUpdate();
-            }
+
         }
 
         private void UpperGridView_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
@@ -96,7 +66,7 @@ namespace Roster_Dev.Dpt
             var view = sender as GridView;
             if (view != null || !allDepartments.Any()) return;
 
-            var selectedUpperDept = view.GetFocusedRow() as DepartmentWorkout;
+            var selectedUpperDept = view.GetFocusedRow() as UpperDepartmentWorkout;
 
             var filteredDepartments = new List<DepartmentWorkout>();
 
@@ -144,7 +114,7 @@ namespace Roster_Dev.Dpt
         private async void Add_Click(object sender, EventArgs e)
         {
             var dept = new DepartmentWorkout();
-            using (var Form = new DeptAddEdit(dept))
+            using (var Form = new DeptAddEdit(_factoryId))
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
@@ -166,7 +136,7 @@ namespace Roster_Dev.Dpt
                 return;
             }
 
-            using (var Form = new DeptAddEdit(_factoryId))
+            using (var Form = new DeptAddEdit(department))
             {
                 if (Form.ShowDialog() == DialogResult.OK)
                 {

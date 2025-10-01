@@ -33,6 +33,8 @@ namespace Roster_Dev
         private const string Header_memo = "메모";
 
         private List<string> departmentCodes;
+        private long factoryId;
+
         public MultiAdd()
         {
             InitializeComponent();
@@ -117,11 +119,11 @@ namespace Roster_Dev
             validation.ErrorMessage = "유효한 부서코드 중 하나를 선택해야 합니다.";
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
-            var allDepartments = SqlReposit.GetDepartments();
+            var allDepartments = await ApiRepository.GetDepartmentsAsync(factoryId);
             departmentCodes = allDepartments
-                                   .Select(d => d.DepartmentCode)
+                                   .Select(d => d.Code)
                                    .ToList();
 
             // 부서코드 콤보박스 유효성 검사 적용
@@ -143,7 +145,7 @@ namespace Roster_Dev
                 }
 
                 var departments = SqlReposit.GetDepartments();
-                var employeesToSave = new List<EmpWorkout>();
+                var employeesToSave = new List<EmployeeWorkout>();
 
                 int success = 0, fail = 0;
 
@@ -170,29 +172,20 @@ namespace Roster_Dev
                         if (dept == null)
                             throw new Exception($"부서코드 '{deptCode}' 없음");
 
-                        var emp = new EmpWorkout
+                        var emp = new EmployeeWorkout
                         {
                             DepartmentId = dept.DepartmentId,
-                            UpperDeppartmentId = dept.UpperDepartmentId,
-                            DepartmentCode = dept.DepartmentCode,
-                            DepartmentName = dept.DepartmentName,
-                            EmployeeCode = empCode,
-                            EmployeeName = empName,
+                            Code = empCode,
+                            Name = empName,
                             LoginId = loginId,
-                            Password = password,
+                            LoginPassword = password,
                             Position = sheet.Cells[row, 5].DisplayText?.Trim(),
-                            Employment = sheet.Cells[row, 6].DisplayText?.Trim(),
-                            PhoneNum = sheet.Cells[row, 8].DisplayText?.Trim(),
+                            ContractType = sheet.Cells[row, 6].DisplayText?.Trim(),
+                            PhoneNumber = sheet.Cells[row, 8].DisplayText?.Trim(),
                             Email = sheet.Cells[row, 9].DisplayText?.Trim(),
                             MessengerId = sheet.Cells[row, 10].DisplayText?.Trim(),
                             Memo = sheet.Cells[row, 11].DisplayText?.Trim()
                         };
-
-                        Gender parsedGender;
-                        if (Enum.TryParse(sheet.Cells[row, 7].DisplayText?.Trim(), true, out parsedGender))
-                            emp.Gender = parsedGender;
-                        else
-                            emp.Gender = null;
 
                         employeesToSave.Add(emp);
                     }
@@ -205,7 +198,7 @@ namespace Roster_Dev
 
                 foreach (var emp in employeesToSave)
                 {
-                    SqlReposit.InsertEmp(emp);
+                    ApiRepository.AddEmployeeAsync(emp);
                     success++;
                 }
 

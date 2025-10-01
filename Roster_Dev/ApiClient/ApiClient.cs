@@ -7,7 +7,6 @@ using System.Net.Http;
 //using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
-using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Roster_Dev.ApiClient
 {
@@ -157,64 +156,148 @@ namespace Roster_Dev.ApiClient
             return await DeserializeApiResponseData<List<EmployeeWorkout>>(response.Content);
         }
 
-        // 사원 추가 (Employee를 EmployeeWorkout으로 변경)
+        // 사원 추가
         public async Task<EmployeeWorkout> AddEmployeeWorkoutAsync(EmployeeWorkout newEmployee)
         {
             string url = "api/Employee";
-            var response = await _httpClient.PostAsync(url, SerializeToJsonContent(newEmployee));
+
+            var createBody = new
+            {
+                DepartmentId = newEmployee.DepartmentId,
+                Code = newEmployee.Code,
+                Name = newEmployee.Name,
+                Position = newEmployee.Position,
+                ContractType = newEmployee.ContractType,
+                Email = newEmployee.Email,
+                PhoneNumber = newEmployee.PhoneNumber,
+                MessengerId = newEmployee.MessengerId,
+                Memo = newEmployee.Memo,
+                LoginId = newEmployee.LoginId,
+                LoginPassword = newEmployee.LoginPassword,
+                LoginTag = newEmployee.LoginTag,
+                IsAdmin = newEmployee.IsAdmin
+            };
+
+            var json = JsonConvert.SerializeObject(createBody, Formatting.Indented);
+            Console.WriteLine("POST Body JSON (filtered):\n"+json);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, content);
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Response Status: " + response.StatusCode);
+            Console.WriteLine("Response Body: " + responseBody);
+
             response.EnsureSuccessStatusCode();
+
             return await DeserializeApiResponseData<EmployeeWorkout>(response.Content);
+
+            //var response = await _httpClient.PostAsync(url, SerializeToJsonContent(newEmployee));
+            //response.EnsureSuccessStatusCode();
+            //return await DeserializeApiResponseData<EmployeeWorkout>(response.Content);
         }
 
-        // 사원 수정 (Employee를 EmployeeWorkout으로 변경하고, Code 속성을 사용)
+        // 사원 수정
         public async Task UpdateEmployeeWorkoutAsync(EmployeeWorkout updatedEmployee)
         {
-            // URL에 사원코드를 포함하여 특정 사원을 지정 (EmployeeWorkout의 Code 속성을 사용)
-            string url = $"api/employees/{updatedEmployee.Id}";
-            var response = await _httpClient.PutAsync(url, SerializeToJsonContent(updatedEmployee));
+            string url = $"api/employee/{updatedEmployee.Id}";
+            //var response = await _httpClient.PutAsync(url, SerializeToJsonContent(updatedEmployee));
+
+            var updateBody = new
+            {
+                Name = updatedEmployee.Name,
+                Code = updatedEmployee.Code,
+                DepartmentId = updatedEmployee.DepartmentId,
+                Position = updatedEmployee.Position,
+                ContractType = updatedEmployee.ContractType,
+                Email = updatedEmployee.Email,
+                PhoneNumber = updatedEmployee.PhoneNumber,
+                MessengerId = updatedEmployee.MessengerId,
+                Memo = updatedEmployee.Memo
+            };
+            var json = JsonConvert.SerializeObject(updateBody, Formatting.Indented);
+            Console.WriteLine("PUT Body JSON (filtered):\n" + json);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync(url, content);
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Response Status: " + response.StatusCode);
+            Console.WriteLine("Response Body: " + responseBody);
+
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task DeleteEmployeeWorkoutAsync(string employeeId)
+        // 사원 삭제
+        public async Task DeleteEmployeeWorkoutAsync(long employeeId)
         {
-            string url = $"api/employees/{employeeId}";
+            string url = $"api/Employee/{employeeId}";
+
             var response = await _httpClient.DeleteAsync(url);
-            response.EnsureSuccessStatusCode();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("DELETE Response Status: " + response.StatusCode);
+                Console.WriteLine("DELETE Response Body: " + responseBody);
+
+                // DeserializeApiResponseData를 사용하여 Error 메시지를 추출 시도
+                try
+                {
+                    // 실패 응답시 API 서버에서 에러 메시지를 JSON 형태로 보낼 수 있음.
+                    var errorResponse = JsonConvert.DeserializeObject<ApiResponse<object>>(responseBody);
+                    if (errorResponse != null && !string.IsNullOrEmpty(errorResponse.Error))
+                    {
+                        throw new Exception($"사원 삭제 실패: {errorResponse.Error}");
+                    }
+                }
+                catch (Exception)
+                {
+                    // JSON 역직렬화에 실패하거나 Error 필드가 없으면 기본 HTTP 상태 코드로 예외 처리
+                    response.EnsureSuccessStatusCode();
+                }
+            }
         }
 
         // 부서 전체 조회
         public async Task<List<DepartmentWorkout>> GetDepartmentWorkoutsAsync(long factoryId)
         {
-            //string url = $"api/Department?factoryId={factoryId}";
-            //var response = await _httpClient.GetAsync(url);
-            //response.EnsureSuccessStatusCode();
-
-            //var apiResponse = await DeserializeApiResponseData<DepartmentResponse>(response.Content);
-            //if (apiResponse == null || apiResponse.Data == null)
-            //{
-            //    throw new Exception($"부서 데이터 가져오기 실패: {apiResponse?.Error ?? "응답 구조 오류"}");
-            //}
-            //return apiResponse.Data;
-
-            string url = $"api/department?factoryId=1&includeAll=true";
-
+            string url = $"api/Department?factoryId=1";
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            var apiRespose = await DeserializeApiResponseData<List<DepartmentWorkout>>(response.Content);
-            return apiRespose;
+            return await DeserializeApiResponseData<List<DepartmentWorkout>>(response.Content);
         }
 
         // 부서 추가
         public async Task<DepartmentWorkout> AddDepartmentWorkoutAsync(DepartmentWorkout newDepartment)
         {
-            string url = $"api/department/{newDepartment.Id}";
-            var requestContent = SerializeToJsonContent(newDepartment);
-            var response = await _httpClient.PostAsync(url, requestContent); 
-            
+            string url = $"api/Department/";
+            var createBody = new
+            {
+                Name = newDepartment.Name,
+                Code = newDepartment.Code,
+                Memo = newDepartment.Memo
+            };
+            var json = JsonConvert.SerializeObject(createBody, Formatting.Indented);
+            Console.WriteLine("POST Body JSON (filtered):\n" + json);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, content);
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Response Status: " + response.StatusCode);
+            Console.WriteLine("Response Body: " + responseBody);
+
             response.EnsureSuccessStatusCode();
-            
+
             return await DeserializeApiResponseData<DepartmentWorkout>(response.Content);
+
+            //var requestContent = SerializeToJsonContent(newDepartment);
+            //var response = await _httpClient.PostAsync(url, requestContent);
+
+            //response.EnsureSuccessStatusCode();
+
         }
 
         public async Task UpdateDepartmentWorkoutAsync(DepartmentWorkout updatedDepartment)
@@ -233,26 +316,26 @@ namespace Roster_Dev.ApiClient
         }
 
         // 상위 부서 전체 조회
-        public async Task<List<DepartmentWorkout>> GetUpperDepartmentWorkoutsAsync(long factoryId)
+        public async Task<List<UpperDepartmentWorkout>> GetUpperDepartmentWorkoutsAsync(long factoryId)
         {
             string url = $"api/department?factoryId=1";
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
-            return await DeserializeApiResponseData<List<DepartmentWorkout>>(response.Content);
+            return await DeserializeApiResponseData<List<UpperDepartmentWorkout>>(response.Content);
         }
 
-        public async Task<DepartmentWorkout> AddUpperDepartmentWorkoutAsync(DepartmentWorkout newUpper)
+        public async Task<UpperDepartmentWorkout> AddUpperDepartmentWorkoutAsync(UpperDepartmentWorkout newUpper)
         {
             string url = "api/upperDepartment";
             var requestContent = SerializeToJsonContent(newUpper);
-            var response = await _httpClient.PostAsync(url, requestContent); 
-            
+            var response = await _httpClient.PostAsync(url, requestContent);
+
             response.EnsureSuccessStatusCode();
-            
-            return await DeserializeApiResponseData<DepartmentWorkout>(response.Content);
+
+            return await DeserializeApiResponseData<UpperDepartmentWorkout>(response.Content);
         }
 
-        public async Task<DepartmentWorkout> EditUpperDepartmentWorkoutAsync(DepartmentWorkout updateUpper)
+        public async Task<UpperDepartmentWorkout> EditUpperDepartmentWorkoutAsync(UpperDepartmentWorkout updateUpper)
         {
             string url = "api/upperDepartment";
             var requestContent = SerializeToJsonContent(updateUpper);
@@ -260,7 +343,7 @@ namespace Roster_Dev.ApiClient
 
             response.EnsureSuccessStatusCode();
 
-            return await DeserializeApiResponseData<DepartmentWorkout>(response.Content);
+            return await DeserializeApiResponseData<UpperDepartmentWorkout>(response.Content);
         }
 
     } // ApiClient 클래스 닫음

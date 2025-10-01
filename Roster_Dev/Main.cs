@@ -63,10 +63,10 @@ namespace Roster_Dev
             }
 
             // 이미지 컬럼 파일명으로 표시
-            if (e.Column.FieldName == "PhotoPath" && e.Value != null)
-            {
-                e.DisplayText = Path.GetFileName(e.Value.ToString());
-            }
+            //if (e.Column.FieldName == "PhotoPath" && e.Value != null)
+            //{
+            //    e.DisplayText = Path.GetFileName(e.Value.ToString());
+            //}
         }
 
         //private void RefreshGrid()
@@ -81,11 +81,8 @@ namespace Roster_Dev
             try
             {
                 // ApiRepository를 사용하여 API에서 사원 목록을 비동기로 가져옴
-                // GetEmployeesAsync는 이미 List<EmployeeWorkout>을 반환하도록 ApiRepository에 정의
                 var employeeList = await ApiRepository.GetEmployeesAsync(factoryId);
-
                 // 가져온 데이터를 GridControl (empGrid)에 바인딩
-                // DevExpress GridControl에 List<T>를 바인딩
                 empGrid.DataSource = employeeList;
             }
             catch (Exception ex)
@@ -142,7 +139,7 @@ namespace Roster_Dev
             }
 
             // 현재 선택된 행의 EmployeeId 가져오기
-            var empId = Convert.ToInt32(view.GetFocusedRowCellValue("EmployeeId"));
+            var empId = Convert.ToInt32(view.GetFocusedRowCellValue("Id"));
 
             using (var Form = new Emp.EmpEdit(empId))
             {

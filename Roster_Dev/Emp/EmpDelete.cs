@@ -37,18 +37,11 @@ namespace Roster_Dev.Emp
         {
         }
 
-        private void Delete_Click(object sender, EventArgs e)
+        private async void Delete_Click(object sender, EventArgs e)
         {
             try
             {
-                string photoPath = SqlReposit.GetPhotoPath(emp.Id);
-
-                if ((!string.IsNullOrEmpty(photoPath) && System.IO.File.Exists(photoPath)))
-                {
-                    System.IO.File.Delete(photoPath);
-                }
-
-                var result = SqlReposit.DeleteEmp(emp.Id);
+                var result = await ApiRepository.DeleteEmployeeAsync(emp.Id);
 
                 if (result > 0)
                 {

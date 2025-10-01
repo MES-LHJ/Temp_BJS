@@ -1,4 +1,6 @@
-﻿using Roster_Dev.Model;
+﻿using Roster_Dev;
+using Roster_Dev.Model;
+using Roster_Dev.UtilClass;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Roster_Dev.UtilClass;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Roster_Dev.Emp
 {
@@ -17,10 +19,12 @@ namespace Roster_Dev.Emp
     {
         private EmployeeWorkout emp;
         private long factoryId;
+        private readonly long empId;
 
-        private readonly int empId;
+        private List<UpperDepartmentWorkout> upperDepartments;
+        private List<DepartmentWorkout> departments;
 
-        public EmpEdit(int employeeId)
+        public EmpEdit(long employeeId)
         {
             InitializeComponent();
             AddEvent();
@@ -32,6 +36,8 @@ namespace Roster_Dev.Emp
             this.Load += Form_Load;
             this.addEditBtn.Click += Save_Click;
             this.cancel.Click += Cancel_Click;
+            this.upperDeptCode.EditValueChanged += UpperDeptCode_EditValueChanged;
+            this.deptCode.EditValueChanged += DeptCode_EditValueChanged;
         }
 
         private void SetTag()
@@ -46,7 +52,7 @@ namespace Roster_Dev.Emp
         {
             if (emp == null) return;
 
-            // ⭐ 모델명 통일: EmployeeWorkout 모델의 속성 사용
+            // 모델명 통일 EmployeeWorkout 모델의 속성 사용
             this.empName.Text = emp.Name;
             this.empCode.Text = emp.Code;
             this.position.Text = emp.Position;
@@ -55,14 +61,31 @@ namespace Roster_Dev.Emp
             this.phoneNum.Text = emp.PhoneNumber;
             this.messengerId.Text = emp.MessengerId;
             this.memo.Text = emp.Memo;
-            // this.deptComboBox.EditValue = emp.DepartmentId; // 부서 선택 컨트롤 바인딩
-            // this.upperDeptComboBox.EditValue = emp.UpperDepartmentId; // 상위 부서 선택 컨트롤 바인딩
+            //this.deptCode.EditValue = emp.DepartmentId; // 부서 선택 컨트롤 바인딩
+            //this.upperDeptCode.EditValue = emp.UpperDepartmentId; // 상위 부서 선택 컨트롤 바인딩
 
-            // 체크박스 등 나머지 컨트롤 바인딩 로직...
+            BindDepartmentData();
+        }
+
+        private void BindDepartmentData()
+        {
+            // 상위 부서 정보 바인딩 (ID로 선택 및 이름 조회)
+            var selectedUpperDept = upperDepartments.FirstOrDefault(d => d.UpperDepartmentId == emp.FactoryId);
+            this.upperDeptCode.EditValue = emp.FactoryCode;
+
+            // 안전하게 null 체크 후 이름 바인딩
+            this.upperDeptName.Text = selectedUpperDept?.FactoryName;
+
+            // 부서 정보 바인딩 (ID로 선택 및 이름 조회)
+            var selectedDept = departments.FirstOrDefault(d => d.Id == emp.DepartmentId);
+            this.deptCode.EditValue = emp.DepartmentCode;
+
+            // 안전하게 null 체크 후 이름 바인딩
+            this.deptName.Text = selectedDept?.Name;
         }
 
         /// <summary>
-        /// API를 통해 사원 데이터를 비동기로 로드합니다.
+        /// API를 통해 사원 데이터를 비동기로 로드
         /// </summary>
         private async Task LoadEmployeeData()
         {
@@ -70,7 +93,13 @@ namespace Roster_Dev.Emp
             {
                 // ApiRepository를 통해 모든 사원을 가져와서 필터링 (사원 상세 조회 API가 있다면 그것을 사용)
                 var allEmployees = await ApiRepository.GetEmployeesAsync(factoryId);
+
                 emp = allEmployees.FirstOrDefault(x => x.Id == empId);
+
+                if (emp != null)
+                {
+                    this.factoryId = emp.FactoryId;
+                }
 
                 if (emp == null)
                 {
@@ -86,18 +115,84 @@ namespace Roster_Dev.Emp
         }
 
         /// <summary>
-        /// 부서 목록을 비동기로 로드합니다. (부서 콤보박스 등에 사용)
+        /// 부서 목록을 비동기로 로드(부서 콤보박스 등에 사용)
         /// </summary>
         private async Task LoadDepartmentData()
         {
             try
             {
-                var departments = await ApiRepository.GetDepartmentsAsync(factoryId);
-                // 부서 콤보박스 등에 departments를 바인딩하는 로직 추가
+                // 1. 상위 부서 목록 로드 및 필드에 저장
+                upperDepartments = await ApiRepository.GetUpperDepartmentAsync(factoryId);
+
+                // 2. 부서 목록 로드 및 필드에 저장
+                departments = await ApiRepository.GetDepartmentsAsync(factoryId);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"부서 데이터 로드 실패: {ex.Message}", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // API 통신 실패 시에도 null 대신 빈 리스트로 초기화 (ArgumentNullException 방지)
+                upperDepartments = new List<UpperDepartmentWorkout>();
+                departments = new List<DepartmentWorkout>();
+                MessageBox.Show($"부서/상위부서 정보 로드 실패: {ex.Message}", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // 데이터 로드 실패 시 바인딩 작업을 막기 위해 리턴
+            }
+
+            // 3. UI 업데이트 (데이터 로드 성공 시에만 실행)
+            UpdateDepartmentComboBoxes();
+        }
+
+        private void UpdateDepartmentComboBoxes()
+        {
+            // upperDeptCode 콤보박스에 'FactoryCode' 값만 추가
+            this.upperDeptCode.Properties.Items.Clear();
+            foreach (var upperDept in upperDepartments)
+            {
+                upperDeptCode.Properties.Items.Add(upperDept);
+                //this.upperDeptCode.Properties.Items.Add($"{upperDept.FactoryCode} - {upperDept.FactoryName}");
+                upperDeptCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            }
+            //this.upperDeptCode.Properties.Items.AddRange(upperDepartments.Select(d => d.FactoryCode).ToArray());
+
+            // deptCode 콤보박스에 'DepartmentCode' 값만 추가
+            this.deptCode.Properties.Items.Clear();
+            foreach (var dept in departments)
+            {
+                deptCode.Properties.Items.Add(dept);
+                //this.deptCode.Properties.Items.Add($"{dept.Code} - {dept.Name}");
+                deptCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            }
+            //this.deptCode.Properties.Items.AddRange(departments.Select(d => d.Code).ToArray());
+        }
+
+        private void UpperDeptCode_EditValueChanged(object sender, EventArgs e)
+        {
+            if (upperDeptCode.SelectedItem is UpperDepartmentWorkout selectedUpper)
+            {
+                upperDeptName.Text = selectedUpper.FactoryName;
+
+                // 하위부서 바인딩
+                //var departments = await ApiRepository.GetDepartmentsAsync(factoryId);
+
+                //deptCode.Properties.Items.Clear();
+                //foreach (var dept in departments)
+                //{
+                //    deptCode.Properties.Items.Add(dept);
+                //}
+            }
+            else
+            {
+                upperDeptName.Text = string.Empty;
+            }
+        }
+
+        private void DeptCode_EditValueChanged(object sender, EventArgs e)
+        {
+            if (deptCode.SelectedItem is DepartmentWorkout selectedDept)
+            {
+                deptName.Text = selectedDept.Name;
+            }
+            else
+            {
+                deptName.Text = string.Empty;
             }
         }
 
@@ -123,18 +218,20 @@ namespace Roster_Dev.Emp
 
             try
             {
-                // 컨트롤에서 변경된 데이터를 emp 객체에 다시 반영
                 emp.Name = this.empName.Text;
                 emp.Code = this.empCode.Text;
                 emp.Position = this.position.Text;
-                emp.Email = this.email.Text;
                 emp.ContractType = this.employment.Text;
+                emp.Email = this.email.Text;
                 emp.PhoneNumber = this.phoneNum.Text;
                 emp.MessengerId = this.messengerId.Text;
                 emp.Memo = this.memo.Text;
 
+                if (this.deptCode.SelectedItem is DepartmentWorkout selectedDept)
+                {
+                    emp.DepartmentId = selectedDept.Id;
+                }
                 // SQL 호출 코드를 API 호출 코드로 교체
-                // 기존: SqlReposit.UpdateEmp(emp);
                 await ApiRepository.UpdateEmployeeAsync(emp);
 
                 MessageBox.Show("사원이 수정되었습니다.");

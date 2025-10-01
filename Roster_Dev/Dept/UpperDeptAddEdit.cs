@@ -67,7 +67,7 @@ namespace Roster_Dev.Dept
                 return;
             try
             {
-                var upperDept = new DepartmentWorkout
+                var upperDept = new UpperDepartmentWorkout
                 {
                     UpperDepartmentId = upperDpt.UpperDepartmentId,
                     UpperDepartmentCode = upperDeptCode.Text.Trim(),

@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpo.DB;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,26 @@ namespace Roster_Dev.Model
         public string UpperDepartmentName { get; set; }
         public override string ToString()
         {
-                return FactoryCode;
+                return Code;
         }
     }
+
+    public class UpperDepartmentWorkout
+    {
+        public long Id { get; set; }
+        public long FactoryId { get; set; }
+        public string FactoryCode { get; set; }
+        public string FactoryName { get; set; }
+        public long? UpperDepartmentId { get; set; }
+        public string UpperDepartmentCode { get; set; }
+        public string UpperDepartmentName { get; set; }
+        public string Memo { get; set; }
+        public override string ToString()
+        {
+            return FactoryCode;
+        }
+    }
+
     public class DepartmentResponse
     {
         public List<DepartmentWorkout> Data { get; set; }

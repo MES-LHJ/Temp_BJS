@@ -88,7 +88,7 @@
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(1397, 39);
+            this.panelControl1.Size = new System.Drawing.Size(1538, 39);
             this.panelControl1.TabIndex = 1;
             // 
             // empBtns
@@ -103,7 +103,7 @@
             this.empBtns.Controls.Add(this.deleteBtn);
             this.empBtns.Controls.Add(this.convertBtn);
             this.empBtns.Controls.Add(this.exitBtn);
-            this.empBtns.Location = new System.Drawing.Point(845, 0);
+            this.empBtns.Location = new System.Drawing.Point(986, 0);
             this.empBtns.Name = "empBtns";
             this.empBtns.Size = new System.Drawing.Size(552, 39);
             this.empBtns.TabIndex = 1;
@@ -336,7 +336,7 @@
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl2.Location = new System.Drawing.Point(0, 39);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(1397, 411);
+            this.panelControl2.Size = new System.Drawing.Size(1538, 411);
             this.panelControl2.TabIndex = 2;
             // 
             // empGrid
@@ -346,7 +346,7 @@
             this.empGrid.Location = new System.Drawing.Point(2, 2);
             this.empGrid.MainView = this.gridView1;
             this.empGrid.Name = "empGrid";
-            this.empGrid.Size = new System.Drawing.Size(1393, 407);
+            this.empGrid.Size = new System.Drawing.Size(1534, 407);
             this.empGrid.TabIndex = 0;
             this.empGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -593,7 +593,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1397, 450);
+            this.ClientSize = new System.Drawing.Size(1538, 450);
             this.Controls.Add(this.panelControl2);
             this.Controls.Add(this.panelControl1);
             this.Name = "Main";

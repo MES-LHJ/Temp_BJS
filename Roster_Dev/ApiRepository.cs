@@ -25,26 +25,26 @@ namespace Roster_Dev
         public static async Task<List<DepartmentWorkout>> GetDepartmentsAsync(long factoryId)
         {
             // ApiClient의 부서 조회 메서드를 호출
-            //return await ApiClient.GetDepartmentWorkoutsAsync(factoryId);
-            try
-            {
-                // factoryId를 ApiClient로 전달하도록 수정되었는지 확인
-                return await ApiClient.GetDepartmentWorkoutsAsync(factoryId);
-            }
-            catch (Exception ex)
-            {
-                // ... (에러 처리)
-                Console.WriteLine($"부서 조회 에러: {ex.Message}");
-                return new List<DepartmentWorkout>();
-            }
+            return await ApiClient.GetDepartmentWorkoutsAsync(factoryId);
+            //try
+            //{
+            //    // factoryId를 ApiClient로 전달하도록 수정되었는지 확인
+            //    return await ApiClient.GetDepartmentWorkoutsAsync(factoryId);
+            //}
+            //catch (Exception ex)
+            //{
+            //    // ... (에러 처리)
+            //    Console.WriteLine($"부서 조회 에러: {ex.Message}");
+            //    return new List<DepartmentWorkout>();
+            //}
         }
 
-        public static async Task<List<DepartmentWorkout>> GetUpperDepartmentAsync(long factoryId)
+        public static async Task<List<UpperDepartmentWorkout>> GetUpperDepartmentAsync(long factoryId)
         {
             return await ApiClient.GetUpperDepartmentWorkoutsAsync(factoryId);
         }
 
-        public static async void AddEmployeeAsync(EmployeeWorkout emp)
+        public static async Task AddEmployeeAsync(EmployeeWorkout emp)
         {
             await ApiClient.AddEmployeeWorkoutAsync(emp);
         }
@@ -55,12 +55,18 @@ namespace Roster_Dev
             await ApiClient.UpdateEmployeeWorkoutAsync(emp);
         }
 
-        public static async void InsertDepartmentAsync(DepartmentWorkout emp)
+        public static async Task<int> DeleteEmployeeAsync(long employeeId)
+        {
+            await ApiClient.DeleteEmployeeWorkoutAsync(employeeId);
+            return 1;
+        }
+
+        public static async Task InsertDepartmentAsync(DepartmentWorkout emp)
         {
             await ApiClient.AddDepartmentWorkoutAsync(emp);
         }
 
-        public static async void UpdateDepartmentAsync(DepartmentWorkout emp)
+        public static async Task UpdateDepartmentAsync(DepartmentWorkout emp)
         {
             await ApiClient.UpdateDepartmentWorkoutAsync(emp);
         }
@@ -71,11 +77,11 @@ namespace Roster_Dev
             return 1;
         }
 
-        public static async void InsertUpperDepartmentAsync(DepartmentWorkout upperDept)
+        public static async Task InsertUpperDepartmentAsync(UpperDepartmentWorkout upperDept)
         {
             await ApiClient.AddUpperDepartmentWorkoutAsync(upperDept);
         }
-        public static async void UpdateUpperDepartmentAsync(DepartmentWorkout upperDept)
+        public static async Task UpdateUpperDepartmentAsync(UpperDepartmentWorkout upperDept)
         {
             await ApiClient.EditUpperDepartmentWorkoutAsync(upperDept);
         }
