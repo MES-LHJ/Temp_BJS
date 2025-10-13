@@ -26,7 +26,6 @@ namespace Roster_Dev
         private const string Header_password = "비밀번호";
         private const string Header_position = "직위";
         private const string Header_employment = "고용형태";
-        private const string Header_gender = "성별";
         private const string Header_phoneNum = "휴대전화";
         private const string Header_email = "이메일";
         private const string Header_messengerId = "메신저ID";
@@ -35,9 +34,10 @@ namespace Roster_Dev
         private List<string> departmentCodes;
         private long factoryId;
 
-        public MultiAdd()
+        public MultiAdd(long factoryId)
         {
             InitializeComponent();
+            this.factoryId = factoryId;
             InitializeSpreadControlColumns();
             AddEvent();
         }
@@ -55,38 +55,38 @@ namespace Roster_Dev
 
             worksheet.Clear(worksheet.Cells);
 
-            //Style headerStyle = worksheet.Workbook.Styles[BuiltInStyleId.Normal];
             Style headerStyle = worksheet.Workbook.Styles.Add("CustomHeaderStyle");
             headerStyle.Fill.BackgroundColor = worksheet.Workbook.Styles[BuiltInStyleId.Normal].Fill.BackgroundColor;
-            headerStyle.Font.Color = worksheet.Workbook.Styles[BuiltInStyleId.Normal].Font.Color;
+            //headerStyle.Font.Color = worksheet.Workbook.Styles[BuiltInStyleId.Normal].Font.Color;
 
-            headerStyle.Font.Color = Color.Red;
-            headerStyle.Font.Bold = true;
+            //headerStyle.Font.Color = Color.Red;
+            //headerStyle.Font.Bold = true;
             headerStyle.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-            //headerStyle.Fill.BackgroundColor = Color.FromArgb(243, 243, 243);
+
+            // 0~4번째 컬럼만 빨간색 스타일 적용
+            CellRange redRange = worksheet.Range.FromLTRB(0, 0, 4, 0);
+            redRange.Style = headerStyle;
 
             string[] headers =
             {
-        Header_deptCode, Header_empCode, Header_empName,
-        Header_loginId, Header_password, Header_position,
-        Header_employment, Header_gender, Header_phoneNum,
-        Header_email, Header_messengerId, Header_memo
-    };
+            Header_deptCode, Header_empCode, Header_empName,
+            Header_loginId, Header_password, Header_position,
+            Header_employment, Header_phoneNum,
+            Header_email, Header_messengerId, Header_memo
+        };
 
             int[] widths =
             {
-        200, 200, 200, 200, 200, 160, 200, 120, 220, 400, 200, 200
-    };
+            220, 220, 220, 220, 220, 160, 200, 220, 400, 200, 200
+        };
 
-            // 첫 번째 행(Row 0)에 순서대로 헤더 텍스트를 할당합니다.
             for (int i = 0; i < headers.Length; i++)
             {
                 worksheet.Cells[0, i].Value = headers[i];
-
                 worksheet.Columns[i].Width = widths[i];
             }
 
-            CellRange headerRowRange = worksheet.Range.FromLTRB(0, 0, 4, 0);
+            CellRange headerRowRange = worksheet.Range.FromLTRB(0, 0, headers.Length - 1, 0);
             headerRowRange.Style = headerStyle;
 
             worksheet.FreezeRows(1);
@@ -100,10 +100,15 @@ namespace Roster_Dev
 
             Worksheet sheet = multiAddGrid.ActiveWorksheet;
 
-            // A2:A100 범위 (부서코드 입력 칸)
-            CellRange range = sheet.Range.FromLTRB(0, 1, 0, 100);
+            // A1:A100 범위 (필요 시 늘리기)
+            CellRange range = sheet.Range.FromLTRB(0, 0, 0, 100);
 
-            CellValue[] listValues = departmentCodes.Select(d => CellValue.FromObject((object)d)).ToArray();
+            var cleanCodes = departmentCodes
+                .Where(c => !string.IsNullOrWhiteSpace(c))
+                .Distinct()
+                .ToList();
+
+            CellValue[] listValues = cleanCodes.Select(c => CellValue.FromObject((object)c)).ToArray();
 
             ValueObject listSource = ValueObject.CreateListSource(listValues);
 
@@ -122,31 +127,34 @@ namespace Roster_Dev
         private async void Form_Load(object sender, EventArgs e)
         {
             var allDepartments = await ApiRepository.GetDepartmentsAsync(factoryId);
-            departmentCodes = allDepartments
-                                   .Select(d => d.Code)
-                                   .ToList();
+            departmentCodes = (allDepartments ?? new List<DepartmentWorkout>())
+                                    .Select(d => d.Code)
+                                    .Where(c => !string.IsNullOrWhiteSpace(c))
+                                    .Distinct()
+                                    .ToList();
 
-            // 부서코드 콤보박스 유효성 검사 적용
             ApplyDepartmentValidation();
         }
-        private void SaveBtn_Click(object sender, EventArgs e)
+        private async void SaveBtn_Click(object sender, EventArgs e)
         {
             try
             {
                 Worksheet sheet = multiAddGrid.ActiveWorksheet;
-
                 CellRange used = sheet.GetUsedRange();
 
-                // 데이터가 없는 경우 (헤더 행만 있는 경우 포함)
                 if (used == null || used.RowCount <= 1)
                 {
                     MessageBox.Show("추가할 데이터가 없습니다.");
                     return;
                 }
 
-                var departments = SqlReposit.GetDepartments();
-                var employeesToSave = new List<EmployeeWorkout>();
+                var deptList = await ApiRepository.GetDepartmentsAsync(factoryId);
+                var deptByCode = (deptList ?? new List<DepartmentWorkout>())
+                    .Where(d => !string.IsNullOrWhiteSpace(d.Code))
+                    .GroupBy(d => d.Code.Trim())
+                    .ToDictionary(g => g.Key, g => g.First());
 
+                var employeesToSave = new List<EmployeeWorkout>();
                 int success = 0, fail = 0;
 
                 for (int row = 1; row < used.RowCount; row++)
@@ -159,22 +167,37 @@ namespace Roster_Dev
                         string loginId = sheet.Cells[row, 3].DisplayText?.Trim();
                         string password = sheet.Cells[row, 4].DisplayText?.Trim();
 
+                        // 빈 줄 스킵 처리 (필수 5개 모두 비어있으면 continue)
+                        bool allEmpty = string.IsNullOrWhiteSpace(deptCode)
+                                        && string.IsNullOrWhiteSpace(empCode)
+                                        && string.IsNullOrWhiteSpace(empName)
+                                        && string.IsNullOrWhiteSpace(loginId)
+                                        && string.IsNullOrWhiteSpace(password);
+                        if (allEmpty) continue;
+
+                        // 필수값 검사
                         if (string.IsNullOrWhiteSpace(deptCode) ||
-                            string.IsNullOrWhiteSpace(empCode) ||
-                            string.IsNullOrWhiteSpace(empName) ||
-                            string.IsNullOrWhiteSpace(loginId) ||
+                            string.IsNullOrWhiteSpace(empCode)  ||
+                            string.IsNullOrWhiteSpace(empName)  ||
+                            string.IsNullOrWhiteSpace(loginId)  ||
                             string.IsNullOrWhiteSpace(password))
                         {
-                            throw new Exception("필수 항목 누락");
+                            string[] headerNames = { Header_deptCode, Header_empCode, Header_empName, Header_loginId, Header_password };
+                            MessageBox.Show(
+                                $"'{string.Join(", ", headerNames)}' 항목은 필수 입력입니다.",
+                                "입력 오류",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning
+                            );
+                            return;
                         }
 
-                        var dept = departments.FirstOrDefault(d => d.DepartmentCode == deptCode);
-                        if (dept == null)
+                        if (!deptByCode.TryGetValue(deptCode, out var dept))
                             throw new Exception($"부서코드 '{deptCode}' 없음");
 
                         var emp = new EmployeeWorkout
                         {
-                            DepartmentId = dept.DepartmentId,
+                            DepartmentId = dept.Id,
                             Code = empCode,
                             Name = empName,
                             LoginId = loginId,
@@ -184,21 +207,27 @@ namespace Roster_Dev
                             PhoneNumber = sheet.Cells[row, 8].DisplayText?.Trim(),
                             Email = sheet.Cells[row, 9].DisplayText?.Trim(),
                             MessengerId = sheet.Cells[row, 10].DisplayText?.Trim(),
-                            Memo = sheet.Cells[row, 11].DisplayText?.Trim()
+                            Memo = sheet.Cells[row, 11].DisplayText?.Trim(),
+
+                            //FactoryId = dept.FactoryId,
+                            //FactoryCode = dept.FactoryCode,
+                            //FactoryName = dept.FactoryName,
+
                         };
 
                         employeesToSave.Add(emp);
                     }
-                    catch (Exception ex)
+                    catch (Exception exLine)
                     {
                         fail++;
-                        Console.WriteLine($"Row {row + 1} 실패: {ex.Message}");
+                        Console.WriteLine($"Row {row + 1} 실패: {exLine.Message}");
                     }
                 }
 
+                // 저장 실행
                 foreach (var emp in employeesToSave)
                 {
-                    ApiRepository.AddEmployeeAsync(emp);
+                    await ApiRepository.AddEmployeeAsync(emp);
                     success++;
                 }
 

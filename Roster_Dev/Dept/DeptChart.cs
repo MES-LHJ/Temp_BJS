@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Roster_Dev.Model;
-using static Roster_Dev.UtilClass.Util; // GlobalSettings 접근을 위해 추가
 
 namespace Roster_Dev.Dpt
 {
@@ -15,7 +14,6 @@ namespace Roster_Dev.Dpt
     {
         private readonly long _currentFactoryId; // Factory ID를 저장할 멤버 변수 추가
 
-        // ⭐ 수정 1: 생성자에 factoryId 인자를 추가하고 초기화합니다.
         public DeptChart(long factoryId)
         {
             InitializeComponent();
@@ -23,73 +21,68 @@ namespace Roster_Dev.Dpt
             this.Load += DeptChart_Load;
         }
 
-        // ⭐ 수정 2: Form_Load 이벤트 핸들러를 async로 변경하고 await를 사용합니다.
         private async void DeptChart_Load(object sender, EventArgs e)
         {
-            await SetupDepartmentChart();
+            await LoadChartAsync();
         }
 
-        // ⭐ 수정 3: SetupDepartmentChart를 async Task로 변경하고 내부에서 await를 사용합니다.
-        private async Task SetupDepartmentChart()
+        private async Task LoadChartAsync()
         {
-            // 차트 데이터 준비
-            // ⭐ 핵심 수정 4: ApiRepository의 비동기 호출에 await를 사용하고, factoryId를 전달합니다.
-            // Task.WhenAll을 사용하여 세 가지 데이터 로딩 작업을 동시에 시작하고 완료를 기다려 성능을 개선합니다.
-            var allEmployeesTask = ApiRepository.GetEmployeesAsync(_currentFactoryId);
-            var allDepartmentsTask = ApiRepository.GetDepartmentsAsync(_currentFactoryId);
-            var allUpperDeptsTask = ApiRepository.GetUpperDepartmentAsync(_currentFactoryId);
-
             try
             {
-                await Task.WhenAll(allEmployeesTask, allDepartmentsTask, allUpperDeptsTask);
+                // 부서/사원 데이터 API 로드
+                var departments = await ApiRepository.GetDepartmentsAsync(_currentFactoryId);
+                var employees = await ApiRepository.GetEmployeesAsync(_currentFactoryId);
 
-                var allEmployees = allEmployeesTask.Result;
-                var allDepartments = allDepartmentsTask.Result;
-                var allUpperDepts = allUpperDeptsTask.Result;
-
-                // ⭐ 핵심 수정 5: LINQ 조인 필드 수정 (DepartmentWorkout 모델에 맞게)
-                // Model에 따라 dept.DepartmentId -> dept.Id, dept.DepartmentName -> dept.Name 으로 수정합니다.
-                var chartData = from emp in allEmployees
-                                join dept in allDepartments on emp.DepartmentId equals dept.Id // emp.DepartmentId와 dept.Id 조인
-                                join upperDept in allUpperDepts on dept.UpperDepartmentId equals upperDept.Id // 상위 부서 ID와 Id 조인
-                                group new { dept, upperDept } by new { upperDept.UpperDepartmentName, deptName = dept.Name } into g // 하위 부서 이름은 Name 필드 사용
-                                select new ChartData
+                // 부서별 인원수 계산
+                var dataList = (from d in departments
+                                join e in employees on d.Id equals e.DepartmentId into empGroup
+                                select new
                                 {
-                                    UpperDepartmentName = g.Key.UpperDepartmentName,
-                                    DepartmentName = g.Key.deptName,
-                                    EmployeeCount = g.Count()
-                                };
+                                    DepartmentName = d.Name,
+                                    EmployeeCount = empGroup.Count()
+                                }).ToList();
 
-                // 차트 컨트롤 초기화
+                // 차트 초기화
                 departmentChart.Series.Clear();
 
-                // 차트 시리즈 생성 및 바인딩
-                // StackedBar 차트 구성을 위해 SeriesDataMember와 ArgumentDataMember를 적절히 설정합니다.
-                departmentChart.SeriesTemplate.SeriesDataMember = "DepartmentName"; // 하위 부서별로 막대가 쌓이도록
-                departmentChart.SeriesTemplate.ArgumentDataMember = "UpperDepartmentName"; // 인자(X축)는 상위 부서 이름
-                departmentChart.SeriesTemplate.ValueDataMembers.AddRange(new string[] { "EmployeeCount" });
+                // DevExpress는 Series 생성 시 ViewType 지정
+                Series series = new Series("부서별 인원수", ViewType.Bar);
+                series.DataSource = dataList;
+                series.ArgumentDataMember = "DepartmentName";
+                series.ValueDataMembers.AddRange("EmployeeCount");
 
-                departmentChart.SeriesTemplate.View = new StackedBarSeriesView();
+                // 시각화 옵션
+                ((BarSeriesView)series.View).BarWidth = 0.5; // 막대 두께
+                departmentChart.Series.Add(series);
 
-                // 데이터 소스 바인딩
-                departmentChart.DataSource = chartData.ToList();
+                // 축/폰트/제목 설정
+                XYDiagram diagram = departmentChart.Diagram as XYDiagram;
+                if (diagram != null)
+                {
+                    diagram.AxisX.Label.TextPattern = "{A}";
+                    diagram.AxisX.Label.Angle = -45;
+                    diagram.AxisX.Label.Font = new System.Drawing.Font("맑은 고딕", 9);
+                    diagram.AxisX.Title.Text = "부서";
+                    diagram.AxisX.Title.Visibility = DevExpress.Utils.DefaultBoolean.True;
 
-                // ... (나머지 차트 설정은 동일)
-                ((XYDiagram)departmentChart.Diagram).AxisX.Label.TextPattern = "{A}";
-                ((XYDiagram)departmentChart.Diagram).AxisY.Label.TextPattern = "{V}";
+                    diagram.AxisY.Title.Text = "인원 수";
+                    diagram.AxisY.Title.Visibility = DevExpress.Utils.DefaultBoolean.True;
+                    diagram.AxisY.Label.TextPattern = "{V}";
+                }
 
-                ChartTitle chartTitle = new ChartTitle();
-                chartTitle.Text = "부서별 인원 현황";
                 departmentChart.Titles.Clear();
-                departmentChart.Titles.Add(chartTitle);
+                departmentChart.Titles.Add(new ChartTitle()
+                {
+                    Text = "부서별 인원수",
+                    Font = new System.Drawing.Font("맑은 고딕", 9, System.Drawing.FontStyle.Bold)
+                });
 
-                // 차트 범례 설정
-                departmentChart.Legend.MarkerMode = LegendMarkerMode.CheckBoxAndMarker;
-                departmentChart.Legend.Visibility = DevExpress.Utils.DefaultBoolean.True;
+                departmentChart.Legend.Visibility = DevExpress.Utils.DefaultBoolean.False;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"데이터를 불러오는 중 오류가 발생했습니다: {ex.Message}", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"차트 데이터를 불러오는 중 오류가 발생했습니다.\n{ex.Message}");
             }
         }
     }

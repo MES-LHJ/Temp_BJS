@@ -3,6 +3,7 @@ using Roster_Dev.UtilClass;
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
 using System.Windows.Forms;
 using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
@@ -82,12 +83,12 @@ namespace Roster_Dev.Dept
             {
                 // 현재 부서 값 세팅
                 var selectedUpper = upperDepartments
-                    .FirstOrDefault(u => u.UpperDepartmentId == dept.UpperDepartmentId);
+                    .FirstOrDefault(u => u.Id == dept.FactoryId);
 
                 if (selectedUpper != null)
                 {
                     upperDeptCode.SelectedItem = selectedUpper;
-                    upperDeptName.Text = selectedUpper.UpperDepartmentName;
+                    upperDeptName.Text = selectedUpper.FactoryName;
                 }
                 deptCode.Text = dept.Code;
                 deptName.Text = dept.Name;
@@ -98,8 +99,8 @@ namespace Roster_Dev.Dept
         // 상위부서 선택 시 상위부서명 표시
         private void UpperDeptCode_EditValueChanged(object sender, EventArgs e)
         {
-            if (upperDeptCode.SelectedItem is DepartmentWorkout selectedUpper)
-                upperDeptName.Text = selectedUpper.UpperDepartmentName;
+            if (upperDeptCode.SelectedItem is UpperDepartmentWorkout selectedUpper)
+                upperDeptName.Text = selectedUpper.FactoryName;
             else
                 upperDeptName.Text = string.Empty;
         }
@@ -115,8 +116,8 @@ namespace Roster_Dev.Dept
 
                 var dpt = new DepartmentWorkout
                 {
-                    UpperDepartmentId = selectedUpper.UpperDepartmentId,
-                    Id      = dept.Id,
+                    Id      = isEditMode ? dept.Id : 0,
+                    UpperDepartmentId = selectedUpper?.Id,
                     Code    = deptCode.Text.Trim(),
                     Name    = deptName.Text.Trim(),
                     Memo    = memo.Text.Trim(),
@@ -137,9 +138,17 @@ namespace Roster_Dev.Dept
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"{ex.Message}");
+            //}
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"[HTTP Error] {ex.Message}");
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}");
+                MessageBox.Show($"[General Error] {ex.Message}");
             }
         }
 

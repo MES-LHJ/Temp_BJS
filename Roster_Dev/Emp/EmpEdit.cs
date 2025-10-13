@@ -53,6 +53,7 @@ namespace Roster_Dev.Emp
             if (emp == null) return;
 
             // 모델명 통일 EmployeeWorkout 모델의 속성 사용
+            this.upperDeptName.Text = emp.FactoryName;
             this.empName.Text = emp.Name;
             this.empCode.Text = emp.Code;
             this.position.Text = emp.Position;
@@ -70,7 +71,7 @@ namespace Roster_Dev.Emp
         private void BindDepartmentData()
         {
             // 상위 부서 정보 바인딩 (ID로 선택 및 이름 조회)
-            var selectedUpperDept = upperDepartments.FirstOrDefault(d => d.UpperDepartmentId == emp.FactoryId);
+            var selectedUpperDept = upperDepartments.FirstOrDefault(d => d.Id == emp.FactoryId);
             this.upperDeptCode.EditValue = emp.FactoryCode;
 
             // 안전하게 null 체크 후 이름 바인딩
@@ -121,10 +122,10 @@ namespace Roster_Dev.Emp
         {
             try
             {
-                // 1. 상위 부서 목록 로드 및 필드에 저장
+                // 상위 부서 목록 로드 및 필드에 저장
                 upperDepartments = await ApiRepository.GetUpperDepartmentAsync(factoryId);
 
-                // 2. 부서 목록 로드 및 필드에 저장
+                // 부서 목록 로드 및 필드에 저장
                 departments = await ApiRepository.GetDepartmentsAsync(factoryId);
             }
             catch (Exception ex)
@@ -136,28 +137,26 @@ namespace Roster_Dev.Emp
                 return; // 데이터 로드 실패 시 바인딩 작업을 막기 위해 리턴
             }
 
-            // 3. UI 업데이트 (데이터 로드 성공 시에만 실행)
             UpdateDepartmentComboBoxes();
         }
 
-        private void UpdateDepartmentComboBoxes()
+        private async void UpdateDepartmentComboBoxes()
         {
-            // upperDeptCode 콤보박스에 'FactoryCode' 값만 추가
-            this.upperDeptCode.Properties.Items.Clear();
+            // upperDeptCode 콤보박스에 FactoryCode 값만 추가
+            var upperDepartments = await ApiRepository.GetUpperDepartmentAsync(factoryId);
+            upperDeptCode.Properties.Items.Clear();
             foreach (var upperDept in upperDepartments)
             {
                 upperDeptCode.Properties.Items.Add(upperDept);
-                //this.upperDeptCode.Properties.Items.Add($"{upperDept.FactoryCode} - {upperDept.FactoryName}");
                 upperDeptCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             }
             //this.upperDeptCode.Properties.Items.AddRange(upperDepartments.Select(d => d.FactoryCode).ToArray());
 
-            // deptCode 콤보박스에 'DepartmentCode' 값만 추가
-            this.deptCode.Properties.Items.Clear();
+            // deptCode 콤보박스에 DepartmentCode 값만 추가
+            deptCode.Properties.Items.Clear();
             foreach (var dept in departments)
             {
                 deptCode.Properties.Items.Add(dept);
-                //this.deptCode.Properties.Items.Add($"{dept.Code} - {dept.Name}");
                 deptCode.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             }
             //this.deptCode.Properties.Items.AddRange(departments.Select(d => d.Code).ToArray());

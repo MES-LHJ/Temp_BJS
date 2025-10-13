@@ -47,4 +47,11 @@ namespace Roster_Dev.Model
         public List<DepartmentWorkout> Data { get; set; }
         public string Error { get; set; }
     }
+
+    public class UpperDepartmentDto 
+    {
+        public long Id { get; set; }
+        public string FactoryCode { get; set; }
+        public string FactoryName { get; set; }
+    }
 }

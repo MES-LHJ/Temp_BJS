@@ -127,26 +127,11 @@ namespace Roster_Dev.ApiClient
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", employeeTokenData);
         }
 
-        //사원 전체 조회(List<Employee> 를 List<EmployeeWorkout> 으로 변경)
-        //public async Task<List<EmployeeWorkout>> GetEmployeeWorkoutsAsync(long factoryId)
-        //{
-        //    // GET http://test.smartqapis.com:5000/api/Employee?factoryId=1
-        //    string url = "api/Employee?factoryId=1";
-        //    var response = await _httpClient.GetAsync(url);
-        //    response.EnsureSuccessStatusCode();
-
-        //    // 반환 타입 T를 ApiResponse<List<EmployeeWorkout>>으로 지정해야 합니다.
-        //    var apiResponse = await DeserializeApiResponseData<ApiResponse<List<EmployeeWorkout>>>(response.Content);
-
-        //    // 이제 apiResponse는 Data와 Error 속성을 가진 객체이므로 접근이 가능합니다.
-        //    if (apiResponse == null || apiResponse.Data == null)
-        //    {
-        //        // Error 필드에 접근할 때 Null-conditional Operator '?'를 붙여야 NullReferenceException을 피할 수 있습니다.
-        //        throw new Exception($"사원 데이터 가져오기 실패: {apiResponse?.Error ?? "응답 구조 오류"}");
-        //    }
-        //    return apiResponse.Data;
-        //}
-
+        /// <summary>
+        /// 사원 전체 조회
+        /// </summary>
+        /// <param name="factoryId"></param>
+        /// <returns></returns>
         public async Task<List<EmployeeWorkout>> GetEmployeeWorkoutsAsync(long factoryId)
         {
             string url = $"api/Employee?factoryId=1";
@@ -156,7 +141,11 @@ namespace Roster_Dev.ApiClient
             return await DeserializeApiResponseData<List<EmployeeWorkout>>(response.Content);
         }
 
-        // 사원 추가
+        /// <summary>
+        /// 사원 추가
+        /// </summary>
+        /// <param name="newEmployee"></param>
+        /// <returns></returns>
         public async Task<EmployeeWorkout> AddEmployeeWorkoutAsync(EmployeeWorkout newEmployee)
         {
             string url = "api/Employee";
@@ -197,10 +186,14 @@ namespace Roster_Dev.ApiClient
             //return await DeserializeApiResponseData<EmployeeWorkout>(response.Content);
         }
 
-        // 사원 수정
+        /// <summary>
+        /// 사원 수정
+        /// </summary>
+        /// <param name="updatedEmployee"></param>
+        /// <returns></returns>
         public async Task UpdateEmployeeWorkoutAsync(EmployeeWorkout updatedEmployee)
         {
-            string url = $"api/employee/{updatedEmployee.Id}";
+            string url = $"api/Employee/{updatedEmployee.Id}";
             //var response = await _httpClient.PutAsync(url, SerializeToJsonContent(updatedEmployee));
 
             var updateBody = new
@@ -228,7 +221,11 @@ namespace Roster_Dev.ApiClient
             response.EnsureSuccessStatusCode();
         }
 
-        // 사원 삭제
+        /// <summary>
+        /// 사원 삭제
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         public async Task DeleteEmployeeWorkoutAsync(long employeeId)
         {
             string url = $"api/Employee/{employeeId}";
@@ -259,25 +256,41 @@ namespace Roster_Dev.ApiClient
             }
         }
 
-        // 부서 전체 조회
+        /// <summary>
+        /// 부서 전체 조회
+        /// </summary>
+        /// <param name="factoryId"></param>
+        /// <returns></returns>
         public async Task<List<DepartmentWorkout>> GetDepartmentWorkoutsAsync(long factoryId)
         {
+            //string url = $"api/Department?factoryId=1";
+            //var response = await _httpClient.GetAsync(url);
+            //response.EnsureSuccessStatusCode();
+
+            //return await DeserializeApiResponseData<List<DepartmentWorkout>>(response.Content);
             string url = $"api/Department?factoryId=1";
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            return await DeserializeApiResponseData<List<DepartmentWorkout>>(response.Content);
+            var list = await DeserializeApiResponseData<List<DepartmentWorkout>>(response.Content);
+            return list ?? new List<DepartmentWorkout>();
         }
 
-        // 부서 추가
+        /// <summary>
+        /// 부서 추가
+        /// </summary>
+        /// <param name="newDepartment"></param>
+        /// <returns></returns>
         public async Task<DepartmentWorkout> AddDepartmentWorkoutAsync(DepartmentWorkout newDepartment)
         {
-            string url = $"api/Department/";
+            string url = $"api/Department";
             var createBody = new
             {
                 Name = newDepartment.Name,
                 Code = newDepartment.Code,
-                Memo = newDepartment.Memo
+                Memo = newDepartment.Memo,
+                UpperDepartmentId = newDepartment.UpperDepartmentId,
+                FactoryId = newDepartment.FactoryId
             };
             var json = JsonConvert.SerializeObject(createBody, Formatting.Indented);
             Console.WriteLine("POST Body JSON (filtered):\n" + json);
@@ -300,28 +313,87 @@ namespace Roster_Dev.ApiClient
 
         }
 
+        /// <summary>
+        /// 부서 수정
+        /// </summary>
+        /// <param name="updatedDepartment"></param>
+        /// <returns></returns>
         public async Task UpdateDepartmentWorkoutAsync(DepartmentWorkout updatedDepartment)
         {
             // URL에 부서코드를 포함하여 특정 부서를 지정
-            string url = $"api/departments/{updatedDepartment.Id}";
-            var response = await _httpClient.PutAsync(url, SerializeToJsonContent(updatedDepartment));
+            string url = $"api/Department/{updatedDepartment.Id}";
+            var updateBody = new
+            {
+                Name = updatedDepartment.Name,
+                Code = updatedDepartment.Code,
+                Memo = updatedDepartment.Memo,
+                UpperDepartmentId = updatedDepartment.UpperDepartmentId,
+                FactoryId = updatedDepartment.FactoryId
+            };
+
+            // JSON 직렬화
+            var json = JsonConvert.SerializeObject(updateBody, Formatting.Indented);
+            Console.WriteLine("PUT Body JSON (filtered):\n" + json);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync(url, content);
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Response Status: " + response.StatusCode);
+            Console.WriteLine("Response Body: " + responseBody);
+
             response.EnsureSuccessStatusCode();
         }
 
+        /// <summary>
+        /// 부서 삭제
+        /// </summary>
+        /// <param name="departmentId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task DeleteDepartmentWorkoutAsync(long departmentId)
         {
-            string url = $"api/departments/{departmentId}";
+            string url = $"api/Department/{departmentId}";
             var response = await _httpClient.DeleteAsync(url);
-            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            Console.WriteLine("Response Status: " + response.StatusCode);
+            Console.WriteLine("Response Body: " + responseBody);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    // 서버 응답이 JSON 형태라면, 에러 메시지 추출 시도
+                    var errorResponse = JsonConvert.DeserializeObject<ApiResponse<object>>(responseBody);
+                    if (errorResponse != null && !string.IsNullOrEmpty(errorResponse.Error))
+                    {
+                        throw new Exception($"부서 삭제 실패: {errorResponse.Error}");
+                    }
+                }
+                catch (JsonException)
+                {
+                    // JSON 구조가 아닐 경우 그냥 본문 그대로 출력
+                    throw new Exception($"부서 삭제 실패: {responseBody}");
+                }
+
+                // 마지막으로 HTTP 상태 코드 기반 예외 처리
+                response.EnsureSuccessStatusCode();
+            }
         }
 
         // 상위 부서 전체 조회
         public async Task<List<UpperDepartmentWorkout>> GetUpperDepartmentWorkoutsAsync(long factoryId)
         {
-            string url = $"api/department?factoryId=1";
+            string url = $"api/upperDepartment?factoryId=1";
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
-            return await DeserializeApiResponseData<List<UpperDepartmentWorkout>>(response.Content);
+
+            var list = await DeserializeApiResponseData<List<UpperDepartmentWorkout>>(response.Content);
+
+            return list?.GroupBy(x => x.UpperDepartmentId)
+                        .Select(g => g.First())
+                        .ToList() ?? new List<UpperDepartmentWorkout>();
         }
 
         public async Task<UpperDepartmentWorkout> AddUpperDepartmentWorkoutAsync(UpperDepartmentWorkout newUpper)

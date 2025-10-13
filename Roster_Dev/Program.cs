@@ -51,7 +51,7 @@ namespace Roster_Dev
                         await ApiRepository.ApiClient.GetAndSetEmployeeTokenAsync("admin", "1111");
 
                         // 토큰 및 데이터 획득 성공 시, 메인 폼 실행
-                        Application.Run(new Main());
+                        Application.Run(new Main(1));
                     }
                     catch (Exception ex)
                     {

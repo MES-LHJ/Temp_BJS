@@ -20,6 +20,7 @@ namespace Roster_Dev.Dept
         {
             InitializeComponent();
             AddEvent();
+            this.factoryId = factoryId;
         }
         private void AddEvent()
         {
@@ -41,13 +42,10 @@ namespace Roster_Dev.Dept
 
             try
             {
-                // 1. ApiRepository를 사용하여 API에서 사원 목록을 비동기로 가져옵니다.
-                // GetEmployeesAsync는 이미 List<EmployeeWorkout>을 반환하도록 ApiRepository에 정의되어 있습니다.
                 var upperDeptList = await ApiRepository.GetUpperDepartmentAsync(factoryId);
 
-                // 2. 가져온 데이터를 GridControl (empGrid)에 바인딩합니다.
-                // DevExpress GridControl에 List<T>를 바인딩합니다.
                 upperDeptGrid.DataSource = upperDeptList;
+                upperDeptGrid.Refresh();
             }
             catch (Exception ex)
             {

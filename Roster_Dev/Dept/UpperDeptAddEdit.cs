@@ -61,7 +61,7 @@ namespace Roster_Dev.Dept
                 memo.Text = upperDpt.Memo;
             }
         }
-        private void Save_Click(object sender, EventArgs e)
+        private async void Save_Click(object sender, EventArgs e)
         {
             if (!UtilClass.Util.Instance.NullCheck(upperDeptCode, upperDeptName))
                 return;
@@ -77,12 +77,12 @@ namespace Roster_Dev.Dept
 
                 if (isEditMode)
                 {
-                    ApiRepository.UpdateUpperDepartmentAsync(upperDept);
+                    await ApiRepository.UpdateUpperDepartmentAsync(upperDept);
                     MessageBox.Show("수정 되었습니다");
                 }
                 else
                 {
-                    ApiRepository.InsertUpperDepartmentAsync(upperDept);
+                    await ApiRepository.InsertUpperDepartmentAsync(upperDept);
                     MessageBox.Show("추가 되었습니다");
                 }
                 this.DialogResult = DialogResult.OK;

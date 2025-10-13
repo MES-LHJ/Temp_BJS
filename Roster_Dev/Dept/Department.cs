@@ -18,6 +18,7 @@ namespace Roster_Dev.Dpt
     public partial class Department : Form
     {
         private List<DepartmentWorkout> allDepartments = new List<DepartmentWorkout>();
+        private List<UpperDepartmentDto> upperDepartments = new List<UpperDepartmentDto>();
         private readonly long _factoryId;
 
         public Department(long factoryId)
@@ -44,6 +45,7 @@ namespace Roster_Dev.Dpt
             }
         }
 
+
         public async Task RefreshGrid()
         {
             try
@@ -64,21 +66,15 @@ namespace Roster_Dev.Dpt
         private void UpperGridView_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
         {
             var view = sender as GridView;
-            if (view != null || !allDepartments.Any()) return;
 
-            var selectedUpperDept = view.GetFocusedRow() as UpperDepartmentWorkout;
+            if (view == null || allDepartments == null || allDepartments.Count == 0) return;
 
-            var filteredDepartments = new List<DepartmentWorkout>();
+            var selected = view.GetFocusedRow() as UpperDepartmentDto;
+            var filtered = (selected == null)
+                ? allDepartments
+                : allDepartments.Where(d => d.FactoryId == selected.Id).ToList();
 
-            if (selectedUpperDept != null)
-            {
-                long parentId = selectedUpperDept.Id;
-
-                filteredDepartments = allDepartments
-                        .Where(d => d.UpperDepartmentId.HasValue && d.UpperDepartmentId.Value == parentId)
-                        .ToList();
-            }
-            deptGrid.DataSource = filteredDepartments;
+            deptGrid.DataSource = filtered;
             (deptGrid.MainView as GridView)?.RefreshData();
         }
 

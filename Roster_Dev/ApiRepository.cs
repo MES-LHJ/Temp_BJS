@@ -1,11 +1,13 @@
-﻿using Roster_Dev.Model;
-using Roster_Dev.ApiClient;
+﻿using Roster_Dev.ApiClient;
+using Roster_Dev.Model;
+using Roster_Dev.UtilClass;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Roster_Dev
 {
@@ -26,26 +28,51 @@ namespace Roster_Dev
         {
             // ApiClient의 부서 조회 메서드를 호출
             return await ApiClient.GetDepartmentWorkoutsAsync(factoryId);
-            //try
-            //{
-            //    // factoryId를 ApiClient로 전달하도록 수정되었는지 확인
-            //    return await ApiClient.GetDepartmentWorkoutsAsync(factoryId);
-            //}
-            //catch (Exception ex)
-            //{
-            //    // ... (에러 처리)
-            //    Console.WriteLine($"부서 조회 에러: {ex.Message}");
-            //    return new List<DepartmentWorkout>();
-            //}
         }
 
         public static async Task<List<UpperDepartmentWorkout>> GetUpperDepartmentAsync(long factoryId)
         {
-            return await ApiClient.GetUpperDepartmentWorkoutsAsync(factoryId);
+            //return await ApiClient.GetUpperDepartmentWorkoutsAsync(factoryId);
+            var departments = await ApiClient.GetDepartmentWorkoutsAsync(factoryId);
+
+            var factories = departments
+                .Where(d => d.FactoryId > 0)
+                .GroupBy(d => d.FactoryId)
+                .Select(g =>
+                {
+                    var any = g.First();
+                    return new UpperDepartmentWorkout
+                    {
+                        Id = g.Key,
+                        FactoryId = g.Key,
+                        FactoryCode = any.FactoryCode,
+                        FactoryName = any.FactoryName,
+                    };
+                })
+                .ToList();
+
+            return factories;
         }
 
         public static async Task AddEmployeeAsync(EmployeeWorkout emp)
         {
+
+            // 공장 전체 사원 목록 가져오기
+            var existingEmployees = await ApiClient.GetEmployeeWorkoutsAsync(emp.FactoryId);
+
+            // 중복 여부 확인
+            bool isDuplicateCode = existingEmployees.Any(e => e.Code == emp.Code);
+            bool isDuplicateLogin = existingEmployees.Any(e => e.LoginId == emp.LoginId);
+
+            if (isDuplicateCode || isDuplicateLogin)
+            {
+                string dupMsg = isDuplicateCode ? "이미 존재하는 사원코드입니다."
+                    : "이미 존재하는 로그인ID입니다.";
+
+                MessageBox.Show(dupMsg, "중복 오류", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; // 중복이면 저장 중단
+            }
+
             await ApiClient.AddEmployeeWorkoutAsync(emp);
         }
 

@@ -16,9 +16,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.Json;
 using Point = System.Drawing.Point;
 
 namespace Roster_Dev
@@ -27,11 +28,12 @@ namespace Roster_Dev
     {
         private long factoryId;
 
-        public Main()
+        public Main(long factoryId)
         {
             InitializeComponent();
             AddEvent();
             empGrid.ToolTipController = photoToolTip;
+            this.factoryId = factoryId;
         }
 
         public void AddEvent()
@@ -123,10 +125,22 @@ namespace Roster_Dev
 
         private void MultiAdd_Click(object sender, EventArgs e)
         {
-            using (var Form = new MultiAdd())
+            //using (var Form = new MultiAdd(factoryId))
+            //{
+            //    if (Form.ShowDialog() == DialogResult.OK)
+            //    {
+            //        await RefreshGrid();
+            //    }
+            //}
+            long factoryId = 1;
+
+            var thread = new Thread(() =>
             {
-                Form.ShowDialog();
-            }
+                Application.Run(new MultiAdd(factoryId));
+            });
+            thread.SetApartmentState(ApartmentState.STA); // ★ 반드시 STA
+            thread.IsBackground = true;
+            thread.Start();
         }
 
         private async void Edit_Click(object sender, EventArgs e)

@@ -44,8 +44,8 @@
             this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
             this.upperDeptGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.factoryCode = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.factoryName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.FactroyCode = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.FactoryName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.deptGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.deptCode = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -316,30 +316,30 @@
             // gridView1
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.factoryCode,
-            this.factoryName});
+            this.FactroyCode,
+            this.FactoryName});
             this.gridView1.GridControl = this.upperDeptGrid;
             this.gridView1.Name = "gridView1";
             // 
-            // factoryCode
+            // FactroyCode
             // 
-            this.factoryCode.AppearanceHeader.Options.UseTextOptions = true;
-            this.factoryCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.factoryCode.Caption = "상위부서";
-            this.factoryCode.FieldName = "FactoryCode";
-            this.factoryCode.Name = "factoryCode";
-            this.factoryCode.Visible = true;
-            this.factoryCode.VisibleIndex = 0;
+            this.FactroyCode.AppearanceHeader.Options.UseTextOptions = true;
+            this.FactroyCode.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.FactroyCode.Caption = "상위부서";
+            this.FactroyCode.FieldName = "FactoryCode";
+            this.FactroyCode.Name = "FactroyCode";
+            this.FactroyCode.Visible = true;
+            this.FactroyCode.VisibleIndex = 0;
             // 
-            // factoryName
+            // FactoryName
             // 
-            this.factoryName.AppearanceHeader.Options.UseTextOptions = true;
-            this.factoryName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.factoryName.Caption = "상위부서명";
-            this.factoryName.FieldName = "FactoryName";
-            this.factoryName.Name = "factoryName";
-            this.factoryName.Visible = true;
-            this.factoryName.VisibleIndex = 1;
+            this.FactoryName.AppearanceHeader.Options.UseTextOptions = true;
+            this.FactoryName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.FactoryName.Caption = "상위부서명";
+            this.FactoryName.FieldName = "FactoryName";
+            this.FactoryName.Name = "FactoryName";
+            this.FactoryName.Visible = true;
+            this.FactoryName.VisibleIndex = 1;
             // 
             // deptGrid
             // 
@@ -439,12 +439,12 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraGrid.GridControl deptGrid;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
-        private DevExpress.XtraGrid.Columns.GridColumn factoryName;
+        private DevExpress.XtraGrid.Columns.GridColumn FactoryName;
         private DevExpress.XtraGrid.Columns.GridColumn deptCode;
         private DevExpress.XtraGrid.Columns.GridColumn deptName;
         private DevExpress.XtraGrid.Columns.GridColumn deptMemo;
         private DevExpress.XtraEditors.LabelControl deptLabel;
         private DevExpress.XtraEditors.PictureEdit imageEdit1;
-        private DevExpress.XtraGrid.Columns.GridColumn factoryCode;
+        private DevExpress.XtraGrid.Columns.GridColumn FactroyCode;
     }
 }
