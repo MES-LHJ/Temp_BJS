@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -49,9 +50,13 @@ namespace Chat_Client
             {
                 //txt_client_chat.AppendText("서버와 연결 시도중...\r\n");
                 //bool success = await ConnectAsync(ipAddress.Text, int.Parse(portAddress.Text));
+                sendButton.Enabled = false;
                 AppendChat("서버와 연결이 끊겼습니다. 연결 시도중...\r\n");
+                await Task.Delay(3000);
+                sendButton.Enabled = true;
                 await ConnectAsync();
-                if (!Connected) return;
+                //if (!Connected)
+                return;
 
                 //if (!success)
                 //{
@@ -87,35 +92,62 @@ namespace Chat_Client
 
         private async void ConnectBtn_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(ipAddress.Text) && int.TryParse(portAddress.Text, out int port))
+            try
             {
-                connectBtn.Enabled = false;
-                await ConnectAsync();
-                await Task.Delay(3000); // 3초 대기
+
+                if (!string.IsNullOrEmpty(ipAddress.Text) && int.TryParse(portAddress.Text, out int port))
+                {
+                    connectBtn.Enabled = false;
+                    await ConnectAsync();
+                    await Task.Delay(3000); // 3초 대기
+                    connectBtn.Enabled = true;
+                }
+
+                //bool success = await ConnectAsync(ipAddress.Text, int.Parse(portAddress.Text));
+
+                //if (success)
+                //{
+                //    ipAddress.Enabled = false;
+                //    portAddress.Enabled = false;
+                //    connectBtn.Enabled = false;
+                //}
+                else
+                {
+                    ipAddress.Enabled = false;
+                    portAddress.Enabled = false;
+                    connectBtn.Enabled = false;
+                    await ConnectAsync();
+                    //await Task.Delay(3000); // 3초 대기
+                    //connectBtn.Enabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                AppendChat($"다시 접속 시도해주세요.오류: {ex.Message}\r\n");
                 connectBtn.Enabled = true;
             }
-            else
-            {
-                connectBtn.Enabled = false;
-                AppendChat("유효한 IP 주소와 PORT번호를 입력하세요.\r\n");
-                await Task.Delay(3000);
-                connectBtn.Enabled = true;
-            }
+
         }
 
         private async Task ConnectAsync()
         {
-            string ip = ipAddress.Text;
-            if (string.IsNullOrEmpty(ip))
-            {
-                AppendChat("IP 주소를 입력하세요.\r\n");
-                return;
-            }
+            //string ip = ipAddress.Text;
+            //if (string.IsNullOrEmpty(ip))
+            //{
+            //    AppendChat("IP 주소를 입력하세요.\r\n");
+            //    return;
+            //}
+            var ip = string.IsNullOrWhiteSpace(ipAddress.Text) ? "127.0.0.1" : ipAddress.Text;
+            if (!IPAddress.TryParse(ip, out var addr)) return;
+
             if (!int.TryParse(portAddress.Text, out int port))
             {
                 AppendChat("유효한 PORT번호를 입력하세요.\r\n");
                 return;
             }
+
+            ipAddress.Text = addr.ToString();
+
             try
             {
                 Reader?.Dispose();
@@ -170,9 +202,19 @@ namespace Chat_Client
             Connected = false;
             cts?.Cancel();
 
-            if (Reader != null) Reader.Close();
-            if (Writer != null) Writer.Close();
-            if (Chat_Client != null) Chat_Client.Close();
+            try
+            {
+                Reader?.Close();
+                Writer?.Close();
+                Chat_Client?.Close();
+            }
+            catch (Exception ex)
+            {
+                AppendChat(Text + "오류: " + ex.Message + "\r\n");
+            }
+            //if (Reader != null) Reader.Close();
+            //if (Writer != null) Writer.Close();
+            //if (Chat_Client != null) Chat_Client.Close();
 
             AppendChat("클라이언트 종료\r\n");
         }
@@ -190,6 +232,9 @@ namespace Chat_Client
                     {
                         txt_client_chat.AppendText("서버가 종료되었습니다.\r\n");
                         Connected = false;
+                        ipAddress.Enabled = true;
+                        portAddress.Enabled = true;
+                        connectBtn.Enabled = true;
                         break;
                     }
                     AppendChat("Server: " + ReceiveData + "\r\n");

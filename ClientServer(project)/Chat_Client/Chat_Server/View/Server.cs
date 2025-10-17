@@ -143,8 +143,11 @@ namespace Chat_Server
                 }
 
                 //var addr = IPAddress.Parse(ipAddress.Text); // IP 주소 파싱
-                var ipText = string.IsNullOrWhiteSpace(ipAddress.Text) ? "127.0.0.1" : ipAddress.Text;
+
+                // 기본값 설정
+                var ipText = string.IsNullOrWhiteSpace(ipAddress.Text) ? "127.0.0.1" : ipAddress.Text; 
                 if (!IPAddress.TryParse(ipText, out var addr)) return;
+
                 Chat_Server = new TcpListener(addr, port); //TcpListener 객체 생성
                 Chat_Server.Start(); //서버 시작
 
