@@ -39,12 +39,25 @@ namespace Chat_Client
         private void AddEvent()
         {
             this.Load += Client_Load;
-            this.sendButton.Click += sendButton_Click;
+            this.sendButton.Click += SendButton_Click;
             this.FormClosing += Chat_Client_FormClosing;
             this.connectBtn.Click += ConnectBtn_Click;
         }
 
-        private async void sendButton_Click(object sender, EventArgs e)
+        private void AppendChat(string message)
+        {
+            if (txt_client_chat.InvokeRequired)
+            {
+                var d = new AddTextDelegate(AppendChat); // 델리게이트 생성
+                txt_client_chat.Invoke(new Action(() => AppendChat(message))); // UI 스레드에서 실행
+            }
+            else
+            {
+                txt_client_chat.AppendText(message);
+            }
+        }
+
+        private async void SendButton_Click(object sender, EventArgs e)
         {
             if (!Connected)
             {
@@ -55,7 +68,12 @@ namespace Chat_Client
                 await Task.Delay(3000);
                 sendButton.Enabled = true;
                 await ConnectAsync();
-                //if (!Connected)
+                if (Connected)
+                {
+                    ipAddress.Enabled = false;
+                    portAddress.Enabled = false;
+                    connectBtn.Enabled = false;
+                }
                 return;
 
                 //if (!success)
@@ -94,12 +112,11 @@ namespace Chat_Client
         {
             try
             {
-
                 if (!string.IsNullOrEmpty(ipAddress.Text) && int.TryParse(portAddress.Text, out int port))
                 {
                     connectBtn.Enabled = false;
                     await ConnectAsync();
-                    await Task.Delay(3000); // 3초 대기
+                    //await Task.Delay(3000); // 3초 대기
                     connectBtn.Enabled = true;
                 }
 
@@ -119,6 +136,13 @@ namespace Chat_Client
                     await ConnectAsync();
                     //await Task.Delay(3000); // 3초 대기
                     //connectBtn.Enabled = true;
+                }
+
+                if (Connected)
+                {
+                    ipAddress.Enabled = false;
+                    portAddress.Enabled = false;
+                    connectBtn.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -174,7 +198,7 @@ namespace Chat_Client
             }
             catch (Exception ex)
             {
-                txt_client_chat.AppendText($"서버 연결 실패: {ex.Message}\r\n");
+                AppendChat($"서버 연결 실패: {ex.Message}\r\n");
                 Connected = false;
             }
         }
@@ -184,18 +208,7 @@ namespace Chat_Client
             AppendChat("클라이언트 준비 완료.\r\n");
         }
 
-        private void AppendChat(string message)
-        {
-            if (txt_client_chat.InvokeRequired)
-            {
-                var d = new AddTextDelegate(AppendChat);
-                txt_client_chat.Invoke(new Action(() => AppendChat(message)));
-            }
-            else
-            {
-                txt_client_chat.AppendText(message);
-            }
-        }
+
 
         private void Chat_Client_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -204,34 +217,57 @@ namespace Chat_Client
 
             try
             {
-                Reader?.Close();
-                Writer?.Close();
+                // 서버가 이미 닫혔을 수도 있기 때문에 Write 시도 전에 체크
+                if (Chat_Client?.Connected == true && Writer != null)
+                {
+                    try
+                    {
+                        if (Connected && Writer != null)
+                        {
+                            Writer.WriteLine("CLIENT_EXIT");
+                            Writer.Flush();
+                        }
+                    }
+                    catch (IOException) { } //서버닫혔으면 종료 진행
+                    catch (ObjectDisposedException) { } //닫힌 스트림 무시
+                }
+                Writer?.Dispose();
+                Reader?.Dispose();
+                stream?.Dispose();
                 Chat_Client?.Close();
             }
+
             catch (Exception ex)
             {
-                AppendChat(Text + "오류: " + ex.Message + "\r\n");
+                AppendChat($"클라이언트 종료 중 오류: {ex.Message}\r\n");
             }
+
+            AppendChat("클라이언트 종료\r\n");
             //if (Reader != null) Reader.Close();
             //if (Writer != null) Writer.Close();
             //if (Chat_Client != null) Chat_Client.Close();
-
-            AppendChat("클라이언트 종료\r\n");
         }
-
         private async void Receive(CancellationToken token)
         {
-            AddTextDelegate AddText = new AddTextDelegate(txt_client_chat.AppendText);
+            //AddTextDelegate AddText = new AddTextDelegate(txt_client_chat.AppendText);
 
             try
             {
                 while (!token.IsCancellationRequested && Connected)
                 {
                     string ReceiveData = await Reader.ReadLineAsync();
-                    if (ReceiveData == null)
+                    //if (ReceiveData == null) break;
+                    Console.WriteLine("혹시 여기왔다가 가나??");
+
+                    if (ReceiveData == "SERVER_RESET" || ReceiveData == null)
                     {
-                        txt_client_chat.AppendText("서버가 종료되었습니다.\r\n");
+                        AppendChat("서버가 종료되었습니다.\r\n");
                         Connected = false;
+                        Writer?.Dispose();
+                        Reader?.Dispose();
+                        stream?.Dispose();
+                        Chat_Client?.Close();
+
                         ipAddress.Enabled = true;
                         portAddress.Enabled = true;
                         connectBtn.Enabled = true;
@@ -242,7 +278,7 @@ namespace Chat_Client
             }
             catch (IOException)
             {
-                txt_client_chat.AppendText("서버 연결 끊김\r\n");
+                AppendChat("서버 연결 끊김\r\n");
                 Connected = false;
             }
             catch (ObjectDisposedException)

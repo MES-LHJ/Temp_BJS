@@ -61,12 +61,13 @@ namespace Chat_Server
 
         private void Server_Load(object sender, EventArgs e)
         {
+            resetBtn.Enabled = false;
+
             //Thread ListenThread = new Thread(new ThreadStart(Listen));
             //ListenThread.Start();
 
             //ipAddress.DataBindings.Add("Text", serverAddr, "IP");
             //portAddress.DataBindings.Add("Text", serverAddr, "Port");
-            resetBtn.Enabled = false;
 
             //cts = new CancellationTokenSource();
             //Receive(cts.Token);
@@ -80,6 +81,16 @@ namespace Chat_Server
             portAddress.Enabled = false;
             resetBtn.Enabled = true;
             await StartServer();
+
+            if (string.IsNullOrEmpty(ipAddress.Text) && string.IsNullOrEmpty(portAddress.Text))
+            {
+                AppendChat("port번호와 IP주소를 입력하세요.\r\n");
+                ipAddress.Enabled = true;               //ipAddress 활성화
+                portAddress.Enabled = true;             //portAddress 활성화
+                serverStartBtn.Enabled = true;          //serverStartBtn 활성화
+                resetBtn.Enabled = false;               //resetBtn 비활성화
+                return;
+            }
         }
 
         private async void ServerResetBtn_Click(object sender, EventArgs e)
@@ -94,30 +105,42 @@ namespace Chat_Server
             await Task.Delay(1500);                  //버튼 활성화 대기
             serverStartBtn.Enabled = true;          //serverStartBtn 활성화
 
+            if(Connected && Writer != null)
+            {
+                await Writer.WriteLineAsync("SERVER_RESET");
+                await Writer.FlushAsync();
+            }
+
+            Connected = false;
+            cts?.Cancel();  //수신 루프 취소
+
+            await Task.Delay(500); // 취소 대기 시간
+
+            //Chat_Client?.Close();
+            //stream?.Dispose();
+            //Writer?.Dispose();
+            //Reader?.Dispose();
+
             try
             {
-                Connected = false;
-                cts?.Cancel();
-
-                await Task.Delay(1000); // 취소 토큰이 처리될 시간
-
-                Writer?.Dispose();
-                Reader?.Dispose();
-                stream?.Dispose();
-                Chat_Client?.Close();
-                Chat_Server?.Stop();
-                Chat_Server = null;
-                if (Chat_Server != null)
-                {
-                    AppendChat("이미 실행 중인 서버\r\n");
-                }
+                Chat_Server?.Stop();    // TcpListener 중지
             }
+            catch(ObjectDisposedException) { } // 이미 해제된 객체 예외 무시
             catch (Exception ex)
             {
-                AppendChat(Text + "오류: " + ex.Message + "\r\n");
+                AppendChat($"서버 초기화 오류: {ex.Message}\r\n");
             }
+
+            //Chat_Server = null;
+            //if (Chat_Server != null)
+            //{
+            //    AppendChat("이미 실행 중인 서버\r\n");
+            //}
+
+            Console.WriteLine("여기가 종착??");
+
             await Task.Delay(300);
-            AppendChat("서버 초기화\r\n");
+            AppendChat("서버 초기화 완료\r\n");
         }
 
         private async Task StartServer()
@@ -145,7 +168,7 @@ namespace Chat_Server
                 //var addr = IPAddress.Parse(ipAddress.Text); // IP 주소 파싱
 
                 // 기본값 설정
-                var ipText = string.IsNullOrWhiteSpace(ipAddress.Text) ? "127.0.0.1" : ipAddress.Text; 
+                var ipText = string.IsNullOrWhiteSpace(ipAddress.Text) ? "127.0.0.1" : ipAddress.Text;
                 if (!IPAddress.TryParse(ipText, out var addr)) return;
 
                 Chat_Server = new TcpListener(addr, port); //TcpListener 객체 생성
@@ -190,15 +213,21 @@ namespace Chat_Server
             {
                 while (!token.IsCancellationRequested && Connected)
                 {
-                    string message = await Reader.ReadLineAsync();
-                    if (string.IsNullOrEmpty(message))
+                    string ReceiveData = await Reader.ReadLineAsync();
+                    //if (ReceiveData == null) break; 
+                    Console.WriteLine("여기도 거치나??");
+                    if (ReceiveData == "CLIENT_EXIT" || ReceiveData == null) //스트림이 닫히면 루프 종료
                     {
                         AppendChat("클라이언트가 종료했습니다.\r\n");
                         Connected = false;
                         break; //클라이언트가 연결을 끊으면 루프 종료
                     }
-                    AppendChat("Client: " + message + Environment.NewLine);
+                    AppendChat("Client: " + ReceiveData + "\r\n");
                 }
+                Writer?.Dispose();
+                Reader?.Dispose();
+                stream?.Dispose();
+                Chat_Client?.Close();
             }
             catch (IOException)
             {
@@ -267,10 +296,12 @@ namespace Chat_Server
                 Chat_Client?.Close();
                 Chat_Server?.Stop();
             }
-            catch (Exception ex)
-            {
-                AppendChat(Text + "오류: " + ex.Message + "\r\n");
-            }
+            //catch (Exception ex)
+            //{
+            //    AppendChat(Text + "오류: " + ex.Message + "\r\n");
+            //}
+            catch (IOException) { }
+            catch (ObjectDisposedException) { }
 
             AppendChat("서버 종료\r\n");
             //if (ReceiveThread != null && ReceiveThread.IsAlive)
