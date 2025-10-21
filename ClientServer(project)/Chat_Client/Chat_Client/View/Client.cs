@@ -257,7 +257,7 @@ namespace Chat_Client
                 {
                     string ReceiveData = await Reader.ReadLineAsync();
                     //if (ReceiveData == null) break;
-                    Console.WriteLine("혹시 여기왔다가 가나??");
+                    Console.WriteLine("여기왔다가??");
 
                     if (ReceiveData == "SERVER_RESET" || ReceiveData == null)
                     {

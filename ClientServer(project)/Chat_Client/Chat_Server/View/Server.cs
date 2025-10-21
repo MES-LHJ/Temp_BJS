@@ -105,7 +105,7 @@ namespace Chat_Server
             await Task.Delay(1500);                  //버튼 활성화 대기
             serverStartBtn.Enabled = true;          //serverStartBtn 활성화
 
-            if(Connected && Writer != null)
+            if (Connected && Writer != null)
             {
                 await Writer.WriteLineAsync("SERVER_RESET");
                 await Writer.FlushAsync();
@@ -116,16 +116,16 @@ namespace Chat_Server
 
             await Task.Delay(500); // 취소 대기 시간
 
-            //Chat_Client?.Close();
-            //stream?.Dispose();
-            //Writer?.Dispose();
-            //Reader?.Dispose();
+            Chat_Client?.Close();
+            stream?.Dispose();
+            Writer?.Dispose();
+            Reader?.Dispose();
 
             try
             {
                 Chat_Server?.Stop();    // TcpListener 중지
             }
-            catch(ObjectDisposedException) { } // 이미 해제된 객체 예외 무시
+            catch (ObjectDisposedException) { } // 이미 해제된 객체 예외 무시
             catch (Exception ex)
             {
                 AppendChat($"서버 초기화 오류: {ex.Message}\r\n");
@@ -137,7 +137,7 @@ namespace Chat_Server
             //    AppendChat("이미 실행 중인 서버\r\n");
             //}
 
-            Console.WriteLine("여기가 종착??");
+            Console.WriteLine("여기가 끝??");
 
             await Task.Delay(300);
             AppendChat("서버 초기화 완료\r\n");
@@ -167,7 +167,7 @@ namespace Chat_Server
 
                 //var addr = IPAddress.Parse(ipAddress.Text); // IP 주소 파싱
 
-                // 기본값 설정
+                // 기본ip주소값 설정
                 var ipText = string.IsNullOrWhiteSpace(ipAddress.Text) ? "127.0.0.1" : ipAddress.Text;
                 if (!IPAddress.TryParse(ipText, out var addr)) return;
 
@@ -214,9 +214,14 @@ namespace Chat_Server
                 while (!token.IsCancellationRequested && Connected)
                 {
                     string ReceiveData = await Reader.ReadLineAsync();
-                    //if (ReceiveData == null) break; 
-                    Console.WriteLine("여기도 거치나??");
-                    if (ReceiveData == "CLIENT_EXIT" || ReceiveData == null) //스트림이 닫히면 루프 종료
+                    Console.WriteLine("여기 다음??");
+                    if (ReceiveData == null)
+                    {
+                        AppendChat("리셋중...\r\n");
+                        Connected = false;
+                        break;
+                    }
+                    if (ReceiveData == "CLIENT_EXIT") //스트림이 닫히면 루프 종료
                     {
                         AppendChat("클라이언트가 종료했습니다.\r\n");
                         Connected = false;
