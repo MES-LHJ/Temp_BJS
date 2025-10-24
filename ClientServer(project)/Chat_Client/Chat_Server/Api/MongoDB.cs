@@ -1,0 +1,35 @@
+﻿using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Chat_Server.Api
+{
+    internal class MongoDB
+    {
+        private static readonly Lazy<MongoDB> _instance =
+            new Lazy<MongoDB>(() => new MongoDB());
+
+        private readonly IMongoDatabase _database;
+
+        public static MongoDB Instance => _instance.Value;
+
+        private MongoDB()
+        {
+            var client = new MongoClient("mongodb+srv://wnstjd637:45wnstjd%21%21@cluster0.lr0j6ui.mongodb.net/?appName=Cluster0");
+
+            _database = client.GetDatabase("chat_auth");
+        }
+
+        public IMongoCollection<Model.UserModel> Users =>
+            _database.GetCollection<Model.UserModel>("users");
+
+        public Task<Model.UserModel> GetUserByAsync(string userId) =>
+            Users.Find(u => u.UserId == userId).FirstOrDefaultAsync();
+
+        public Task<Model.UserModel> GetUserByNickNameAsync(string nickName) =>
+            Users.Find(u => u.NickName == nickName).FirstOrDefaultAsync();
+    }
+}

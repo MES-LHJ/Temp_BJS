@@ -1,4 +1,5 @@
-﻿using DevExpress.Data.Filtering.Helpers;
+﻿using Chat_Client.Model;
+using DevExpress.Data.Filtering.Helpers;
 using DevExpress.Utils.DPI;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Chat_Client
 {
     public partial class Client : Form
     {
+        private readonly UserModel _user;
+
         TcpClient Chat_Client;
 
         StreamReader Reader;
@@ -36,6 +39,11 @@ namespace Chat_Client
             AddEvent();
         }
 
+        public Client(UserModel user) : this()
+        {
+            _user = user;
+        }
+
         private void AddEvent()
         {
             this.Load += Client_Load;
@@ -44,11 +52,24 @@ namespace Chat_Client
             this.connectBtn.Click += ConnectBtn_Click;
         }
 
+        private void Client_Load(object sender, EventArgs e)
+        {
+            if(_user != null)
+            {
+                AppendChat($"환영합니다, {_user.NickName}님!\r\n");
+            }
+            else
+            {
+                AppendChat("로그인 정보 없음.\r\n");
+            }
+            //AppendChat("클라이언트 준비 완료.\r\n");
+        }
+
         private void AppendChat(string message)
         {
             if (txt_client_chat.InvokeRequired)
             {
-                var d = new AddTextDelegate(AppendChat); // 델리게이트 생성
+                //var d = new AddTextDelegate(AppendChat); // 델리게이트 생성
                 txt_client_chat.Invoke(new Action(() => AppendChat(message))); // UI 스레드에서 실행
             }
             else
@@ -110,44 +131,36 @@ namespace Chat_Client
 
         private async void ConnectBtn_Click(object sender, EventArgs e)
         {
+            connectBtn.Enabled = false;
             try
             {
-                if (!string.IsNullOrEmpty(ipAddress.Text) && int.TryParse(portAddress.Text, out int port))
-                {
-                    connectBtn.Enabled = false;
-                    await ConnectAsync();
-                    //await Task.Delay(3000); // 3초 대기
-                    connectBtn.Enabled = true;
-                }
+                await ConnectAsync();
 
-                //bool success = await ConnectAsync(ipAddress.Text, int.Parse(portAddress.Text));
-
-                //if (success)
-                //{
-                //    ipAddress.Enabled = false;
-                //    portAddress.Enabled = false;
-                //    connectBtn.Enabled = false;
-                //}
-                else
-                {
-                    ipAddress.Enabled = false;
-                    portAddress.Enabled = false;
-                    connectBtn.Enabled = false;
-                    await ConnectAsync();
-                    //await Task.Delay(3000); // 3초 대기
-                    //connectBtn.Enabled = true;
-                }
-
+                //if (!string.IsNullOrEmpty(ipAddress.Text) && int.TryParse(portAddress.Text, out int port))
                 if (Connected)
                 {
                     ipAddress.Enabled = false;
                     portAddress.Enabled = false;
                     connectBtn.Enabled = false;
+                    //connectBtn.Enabled = true;
+                }
+                
+                else
+                {
+                    ipAddress.Enabled = true;
+                    portAddress.Enabled = true;
+                    await Task.Delay(3000); // 3초 대기
+                    connectBtn.Enabled = true;
+                    //await ConnectAsync();
+                    //await Task.Delay(3000); // 3초 대기
+                    //connectBtn.Enabled = true;
                 }
             }
             catch (Exception ex)
             {
                 AppendChat($"다시 접속 시도해주세요.오류: {ex.Message}\r\n");
+                ipAddress.Enabled = true;
+                portAddress.Enabled = true;
                 connectBtn.Enabled = true;
             }
 
@@ -162,11 +175,16 @@ namespace Chat_Client
             //    return;
             //}
             var ip = string.IsNullOrWhiteSpace(ipAddress.Text) ? "127.0.0.1" : ipAddress.Text;
-            if (!IPAddress.TryParse(ip, out var addr)) return;
+            if (!IPAddress.TryParse(ip, out var addr))
+            {
+                ipAddress.Enabled = true;
+                return;
+            }
 
             if (!int.TryParse(portAddress.Text, out int port))
             {
                 AppendChat("유효한 PORT번호를 입력하세요.\r\n");
+                portAddress.Enabled = true;
                 return;
             }
 
@@ -203,14 +221,7 @@ namespace Chat_Client
             }
         }
 
-        private void Client_Load(object sender, EventArgs e)
-        {
-            AppendChat("클라이언트 준비 완료.\r\n");
-        }
-
-
-
-        private void Chat_Client_FormClosing(object sender, FormClosingEventArgs e)
+        private async void Chat_Client_FormClosing(object sender, FormClosingEventArgs e)
         {
             Connected = false;
             cts?.Cancel();
@@ -224,8 +235,9 @@ namespace Chat_Client
                     {
                         if (Connected && Writer != null)
                         {
-                            Writer.WriteLine("CLIENT_EXIT");
-                            Writer.Flush();
+                            await Writer.WriteLineAsync("CLIENT_EXIT");
+                            await Writer.FlushAsync();
+                            Chat_Client.Close();
                         }
                     }
                     catch (IOException) { } //서버닫혔으면 종료 진행

@@ -12,11 +12,13 @@ namespace Chat_Server
         /// 해당 애플리케이션의 주 진입점입니다.
         /// </summary>
         [STAThread]
-        static void Main()
+        static async Task Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Server());
+            var currentUser = await Chat_Server.Api.MongoDB.Instance.GetCurrentUserAsync("users");
+
+            Application.Run(new Server(currentUser));
         }
     }
 }
